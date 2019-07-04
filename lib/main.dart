@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'auth.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -22,14 +24,15 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter Demo Home Page', auth: new Auth()),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  final BaseAuth auth;
 
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title, this.auth}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -49,7 +52,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   FirebaseUser user;
   String username;
-  final GoogleSignIn googleauth = new GoogleSignIn();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   @override
@@ -81,21 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
       return;
     }
 
-    googleauth.signIn().then((result) {
-      result.authentication.then(
-              (googleAuth) async {
-            final AuthCredential credential = GoogleAuthProvider.getCredential(
-              accessToken: googleAuth.accessToken,
-              idToken: googleAuth.idToken,
-            );
-
-            await FirebaseAuth.instance.signInWithCredential(credential);
-          }).catchError((e) {
-        print(e);
-      });
-    }).catchError((e) {
-      print(e);
-    });
+    widget.auth.googleSignIn();
   }
 
   @override
