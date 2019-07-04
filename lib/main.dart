@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,6 +28,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
+
   MyHomePage({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -44,16 +47,54 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  FirebaseUser user;
+  String username;
+  final GoogleSignIn googleauth = new GoogleSignIn();
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+  @override
+  void initState() {
+    super.initState();
+
+    firebaseAuth.onAuthStateChanged.listen((result) {
+      setState(() {
+        user = result;
+        username = result.displayName;
+
+        print("signed in " + user.displayName);
+      });
+    });
+  }
+
+  void _signOut() async {
+    await firebaseAuth.signOut().then((_void) {
+      setState(() {
+        user = null;
+        username = "Logged Out";
+      });
+    });
+  }
+
+  loginWithGoogle() {
+    if (user != null) {
+      _signOut();
+      return;
+    }
+
+    googleauth.signIn().then((result) {
+      result.authentication.then(
+              (googleAuth) async {
+            final AuthCredential credential = GoogleAuthProvider.getCredential(
+              accessToken: googleAuth.accessToken,
+              idToken: googleAuth.idToken,
+            );
+
+            await FirebaseAuth.instance.signInWithCredential(credential);
+          }).catchError((e) {
+        print(e);
+      });
+    }).catchError((e) {
+      print(e);
     });
   }
 
@@ -92,20 +133,21 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              'User signed In: ',
             ),
             Text(
-              '$_counter',
+              '$username',
               style: Theme.of(context).textTheme.display1,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: loginWithGoogle,
+        tooltip: 'Google Sign In',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
 }
