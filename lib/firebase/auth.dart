@@ -1,9 +1,15 @@
 import 'dart:async';
 
+import 'package:bnv/enums.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class BaseAuth {
+  GoogleSignIn googleauth;
+  FirebaseAuth firebaseAuth;
+
+  AuthStatus authStatus;
+
   Future<FirebaseUser> loginWithCredential(credential);
 
   AuthCredential getGoogleCredential(googleAuth);
@@ -11,11 +17,20 @@ abstract class BaseAuth {
   Future<FirebaseUser> googleAuthentication(googleAuth);
 
   void googleSignIn();
+
 }
 
 class Auth implements BaseAuth {
-  final GoogleSignIn googleauth = new GoogleSignIn();
-  var firebaseAuth = FirebaseAuth.instance;
+
+  @override
+  GoogleSignIn googleauth = new GoogleSignIn();
+
+  @override
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+  @override
+  AuthStatus authStatus = AuthStatus.notSignedIn;
+
 
   @override
   Future<FirebaseUser> loginWithCredential(credential) async =>
@@ -43,4 +58,5 @@ class Auth implements BaseAuth {
             await googleAuthentication(googleSignInAuth))
         .catchError((e) => print(e));
   }
+
 }
