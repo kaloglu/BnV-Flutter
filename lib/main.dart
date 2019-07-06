@@ -11,7 +11,7 @@ class BedavaNeVarApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: RootPage(auth: new Auth()),
+      home: RootPage(authorization: new Authorization()),
     );
   }
 }

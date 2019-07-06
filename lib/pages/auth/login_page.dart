@@ -3,19 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 
 class LoginPage extends StatefulWidget {
-  final BaseAuth auth;
+  final Authorization authorization;
+  final VoidCallback onSignedIn;
 
-  LoginPage({Key key, this.auth}) : super(key: key);
+  LoginPage({Key key, this.authorization, this.onSignedIn}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  loginWithGoogle() {
-    widget.auth.googleSignIn();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Çekilişlerden yararlanabilmek için\ngiriş yapmalısın.',
+              'Çekilişlerden yararlanabilmek için\ngiriş yapmalısın!',
               style: TextStyle(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
@@ -35,7 +32,11 @@ class _LoginPageState extends State<LoginPage> {
                 children: <Widget>[
                   GoogleSignInButton(
                     text:"Google ile Giriş yap",
-                    onPressed: () {},
+                    onPressed: () =>
+                        widget.authorization.googleSignIn().then((result) {
+                          if (result.uid != null)
+                            widget.onSignedIn();
+                        }),
                     darkMode: true,
                     borderRadius: 10,
                   ),
@@ -43,6 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                   FacebookSignInButton(
                     text: "Yakında...",
                     borderRadius: 10,
+//                    onPressed: () => widget.authorization.googleSignIn(),
                   ),
                 ],
               ),
