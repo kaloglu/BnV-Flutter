@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bnv/firebase/BaseAuth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -12,11 +14,11 @@ class GoogleAuthorization implements BaseAuth {
 
   @override
   Future<FirebaseUser> signIn() {
-    return _googleSignIn
-        .signIn()
-        .then((googleSignInAuth) async =>
-            await _googleAuthentication(googleSignInAuth))
-        .catchError((e) => _firebaseAuth.currentUser());
+    if (_googleSignIn.currentUser == null) {
+      return _googleSignIn.signIn().then(signedIn).catchError(gsaError);
+    } else {
+      return _googleSignIn.signInSilently().then(signedIn).catchError(gsaError);
+    }
   }
 
   @override
@@ -26,11 +28,16 @@ class GoogleAuthorization implements BaseAuth {
   Future<FirebaseUser> _googleAuthentication(googleSignInAuth) async =>
       googleSignInAuth.authentication
           .then((googleAuth) async => loginWithCredential(googleAuth))
-          .catchError((e) => _firebaseAuth.currentUser());
+          .catchError(gsaError);
 
   AuthCredential _getGoogleCredential(googleAuth) =>
       GoogleAuthProvider.getCredential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
+
+  FutureOr<FirebaseUser> signedIn(GoogleSignInAccount gsa) async =>
+      await _googleAuthentication(gsa);
+
+  gsaError(e) => _firebaseAuth.currentUser();
 }

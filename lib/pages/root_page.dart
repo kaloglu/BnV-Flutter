@@ -1,6 +1,7 @@
 import 'package:bnv/enums.dart';
 import 'package:bnv/firebase/auth.dart';
 import 'package:bnv/pages/auth/login_page.dart';
+import 'package:bnv/shared_prefs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -14,13 +15,15 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
-  String _username;
+  String _username="";
+  String _token="";
 
   @override
   void initState() {
     super.initState();
     FirebaseAuth.instance.onAuthStateChanged.listen((user){
       setState(() {
+        assert(user != null);
         _username = user.displayName;
         widget.authorization.authStatus =
         (user.displayName == null) ? AuthStatus.notSignedIn : AuthStatus.signedIn;
@@ -37,7 +40,7 @@ class _RootPageState extends State<RootPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("$_username"),
+                Text("$_username $_token"),
                 RaisedButton(
                     child: Text("Sign Out"),
                     onPressed: () =>
