@@ -29,4 +29,8 @@ class FacebookAuthorization implements BaseAuth {
 
   AuthCredential _getFacebookCredential(facebookAuth) =>
       FacebookAuthProvider.getCredential(accessToken: facebookAuth.accessToken);
+
+  void signOut() {
+
+  }
 }

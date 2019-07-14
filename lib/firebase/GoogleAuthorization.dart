@@ -40,4 +40,8 @@ class GoogleAuthorization implements BaseAuth {
       await _googleAuthentication(gsa);
 
   gsaError(e) => _firebaseAuth.currentUser();
+
+  Future signOut() async {
+    await _googleSignIn.signOut();
+  }
 }

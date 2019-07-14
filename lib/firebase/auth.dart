@@ -16,7 +16,10 @@ class Authorization {
 
   Future<FirebaseUser> facebookSignIn() => _facebookAuthorization.signIn();
 
-  Future<void> signOut() async => await _firebaseAuth.signOut();
+  Future<void> signOut() async => await _firebaseAuth.signOut().whenComplete((){
+    _googleAuthorization.signOut();
+    _facebookAuthorization.signOut();
+  });
 
   Future<FirebaseUser> currentUser() async =>
       await FirebaseAuth.instance.currentUser();

@@ -155,6 +155,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "414030755976-5vje6stho8a2u2ed766v5pul3476a2o1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kaloglu.bnv",
+            "certificate_hash": "6825ed1e0e9bd9d40bf096bdab9832e7f30a0b24"
+          }
+        },
+        {
           "client_id": "414030755976-i4vhgp48a5n7i18ue11s1ak6fg442g0o.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
