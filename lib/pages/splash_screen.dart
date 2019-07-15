@@ -1,42 +1,39 @@
-import 'dart:async';
-
-import 'package:bnv/utils/page_navigator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bnv/pages/auth/login_page.dart';
+import 'package:bnv/pages/raffle/raffle_list.dart';
+import 'package:bnv/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class SplashScreenPage extends StatefulWidget {
-  final Object arguments;
-
-  SplashScreenPage({Key key, this.arguments}) : super(key: key);
-
+class SplashScreenPage extends StatelessWidget {
   @override
-  _SplashScreenPageState createState() => new _SplashScreenPageState();
-}
-
-class _SplashScreenPageState extends State<SplashScreenPage> {
-  @override
-  void initState() {
-    super.initState();
-    Timer(Duration(seconds: 3), () {
-      FirebaseAuth.instance.currentUser().then((firebaseUser) {
-        //never can Pop
-        if (firebaseUser == null || firebaseUser.uid == null) {
-          PageNavigator.goLogin(context, false);
-        } else
-          PageNavigator.goRaffleList(context, false);
-      });
-    });
+  Widget build(BuildContext context) {
+    final AuthService auth = Provider.of<AuthService>(context);
+    return StreamBuilder<User>(
+      stream: auth.onAuthStateChanged,
+      builder: (_, AsyncSnapshot<User> snapshot) {
+        if (snapshot.connectionState == ConnectionState.active)
+          return snapshot.data == null ? LoginPageBuilder() : RaffleListPage();
+        else
+          return
+            new Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "BedavaNeVar",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(padding: EdgeInsets.symmetric(vertical: 20)),
+                    CircularProgressIndicator(),
+                  ],
+                ),
+              ),
+            );
+      },
+    );
   }
-
-  @override
-  Widget build(BuildContext context) => new Scaffold(
-        body: Center(
-            child: Text(
-          "BedavaNeVar",
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-        )),
-      );
 }

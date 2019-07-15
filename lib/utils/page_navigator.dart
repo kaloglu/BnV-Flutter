@@ -36,10 +36,10 @@ class PageNavigator {
     var page;
     switch (settings.name) {
       case splash:
-        page = SplashScreenPage(arguments: settings.arguments);
+        page = SplashScreenPage();
         break;
       case login:
-        page = LoginPage(arguments: settings.arguments);
+        page = LoginPageBuilder();
         break;
       case raffleList:
         page = RaffleListPage(arguments: settings.arguments);
