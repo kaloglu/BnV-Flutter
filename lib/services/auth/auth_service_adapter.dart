@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:bnv/model/user_model.dart';
-import 'package:bnv/services/interfaces/auth_service.dart';
 import 'package:bnv/services/auth/firebase_auth_service.dart';
+import 'package:bnv/services/interfaces/auth_service.dart';
 import 'package:flutter/foundation.dart';
 
 enum AuthServiceType { firebase }
@@ -14,22 +14,13 @@ class AuthServiceAdapter implements AuthService {
 
   final FirebaseAuthService _firebaseAuthService = FirebaseAuthService();
 
-//  final MockAuthService _mockAuthService = MockAuthService();
-
-  // Value notifier used to switch between [FirebaseAuthService] and [MockAuthService]
-  ValueNotifier<AuthServiceType> authServiceTypeNotifier =
-      ValueNotifier<AuthServiceType>(AuthServiceType.firebase);
+  ValueNotifier<AuthServiceType> authServiceTypeNotifier = ValueNotifier<AuthServiceType>(AuthServiceType.firebase);
 
   AuthServiceType get authServiceType => authServiceTypeNotifier.value;
 
-  AuthService get authService =>
-      authServiceType == AuthServiceType.firebase ? _firebaseAuthService : null;
-
-//      : _mockAuthService;
+  AuthService get authService => authServiceType == AuthServiceType.firebase ? _firebaseAuthService : null;
 
   StreamSubscription<User> _firebaseAuthSubscription;
-
-//  StreamSubscription<User> _mockAuthSubscription;
 
   void _setup() {
     // Observable<User>.merge was considered here, but we need more fine grained control to ensure
@@ -43,24 +34,12 @@ class AuthServiceAdapter implements AuthService {
         _onAuthStateChangedController.addError(error);
       }
     });
-//    _mockAuthSubscription =
-//        _mockAuthService.onAuthStateChanged.listen((User user) {
-//          if (authServiceType == AuthServiceType.mock) {
-//            _onAuthStateChangedController.add(user);
-//          }
-//        }, onError: (dynamic error) {
-//          if (authServiceType == AuthServiceType.mock) {
-//            _onAuthStateChangedController.addError(error);
-//          }
-//        });
   }
 
   @override
   void dispose() {
     _firebaseAuthSubscription?.cancel();
-//    _mockAuthSubscription?.cancel();
     _onAuthStateChangedController?.close();
-//    _mockAuthService.dispose();
   }
 
   final StreamController<User> _onAuthStateChangedController = StreamController<User>();
@@ -70,6 +49,9 @@ class AuthServiceAdapter implements AuthService {
 
   @override
   Future<User> currentUser() => authService.currentUser();
+
+  @override
+  Future<void> userCreateOrUpdate(User user) => authService.userCreateOrUpdate(user);
 
   @override
   Future<User> signInWithFacebook() => authService.signInWithFacebook();

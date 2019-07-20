@@ -7,6 +7,7 @@ import 'package:bnv/services/interfaces/db_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreDBService extends DBService {
+
   CollectionReference get getUserCollection => firestore.collection("users");
 
   CollectionReference get getRaffleCollection => firestore.collection("raffles");
@@ -55,4 +56,19 @@ class FirestoreDBService extends DBService {
 
   @override
   void dispose() {}
+
+  @override
+  Future<void> userCreateOrUpdate(User user) async {
+    // Check is already sign up
+    final DocumentReference userRef = getUserReference(user.uid);
+    firestore.runTransaction((Transaction tx) async {
+      DocumentSnapshot userSnapshot = await tx.get(userRef);
+      if (userSnapshot.exists) {
+        await tx.update(userRef, User.fromFirestore(userSnapshot).toJson());
+      } else {
+        await tx.set(userRef, user.toJson());
+      }
+    });
+  }
+
 }

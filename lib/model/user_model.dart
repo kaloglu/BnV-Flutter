@@ -1,5 +1,6 @@
 import 'package:bnv/model/base/base_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 @immutable
@@ -67,4 +68,15 @@ class User extends BaseModel {
         address: data['address'],
         deviceToken: data['deviceToken'],
       );
+
+  static User userFromFirebaseAuth(FirebaseUser firebaseUser) {
+    if (firebaseUser == null) return null;
+
+    return User(
+        uid: firebaseUser.uid,
+        email: firebaseUser.email,
+        fullname: firebaseUser.displayName,
+        profilePicUrl: firebaseUser.photoUrl
+    );
+  }
 }

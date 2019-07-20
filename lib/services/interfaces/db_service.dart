@@ -27,4 +27,6 @@ abstract class DBService {
   Stream<Raffle> getRaffle(String raffleId);
 
   void dispose();
+
+  Future<void> userCreateOrUpdate(User user);
 }

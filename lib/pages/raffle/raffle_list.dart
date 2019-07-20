@@ -18,8 +18,7 @@ class _RaffleListPageState extends State<RaffleListPage> {
 
   Future<void> _signOut(BuildContext context) async {
     try {
-      final AuthService auth = Provider.of<AuthService>(context);
-      await auth.signOut();
+      await Provider.of<AuthService>(context).signOut();
     } catch (e) {
       print(e.toString());
     }
@@ -36,7 +35,6 @@ class _RaffleListPageState extends State<RaffleListPage> {
       _signOut(context);
     }
   }
-
 
   @override
   Widget build(BuildContext context) => new Scaffold(

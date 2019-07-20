@@ -12,20 +12,21 @@ class PageNavigator {
 
   static get defaultCanBack => true;
 
-  static _goPage(context, String pageName, [bool canBack]) {
+  static _goPage(context, String pageName, {bool canBack = true}) {
+    canBack = canBack ??= defaultCanBack;
     Navigator.pushNamedAndRemoveUntil(context, pageName,
-        (Route<dynamic> route) => canBack ??= defaultCanBack);
+            (Route<dynamic> route) => canBack);
   }
 
-  static goRaffleList(context, [bool canBack]) =>
-      _goPage(context, raffleList, canBack);
+  static goRaffleList(context, {bool canBack = true}) =>
+      _goPage(context, raffleList, canBack: canBack);
 
-  static goRaffleDetail(context, [bool canBack]) =>
-      _goPage(context, raffleDetail, canBack);
+  static goRaffleDetail(context, {bool canBack = true}) =>
+      _goPage(context, raffleDetail, canBack: canBack);
 
-  static goLogin(context, [bool canBack]) => _goPage(context, login, canBack);
+  static goLogin(context, {bool canBack = true}) => _goPage(context, login, canBack: canBack);
 
-  static goSplash(context) => _goPage(context, splash, false);
+  static goSplash(context) => _goPage(context, splash, canBack: false);
 
   static goBack(context) => Navigator.pop(context);
 

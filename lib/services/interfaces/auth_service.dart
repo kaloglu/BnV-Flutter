@@ -9,6 +9,8 @@ abstract class AuthService {
 
   Future<User> signInWithFacebook();
 
+  Future<void> userCreateOrUpdate(User user);
+
   Future<void> signOut();
 
   Stream<User> get onAuthStateChanged;

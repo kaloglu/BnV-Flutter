@@ -6,9 +6,10 @@ import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 
 class AuthManager {
-  AuthManager({@required this.auth, @required this.isLoading});
   final AuthService auth;
   final ValueNotifier<bool> isLoading;
+
+  AuthManager({@required this.auth, @required this.isLoading});
 
   Future<User> _signIn(Future<User> Function() signInMethod) async {
     try {

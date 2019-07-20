@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bnv/model/attendee_model.dart';
 import 'package:bnv/model/enroll_model.dart';
 import 'package:bnv/model/raffle_model.dart';
@@ -7,46 +9,50 @@ import 'package:bnv/services/db/firestore_db_service.dart';
 import 'package:bnv/services/interfaces/db_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-enum DBServiceType { firebase }
+enum DBServiceType { firestore }
 
 class DBServiceAdapter implements DBService {
   DBServiceAdapter() {
     _setup();
   }
 
-  final FirestoreDBService _firebaseDBService = FirestoreDBService();
+  final FirestoreDBService _firestoreDBService = FirestoreDBService();
 
-  DBService get dbService => _firebaseDBService;
-
-  @override
-  Firestore get firestore => _firebaseDBService.firestore;
+  DBService get dbService => _firestoreDBService;
 
   @override
-  Stream<List<Attendee>> attendees(String raffleId) => _firebaseDBService.attendees(raffleId);
+  Firestore get firestore => _firestoreDBService.firestore;
 
   @override
-  Stream<List<Enroll>> getEnrolls(String userId) => _firebaseDBService.getEnrolls(userId);
+  Stream<List<Attendee>> attendees(String raffleId) => _firestoreDBService.attendees(raffleId);
 
   @override
-  Stream<Raffle> getRaffle(String raffleId) => _firebaseDBService.getRaffle(raffleId);
+  Stream<List<Enroll>> getEnrolls(String userId) => _firestoreDBService.getEnrolls(userId);
 
   @override
-  Stream<List<Raffle>> getRaffles() => _firebaseDBService.getRaffles();
+  Stream<Raffle> getRaffle(String raffleId) => _firestoreDBService.getRaffle(raffleId);
 
   @override
-  Stream<List<Ticket>> getTickets(String userId) => _firebaseDBService.getTickets(userId);
+  Stream<List<Raffle>> getRaffles() => _firestoreDBService.getRaffles();
 
   @override
-  Stream<List<String>> getUnregisteredDeviceTokens() => _firebaseDBService.getUnregisteredDeviceTokens();
+  Stream<List<Ticket>> getTickets(String userId) => _firestoreDBService.getTickets(userId);
 
   @override
-  Stream<User> getUser(String userId) => _firebaseDBService.getUser(userId);
+  Stream<List<String>> getUnregisteredDeviceTokens() => _firestoreDBService.getUnregisteredDeviceTokens();
 
   @override
-  Stream<List<User>> getUsers() => _firebaseDBService.getUsers();
+  Stream<User> getUser(String userId) => _firestoreDBService.getUser(userId);
 
   @override
-  void dispose() {}
+  Stream<List<User>> getUsers() => _firestoreDBService.getUsers();
+
+  @override
+  void dispose() {
+  }
 
   void _setup() {}
+
+  @override
+  Future<void> userCreateOrUpdate(User user) => _firestoreDBService.userCreateOrUpdate(user);
 }
