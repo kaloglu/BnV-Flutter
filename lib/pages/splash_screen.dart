@@ -1,6 +1,7 @@
+import 'package:bnv/model/user_model.dart';
 import 'package:bnv/pages/auth/login_page.dart';
 import 'package:bnv/pages/raffle/raffle_list.dart';
-import 'package:bnv/services/auth_service.dart';
+import 'package:bnv/services/interfaces/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

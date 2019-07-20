@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:bnv/services/auth_service.dart';
+import 'package:bnv/model/user_model.dart';
+import 'package:bnv/services/interfaces/auth_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
 
@@ -16,15 +17,11 @@ class AuthManager {
     } catch (e) {
       rethrow;
     } finally {
-//      isLoading.value = false;
+      isLoading.value = false;
     }
   }
 
-  Future<void> signInWithGoogle() async {
-    return await _signIn(auth.signInWithGoogle);
-  }
+  Future<void> signInWithGoogle() async => await _signIn(auth.signInWithGoogle);
 
-  Future<void> signInWithFacebook() async {
-    return await _signIn(auth.signInWithFacebook);
-  }
+  Future<void> signInWithFacebook() async => await _signIn(auth.signInWithFacebook);
 }

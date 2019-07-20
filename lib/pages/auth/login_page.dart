@@ -1,7 +1,7 @@
 import 'package:bnv/common_widgets/platform_error_dialog.dart';
 import 'package:bnv/constants/strings.dart';
-import 'package:bnv/services/auth_manager.dart';
-import 'package:bnv/services/auth_service.dart';
+import 'package:bnv/services/auth/auth_manager.dart';
+import 'package:bnv/services/interfaces/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';

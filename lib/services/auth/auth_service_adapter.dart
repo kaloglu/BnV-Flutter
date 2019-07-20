@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:bnv/services/auth_service.dart';
-import 'package:bnv/services/firebase_auth_service.dart';
+import 'package:bnv/model/user_model.dart';
+import 'package:bnv/services/interfaces/auth_service.dart';
+import 'package:bnv/services/auth/firebase_auth_service.dart';
 import 'package:flutter/foundation.dart';
 
 enum AuthServiceType { firebase }

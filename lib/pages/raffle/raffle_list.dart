@@ -1,6 +1,6 @@
 import 'package:bnv/common_widgets/platform_alert_dialog.dart';
 import 'package:bnv/constants/strings.dart';
-import 'package:bnv/services/auth_service.dart';
+import 'package:bnv/services/interfaces/auth_service.dart';
 import 'package:bnv/utils/page_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

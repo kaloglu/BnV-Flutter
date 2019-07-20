@@ -1,4 +1,6 @@
-import 'package:bnv/services/auth_service.dart';
+import 'package:bnv/model/user_model.dart';
+import 'package:bnv/services/interfaces/auth_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -6,15 +8,34 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthService implements AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final Firestore firestore = Firestore.instance;
 
-  User _userFromFirebase(FirebaseUser user) {
-    if (user == null) return null;
+  User _userFromFirebase(FirebaseUser firebaseUser) {
+    if (firebaseUser == null) return null;
+
+    // Check is already sign up
+    final DocumentReference userRef = firestore.document('users/${firebaseUser.uid}');
+    firestore.runTransaction((Transaction tx) async {
+      DocumentSnapshot userSnapshot = await tx.get(userRef);
+      if (userSnapshot.exists) {
+        User user = User.fromFirestore(userSnapshot);
+        await tx.update(userRef, user.toJson());
+      } else {
+        User user = User(
+          uid: firebaseUser.uid,
+          fullname: firebaseUser.displayName,
+          email: firebaseUser.email,
+          profilePicUrl: firebaseUser.photoUrl,
+        );
+        await tx.set(userRef, user.toJson());
+      }
+    });
 
     return User(
-      uid: user.uid,
-      email: user.email,
-      fullname: user.displayName,
-      profilePicUrl: user.photoUrl
+        uid: firebaseUser.uid,
+        email: firebaseUser.email,
+        fullname: firebaseUser.displayName,
+        profilePicUrl: firebaseUser.photoUrl
     );
   }
 
