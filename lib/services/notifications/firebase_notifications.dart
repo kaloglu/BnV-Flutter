@@ -5,19 +5,13 @@ import 'package:bnv/services/db/firestore_service_adapter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class FirebaseNotifications {
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  final DBServiceAdapter _firestoreDB = DBServiceAdapter();
-
-  FirebaseNotifications() {
-    _setup();
-  }
+  static FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  static final DBServiceAdapter _firestoreDB = DBServiceAdapter();
 
   final StreamController<String> _onTokenChangedController = StreamController<String>();
   StreamSubscription<String> _onTokenRefresh;
 
-  StreamSubscription iosSubscription;
-
-  void _setup() {
+  void setup() {
     fcmListeners();
     // Observable<String>.merge was considered here, but we need more fine grained control to ensure
     // that only events from the currently active service are processed
@@ -26,10 +20,6 @@ class FirebaseNotifications {
     });
   }
 
-//  void _setup() {
-//    _firebaseMessaging = FirebaseMessaging();
-//  }
-  @override
   Stream<String> get onTokenChanged => _onTokenChangedController.stream;
 
   void dispose() {
@@ -54,16 +44,16 @@ class FirebaseNotifications {
   }
 
   void iosPermission() {
-    iosSubscription = _firebaseMessaging.onIosSettingsRegistered.listen((IosNotificationSettings settings) {
+    _firebaseMessaging.onIosSettingsRegistered.listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
     });
 
     _firebaseMessaging.requestNotificationPermissions(IosNotificationSettings(sound: true, badge: true, alert: true));
   }
 
-  Future<String> getToken() => _firebaseMessaging.getToken();
+  static Future<String> getToken() => _firebaseMessaging.getToken();
 
-  void sendToken({String uid}) async {
+  static void sendToken({String uid}) async {
     String token = await getToken();
     if (token != null) {
       _firestoreDB.sendToken(uid, token);

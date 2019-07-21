@@ -20,14 +20,14 @@ class SplashScreenPage extends StatelessWidget {
     var screen;
     if (snapshot.connectionState == ConnectionState.active) {
         var authService = Provider.of<AuthService>(context);
-        var firebaseNotification = Provider.of<FirebaseNotifications>(context);
         if (snapshot.hasData) {
           authService.userCreateOrUpdate(snapshot.data);
-          firebaseNotification.sendToken(uid: snapshot.data.uid);
+          FirebaseNotifications.sendToken(uid: snapshot.data.uid);
           screen = RaffleListPage();
         }
         else {
-          firebaseNotification.sendToken();
+          print("no Login data");
+          FirebaseNotifications.sendToken(uid:null);
           screen = LoginPageBuilder();
         }
     } else

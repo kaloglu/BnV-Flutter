@@ -13,6 +13,7 @@ abstract class DBService {
   Stream<List<User>> getUsers();
 
   Stream<List<Raffle>> getRaffles();
+  Stream<QuerySnapshot> getRaffles2();
 
   Future<QuerySnapshot> getUnregisteredDeviceTokens(String deviceToken);
 

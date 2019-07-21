@@ -44,6 +44,9 @@ class FirestoreDBService extends DBService {
   Stream<List<Raffle>> getRaffles() => getRaffleCollection.snapshots().map(Raffle.listFromFirestore);
 
   @override
+  Stream<QuerySnapshot> getRaffles2() => getRaffleCollection.snapshots();
+
+  @override
   Stream<Raffle> getRaffle(String raffleId) => getRaffleReference(raffleId).snapshots().map(Raffle.fromFirestore);
 
   @override
@@ -75,37 +78,29 @@ class FirestoreDBService extends DBService {
 
   @override
   Future<void> sendToken(String uid, String token) async {
+    print("deviceToken:" + token);
     var deviceToken = {
       "deviceToken": token
     };
     if (uid != null) {
-      print("uid:" + uid);
       DocumentReference userRef = getUserReference(uid);
       firestore.runTransaction((Transaction tx) async {
         DocumentSnapshot userSnapshot = await tx.get(userRef);
-        print("doc:" + userSnapshot.documentID);
         if (userSnapshot.exists) {
           await tx.update(userRef, deviceToken);
-          print("update:" + token);
           await getUnregisteredDeviceTokens(token).then((result) {
-            print("unregisteredlist:" + result.toString());
             result.documents.forEach((doc) {
               tx.delete(getUnregisteredToken(doc.documentID));
-              print("deletedToken:" + doc.documentID);
             });
           });
         }
       });
     } else {
       getUnregisteredDeviceTokens(token).then((result) {
-        print("unregistered:" + token);
         if (result.documents.length <= 0)
           getUnRegisteredDeviceTokensCollection.document().setData(deviceToken);
       });
     }
   }
 
-
-  Future transactionHandler(Transaction transaction) {
-  }
 }

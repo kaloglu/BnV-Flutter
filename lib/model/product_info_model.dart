@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 @immutable
 class ProductInfo extends BaseModel {
   final String name;
-  final List<Media> images;
+  final List images;
   final String count;
   final String unit;
   final double unitPrice;
@@ -28,7 +28,7 @@ class ProductInfo extends BaseModel {
 
   static ProductInfo fromMap(Map data) => ProductInfo(
         name: data['name'] ?? '',
-        images: data['images'] ?? [],
+        images: data['images'],
         count: data['count'] ?? '',
         unit: data['unit'] ?? '',
         unitPrice: data['unitPrice'] ?? '',

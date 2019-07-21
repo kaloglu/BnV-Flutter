@@ -9,26 +9,19 @@ Future main() async {
   runApp(BedavaNeVarApp());
 }
 
-class BedavaNeVarApp extends StatefulWidget {
+class BedavaNeVarApp extends StatelessWidget {
 
-  @override
-  State<StatefulWidget> createState() => BedavaNeVarAppState();
-
-}
-
-class BedavaNeVarAppState extends State<BedavaNeVarApp> {
   @override
   Widget build(BuildContext context) {
+    FirebaseNotifications().setup();
     return MultiProvider(providers: [
       Provider<AuthService>(
         builder: (_) => AuthServiceAdapter(),
         dispose: (_, AuthService authService) => authService.dispose(),
-      ), Provider<FirebaseNotifications>(
-        builder: (_) => FirebaseNotifications(),
-        dispose: (_, FirebaseNotifications firebaseNotifications) => firebaseNotifications.dispose(),
       ),
     ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.indigo,
         ),

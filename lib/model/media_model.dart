@@ -19,6 +19,14 @@ class Media extends BaseModel {
         'type': type,
       };
 
+  static List<Media> listFromMap(List listMap,) {
+    List<Media> med = [];
+    listMap.map((m){
+      med.add(Media.fromMap(m));
+    });
+    return [];
+  }
+
   static Media fromMap(Map data, [String documentId]) => Media(
         path: data['path'] ?? '',
         type: data['type'] ?? ProductType.IMAGE,

@@ -36,6 +36,9 @@ class DBServiceAdapter implements DBService {
   Stream<List<Raffle>> getRaffles() => _firestoreDBService.getRaffles();
 
   @override
+  Stream<QuerySnapshot> getRaffles2() => _firestoreDBService.getRaffles2();
+
+  @override
   Stream<List<Ticket>> getTickets(String userId) => _firestoreDBService.getTickets(userId);
 
   @override
