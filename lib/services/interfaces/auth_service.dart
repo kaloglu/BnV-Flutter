@@ -16,4 +16,5 @@ abstract class AuthService {
   Stream<User> get onAuthStateChanged;
 
   void dispose();
+
 }

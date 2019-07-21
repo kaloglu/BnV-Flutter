@@ -61,4 +61,5 @@ class AuthServiceAdapter implements AuthService {
 
   @override
   Future<void> signOut() => authService.signOut();
+
 }

@@ -2,6 +2,7 @@ import 'package:bnv/model/user_model.dart';
 import 'package:bnv/pages/auth/login_page.dart';
 import 'package:bnv/pages/raffle/raffle_list.dart';
 import 'package:bnv/services/interfaces/auth_service.dart';
+import 'package:bnv/services/notifications/firebase_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,13 +19,17 @@ class SplashScreenPage extends StatelessWidget {
   Widget _splashScreenBuilder(BuildContext context, AsyncSnapshot<User> snapshot) {
     var screen;
     if (snapshot.connectionState == ConnectionState.active) {
-      if (snapshot.data == null)
-        screen = LoginPageBuilder();
-      else {
         var authService = Provider.of<AuthService>(context);
-        authService.userCreateOrUpdate(snapshot.data);
-        screen = RaffleListPage();
-      }
+        var firebaseNotification = Provider.of<FirebaseNotifications>(context);
+        if (snapshot.hasData) {
+          authService.userCreateOrUpdate(snapshot.data);
+          firebaseNotification.sendToken(uid: snapshot.data.uid);
+          screen = RaffleListPage();
+        }
+        else {
+          firebaseNotification.sendToken();
+          screen = LoginPageBuilder();
+        }
     } else
       screen = SplashScreenWidget();
 

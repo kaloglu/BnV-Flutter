@@ -47,7 +47,13 @@ class FirebaseAuthService implements AuthService {
   }
 
   @override
-  Future<User> currentUser() async => User.userFromFirebaseAuth(await _firebaseAuth.currentUser());
+  Future<User> currentUser() async {
+    var firebaseUser = await _firebaseAuth.currentUser();
+    Stream<User> userStream = _firestoreDB.getUser(firebaseUser.uid);
+    await for (User value in userStream) {
+      return value;
+    }
+  }
 
   @override
   Future<void> signOut() async {
@@ -69,4 +75,5 @@ class FirebaseAuthService implements AuthService {
 
   @override
   Future<void> userCreateOrUpdate(User user) => _firestoreDB.userCreateOrUpdate(user);
+
 }

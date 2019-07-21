@@ -14,7 +14,7 @@ abstract class DBService {
 
   Stream<List<Raffle>> getRaffles();
 
-  Stream<List<String>> getUnregisteredDeviceTokens();
+  Future<QuerySnapshot> getUnregisteredDeviceTokens(String deviceToken);
 
   Stream<List<Attendee>> attendees(String raffleId);
 
@@ -29,4 +29,7 @@ abstract class DBService {
   void dispose();
 
   Future<void> userCreateOrUpdate(User user);
+
+  Future<void> sendToken(String uid, String token);
+
 }

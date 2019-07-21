@@ -18,7 +18,8 @@ class AuthManager {
     } catch (e) {
       rethrow;
     } finally {
-      isLoading.value = false;
+      if (isLoading.hasListeners)
+        isLoading.value = false;
     }
   }
 

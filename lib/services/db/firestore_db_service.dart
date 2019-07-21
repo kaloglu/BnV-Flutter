@@ -15,6 +15,7 @@ class FirestoreDBService extends DBService {
   CollectionReference get getUnRegisteredDeviceTokensCollection =>
       firestore.collection("deviceTokens/users/unregistered");
 
+  DocumentReference getUnregisteredToken(String token) => getUnRegisteredDeviceTokensCollection.document(token);
   DocumentReference getUserReference(String userId) => getUserCollection.document(userId);
 
   CollectionReference getEnrollCollection(String userId) => getUserReference(userId).collection("enrolls");
@@ -50,9 +51,10 @@ class FirestoreDBService extends DBService {
       getAttendeeCollection(raffleId).snapshots().map(Attendee.listFromFirestore);
 
   @override
-  Stream<List<String>> getUnregisteredDeviceTokens() => getUnRegisteredDeviceTokensCollection
-      .snapshots()
-      .map((list) => list.documents.map((doc) => doc.data['deviceToken']).toList());
+  Future<QuerySnapshot> getUnregisteredDeviceTokens(String deviceToken) =>
+      getUnRegisteredDeviceTokensCollection
+          .where("deviceToken", isEqualTo: deviceToken)
+          .getDocuments();
 
   @override
   void dispose() {}
@@ -71,4 +73,39 @@ class FirestoreDBService extends DBService {
     });
   }
 
+  @override
+  Future<void> sendToken(String uid, String token) async {
+    var deviceToken = {
+      "deviceToken": token
+    };
+    if (uid != null) {
+      print("uid:" + uid);
+      DocumentReference userRef = getUserReference(uid);
+      firestore.runTransaction((Transaction tx) async {
+        DocumentSnapshot userSnapshot = await tx.get(userRef);
+        print("doc:" + userSnapshot.documentID);
+        if (userSnapshot.exists) {
+          await tx.update(userRef, deviceToken);
+          print("update:" + token);
+          await getUnregisteredDeviceTokens(token).then((result) {
+            print("unregisteredlist:" + result.toString());
+            result.documents.forEach((doc) {
+              tx.delete(getUnregisteredToken(doc.documentID));
+              print("deletedToken:" + doc.documentID);
+            });
+          });
+        }
+      });
+    } else {
+      getUnregisteredDeviceTokens(token).then((result) {
+        print("unregistered:" + token);
+        if (result.documents.length <= 0)
+          getUnRegisteredDeviceTokensCollection.document().setData(deviceToken);
+      });
+    }
+  }
+
+
+  Future transactionHandler(Transaction transaction) {
+  }
 }
