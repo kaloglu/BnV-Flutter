@@ -27,7 +27,7 @@ class SplashScreenPage extends StatelessWidget {
         }
         else {
           print("no Login data");
-          FirebaseNotifications.sendToken(uid:null);
+          FirebaseNotifications.sendToken();
           screen = LoginPageBuilder();
         }
     } else

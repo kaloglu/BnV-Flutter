@@ -4,48 +4,22 @@ import 'package:bnv/common_widgets/platform_alert_dialog.dart';
 import 'package:bnv/constants/strings.dart';
 import 'package:bnv/model/raffle_model.dart';
 import 'package:bnv/model/user_model.dart';
-import 'package:bnv/services/db/firestore_service_adapter.dart';
 import 'package:bnv/services/interfaces/auth_service.dart';
+import 'package:bnv/services/interfaces/db_service.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html_textview/flutter_html_textview.dart';
 import 'package:provider/provider.dart';
 
-class RaffleListPage extends StatefulWidget {
+class RaffleListPage extends StatelessWidget {
   final Object arguments;
-  final DBServiceAdapter _firestoreDB = DBServiceAdapter();
+  final String dummyProfilePic = "https://www.cornwallbusinessawards.co.uk/wp-content/uploads/2017/11/dummy450x450.jpg";
 
   RaffleListPage({Key key, this.arguments}) : super(key: key);
 
-  @override
-  _RaffleListPageState createState() => new _RaffleListPageState();
-}
+  Future<void> _signOut(BuildContext context, AuthService authService) async => await authService.signOut();
 
-class _RaffleListPageState extends State<RaffleListPage> {
-  AuthService authService;
-  User user;
-
-  var dummyProfilePic = "https://www.cornwallbusinessawards.co.uk/wp-content/uploads/2017/11/dummy450x450.jpg";
-
-  @override
-  Stream initState() async* {
-    authService = Provider.of<AuthService>(context);
-    user = await authService.currentUser();
-    setState(() {
-      dummyProfilePic = user.profilePicUrl;
-    });
-    super.initState();
-  }
-
-  Future<void> _signOut(BuildContext context) async {
-    try {
-      await authService.signOut();
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  Future<void> _confirmSignOut(BuildContext context) async {
+  Future<void> _confirmSignOut(BuildContext context, AuthService authService) async {
     final bool didRequestSignOut = await PlatformAlertDialog(
       title: Strings.logout,
       content: Strings.logoutAreYouSure,
@@ -53,24 +27,28 @@ class _RaffleListPageState extends State<RaffleListPage> {
       defaultActionText: Strings.logout,
     ).show(context);
     if (didRequestSignOut == true) {
-      _signOut(context);
+      _signOut(context, authService);
     }
   }
 
   @override
-  Widget build(BuildContext context) => new Scaffold(
+  Widget build(BuildContext context) {
+    var authService = Provider.of<AuthService>(context);
+    var firestoreDB = Provider.of<DBService>(context);
+    return new Scaffold(
       body: StreamBuilder(
-        stream: widget._firestoreDB.getRaffles(),
+        stream: firestoreDB.getRaffles(),
         builder: (BuildContext context, AsyncSnapshot<List<Raffle>> snapshot) {
           if (!snapshot.hasData)
             return new Text("noData");
+
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: new FloatingSearchBar(
               children: snapshot.data.map((raffle) {
                 return Column(
                     children: [
-                      _buildListRaffle(raffle),
+                      _buildRaffleItem(raffle),
                       Divider(
                         height: 2.0,
                         color: Colors.green,
@@ -78,15 +56,8 @@ class _RaffleListPageState extends State<RaffleListPage> {
                     ]
                 );
               }).toList(),
-              trailing: CircleAvatar(
-                radius: 20.0,
-                backgroundImage:
-                NetworkImage(dummyProfilePic),
-                backgroundColor: Colors.transparent,
-              ),
-              drawer: Drawer(
-                child: Container(),
-              ),
+              trailing: _buildTrailer(authService),
+              drawer: _buildDrawer(),
               onChanged: (String value) {},
               onTap: () {},
               decoration: InputDecoration.collapsed(
@@ -97,8 +68,31 @@ class _RaffleListPageState extends State<RaffleListPage> {
         },
       )
   );
+  }
 
-  Widget _buildListRaffle(Raffle raffle) {
+  Widget _buildTrailer(AuthService authService) {
+    return FutureBuilder(
+      future: authService.currentUser(),
+      builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+        String avatar = dummyProfilePic;
+        avatar = snapshot.data.profilePicUrl;
+        return ButtonTheme(
+          minWidth: 1.0,
+          child: FlatButton(
+            padding: EdgeInsets.symmetric(horizontal: 0.0),
+            onPressed: () => _confirmSignOut(context, authService),
+            child: CircleAvatar(
+              radius: 20.0,
+              backgroundImage: NetworkImage(avatar),
+              backgroundColor: Colors.transparent,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildRaffleItem(Raffle raffle) {
     return Container(
       child: ListTile(
         leading: Image.network(raffle.productInfo.images[0]['path']),
@@ -108,7 +102,9 @@ class _RaffleListPageState extends State<RaffleListPage> {
     );
   }
 
-  getExpenseItems(AsyncSnapshot<List<Raffle>> snapshot) {
-
+  Widget _buildDrawer() {
+    return Drawer(
+      child: Container(),
+    );
   }
 }

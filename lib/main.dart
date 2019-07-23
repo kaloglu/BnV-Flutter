@@ -1,5 +1,7 @@
 import 'package:bnv/services/auth/auth_service_adapter.dart';
+import 'package:bnv/services/db/firestore_service_adapter.dart';
 import 'package:bnv/services/interfaces/auth_service.dart';
+import 'package:bnv/services/interfaces/db_service.dart';
 import 'package:bnv/services/notifications/firebase_notifications.dart';
 import 'package:bnv/utils/page_navigator.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,10 @@ class BedavaNeVarApp extends StatelessWidget {
       Provider<AuthService>(
         builder: (_) => AuthServiceAdapter(),
         dispose: (_, AuthService authService) => authService.dispose(),
+      ),
+      Provider<DBService>(
+        builder: (_) => DBServiceAdapter(),
+        dispose: (_, DBService dbService) => dbService.dispose(),
       ),
     ],
       child: MaterialApp(
