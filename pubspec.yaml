@@ -36,6 +36,8 @@ dependencies:
   cloud_firestore: #^0.12.7
   flutter_html_textview: #^0.2.6
   floating_search_bar: #^0.2.0
+  flutter_crashlytics: #^1.0.0
+
 
 
 dev_dependencies:
