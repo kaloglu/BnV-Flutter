@@ -6,6 +6,7 @@ import 'package:bnv/model/raffle_model.dart';
 import 'package:bnv/model/user_model.dart';
 import 'package:bnv/services/interfaces/auth_service.dart';
 import 'package:bnv/services/interfaces/db_service.dart';
+import 'package:bnv/utils/page_navigator.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html_textview/flutter_html_textview.dart';
@@ -48,7 +49,7 @@ class RaffleListPage extends StatelessWidget {
               children: snapshot.data.map((raffle) {
                 return Column(
                     children: [
-                      _buildRaffleItem(raffle),
+                      _buildRaffleItem(context, raffle),
                       Divider(
                         height: 2.0,
                         color: Colors.green,
@@ -92,12 +93,13 @@ class RaffleListPage extends StatelessWidget {
     );
   }
 
-  Widget _buildRaffleItem(Raffle raffle) {
+  Widget _buildRaffleItem(BuildContext context, Raffle raffle) {
     return Container(
       child: ListTile(
         leading: Image.network(raffle.productInfo.images[0]['path']),
         title: HtmlTextView(data: raffle.title),
         subtitle: HtmlTextView(data: raffle.description),
+        onTap: () => PageNavigator.goRaffleDetail(context, raffleId: raffle.id),
       ),
     );
   }

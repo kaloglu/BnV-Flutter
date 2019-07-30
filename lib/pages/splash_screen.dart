@@ -17,23 +17,23 @@ class SplashScreenPage extends StatelessWidget {
   }
 
   Widget _splashScreenBuilder(BuildContext context, AsyncSnapshot<User> snapshot) {
-    var screen;
-    if (snapshot.connectionState == ConnectionState.active) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return SplashScreenWidget();
+    } else {
+      var screen;
+      if (snapshot.hasData) {
         var authService = Provider.of<AuthService>(context);
-        if (snapshot.hasData) {
-          authService.userCreateOrUpdate(snapshot.data);
-          FirebaseNotifications.sendToken(uid: snapshot.data.uid);
-          screen = RaffleListPage();
-        }
-        else {
-          print("no Login data");
-          FirebaseNotifications.sendToken();
-          screen = LoginPageBuilder();
-        }
-    } else
-      screen = SplashScreenWidget();
+        authService.userCreateOrUpdate(snapshot.data);
+        FirebaseNotifications.sendToken(uid: snapshot.data.uid);
+        screen = RaffleListPage();
+      } else {
+        print("no Login data");
+        FirebaseNotifications.sendToken();
+        screen = LoginPageBuilder();
+      }
+      return screen;
+    }
 
-    return screen;
   }
 }
 
