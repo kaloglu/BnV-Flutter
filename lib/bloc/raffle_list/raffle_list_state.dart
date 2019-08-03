@@ -13,12 +13,12 @@ class Loading extends RaffleListState {
 }
 
 class Content extends RaffleListState {
-  final List<Raffle> raffleList;
+  final List<Raffle> data;
 
-  Content(this.raffleList) : super([raffleList]);
+  Content(this.data) : super([data]);
 
   @override
-  String toString() => "Content => ${raffleList.length}";
+  String toString() => "Content => ${data.length}";
 }
 
 class Detail extends RaffleListState {

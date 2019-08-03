@@ -1,9 +1,9 @@
+import 'package:bnv/data/services/interfaces/db_service.dart';
 import 'package:bnv/model/attendee_model.dart';
 import 'package:bnv/model/enroll_model.dart';
 import 'package:bnv/model/raffle_model.dart';
 import 'package:bnv/model/ticket_model.dart';
 import 'package:bnv/model/user_model.dart';
-import 'package:bnv/services/interfaces/db_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreDBService extends DBService {
@@ -78,7 +78,7 @@ class FirestoreDBService extends DBService {
 
   @override
   Future<void> saveToken(String token, { String uid = ""}) async {
-    print("deviceToken:" + token);
+    print("deviceToken => " + token);
     var deviceToken = {
       "deviceToken": token
     };

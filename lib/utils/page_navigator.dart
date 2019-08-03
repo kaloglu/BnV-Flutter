@@ -1,10 +1,8 @@
-import 'package:bnv/data/repository/login_repository.dart';
 import 'package:bnv/ui/pages/auth/login_page.dart';
 import 'package:bnv/ui/pages/raffle/raffle_detail.dart';
 import 'package:bnv/ui/pages/raffle/raffle_list.dart';
 import 'package:bnv/ui/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PageNavigator {
   static const String splash = "splash";

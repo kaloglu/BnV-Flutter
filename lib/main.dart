@@ -1,12 +1,8 @@
-import 'package:bloc/bloc.dart';
-import 'package:bnv/bloc/authentication/bloc.dart';
-import 'package:bnv/bloc/delegation/simple_bloc_delegation.dart';
-import 'package:bnv/services/notifications/firebase_notifications.dart';
-import 'package:bnv/utils/page_navigator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc/raffle_list/bloc.dart';
+import 'bloc/authentication/bloc.dart';
+import 'bloc/raffle_list/raffle_list_bloc.dart';
+import 'utils/page_navigator.dart';
 
 void main() async {
   BlocSupervisor.delegate = SimpleBlocDelegate();
@@ -25,9 +21,8 @@ void main() async {
 class BnVApp extends StatelessWidget {
 
   @override
-  Widget build(BuildContext context) {
-    FirebaseNotifications().setup();
-    return MaterialApp(
+  Widget build(BuildContext context) =>
+      MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.indigo,
@@ -35,5 +30,4 @@ class BnVApp extends StatelessWidget {
         initialRoute: PageNavigator.splash,
         onGenerateRoute: PageNavigator.onGenerateRoute,
     );
-  }
 }

@@ -20,6 +20,19 @@ class Authenticated extends AuthenticationState {
   @override
   String toString() => "Authenticated => ${user.fullname}";
 }
+class HomeScreen extends AuthenticationState {
+  final User user;
+
+  HomeScreen(this.user) : super([user]);
+
+  @override
+  String toString() => "HomeScreen => ${user.fullname}";
+}
+class LoginScreen extends AuthenticationState {
+
+  @override
+  String toString() => "LoginScreen";
+}
 
 class Unauthenticated extends AuthenticationState {
   @override

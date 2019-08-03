@@ -1,16 +1,15 @@
 import 'dart:async';
 
-import 'package:bnv/common_widgets/platform_alert_dialog.dart';
+import 'package:bnv/bloc/authentication/bloc.dart';
+import 'package:bnv/bloc/raffle_list/bloc.dart';
 import 'package:bnv/constants/strings.dart';
 import 'package:bnv/model/raffle_model.dart';
 import 'package:bnv/model/user_model.dart';
-import 'package:bnv/services/interfaces/auth_service.dart';
-import 'package:bnv/services/interfaces/db_service.dart';
+import 'package:bnv/ui/widgets/common/platform_alert_dialog.dart';
 import 'package:bnv/utils/page_navigator.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html_textview/flutter_html_textview.dart';
-import 'package:provider/provider.dart';
 
 class RaffleListPage extends StatelessWidget {
   final Object arguments;
@@ -18,70 +17,89 @@ class RaffleListPage extends StatelessWidget {
 
   RaffleListPage({Key key, this.arguments}) : super(key: key);
 
-  Future<void> _signOut(BuildContext context, AuthService authService) async => await authService.signOut();
+  List<BlocListener<Bloc, dynamic>> get _blocListeners =>
+      [
+        BlocListener<RaffleListBloc, RaffleListState>(
+          listener: _handleRaffleListListener,
+        ),
+        BlocListener<AuthenticationBloc, AuthenticationState>(
+          listener: _handleAuthenticationListener,
+        ),
+      ];
 
-  Future<void> _confirmSignOut(BuildContext context, AuthService authService) async {
-    final bool didRequestSignOut = await PlatformAlertDialog(
-      title: Strings.logout,
-      content: Strings.logoutAreYouSure,
-      cancelActionText: Strings.cancel,
-      defaultActionText: Strings.logout,
-    ).show(context);
-    if (didRequestSignOut == true) {
-      _signOut(context, authService);
+  void _handleAuthenticationListener(BuildContext context, AuthenticationState state) {
+    if (state is Unauthenticated)
+      PageNavigator.goSplash(context);
+  }
+
+  void _handleRaffleListListener(BuildContext context, RaffleListState state) {}
+
+  Widget _handleRaffleListState(BuildContext context, RaffleListState state) {
+    if (state is Content) {
+      return _buildListView(state.data);
+    } else {
+      return CircularProgressIndicator();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    var authService = Provider.of<AuthService>(context);
-    var firestoreDB = Provider.of<DBService>(context);
-    return new Scaffold(
-      body: StreamBuilder(
-        stream: firestoreDB.getRaffles(),
-        builder: (BuildContext context, AsyncSnapshot<List<Raffle>> snapshot) {
-          if (!snapshot.hasData)
-            return new Text("noData");
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FloatingSearchBar(
+          children: [
+            _buildBlocListener(),
+          ],
 
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: new FloatingSearchBar(
-              children: snapshot.data.map((raffle) {
-                return Column(
-                    children: [
-                      _buildRaffleItem(context, raffle),
-                      Divider(
-                        height: 2.0,
-                        color: Colors.green,
-                      ),
-                    ]
-                );
-              }).toList(),
-              trailing: _buildTrailer(authService),
-              drawer: _buildDrawer(),
-              onChanged: (String value) {},
-              onTap: () {},
-              decoration: InputDecoration.collapsed(
-                hintText: "Search...",
-              ),
-            ),
-          );
-        },
-      )
-  );
+          trailing: _buildProfilePhoto(context),
+          drawer: _buildDrawer(),
+          onChanged: (String value) {},
+          onTap: () {},
+          decoration: InputDecoration.collapsed(
+            hintText: "Search...",
+          ),
+        ),
+      ),
+    );
   }
 
-  Widget _buildTrailer(AuthService authService) {
+  Widget _buildBlocListener() =>
+      MultiBlocListener(
+        listeners: _blocListeners,
+        child: BlocBuilder<RaffleListBloc, RaffleListState>(
+          builder: _handleRaffleListState,
+        ),
+      );
+
+  Column _buildListView(List<Raffle> data) {
+    return Column(
+        children: [
+          ListView.builder(itemBuilder: null),
+          //                            _buildRaffleItem(context, state.raffleList),
+          Divider(
+            height: 2.0,
+            color: Colors.green,
+          ),
+        ]
+    );
+  }
+
+  Widget _buildProfilePhoto(BuildContext context) {
+    var authBloc = BlocProvider.of<AuthenticationBloc>(context);
     return FutureBuilder(
-      future: authService.currentUser(),
+      future: authBloc.currentUser(),
       builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
         String avatar = dummyProfilePic;
-        avatar = snapshot.data.profilePicUrl;
+
+        if (snapshot.connectionState != ConnectionState.waiting && snapshot.hasData)
+          avatar = snapshot.data.profilePicUrl;
+
         return ButtonTheme(
           minWidth: 1.0,
           child: FlatButton(
             padding: EdgeInsets.symmetric(horizontal: 0.0),
-            onPressed: () => _confirmSignOut(context, authService),
+            onPressed: () => _confirmSignOut(context, authBloc),
             child: CircleAvatar(
               radius: 20.0,
               backgroundImage: NetworkImage(avatar),
@@ -108,5 +126,17 @@ class RaffleListPage extends StatelessWidget {
     return Drawer(
       child: Container(),
     );
+  }
+
+  Future<void> _confirmSignOut(BuildContext context, AuthenticationBloc authBloc) async {
+    final bool didRequestSignOut = await PlatformAlertDialog(
+      title: Strings.logout,
+      content: Strings.logoutAreYouSure,
+      cancelActionText: Strings.cancel,
+      defaultActionText: Strings.logout,
+    ).show(context);
+    if (didRequestSignOut == true) {
+      authBloc.dispatch(LoggedOut());
+    }
   }
 }

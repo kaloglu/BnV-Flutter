@@ -1,6 +1,6 @@
+import 'package:bnv/data/services/db/firestore_db_service.dart';
+import 'package:bnv/data/services/interfaces/db_service.dart';
 import 'package:bnv/model/raffle_model.dart';
-import 'package:bnv/services/db/firestore_db_service.dart';
-import 'package:bnv/services/interfaces/db_service.dart';
 
 class RaffleRepository {
   final DBService _firestoreDb;

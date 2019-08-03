@@ -1,3 +1,4 @@
+import 'package:bnv/model/user_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -12,8 +13,25 @@ class AppStarted extends AuthenticationEvent {
 }
 
 class LoggedIn extends AuthenticationEvent {
+  final User user;
+
+  LoggedIn(this.user) :super([user]);
+
   @override
-  String toString() => "LoggedIn";
+  String toString() => "GoHomeScreen";
+}
+class GoHomeScreen extends AuthenticationEvent {
+  final User user;
+
+  GoHomeScreen(this.user) :super([user]);
+
+  @override
+  String toString() => "GoHomeScreen";
+}
+
+class GoLoginScreen extends AuthenticationEvent {
+  @override
+  String toString() => "GoLoginScreen";
 }
 
 class LoggedOut extends AuthenticationEvent {

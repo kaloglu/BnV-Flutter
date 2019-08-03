@@ -5,7 +5,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 class FirebaseNotifications {
   static FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-//  static final DBServiceAdapter _firestoreDB = DBServiceAdapter();
 
   final StreamController<String> _onTokenChangedController = StreamController<String>();
   StreamSubscription<String> _onTokenRefresh;
@@ -52,10 +51,4 @@ class FirebaseNotifications {
 
   static Future<String> getToken() => _firebaseMessaging.getToken();
 
-//  static void sendToken({String uid}) async {
-//    String token = await getToken();
-//    if (token != null) {
-//      _firestoreDB.saveToken(uid, token);
-//    }
-//  }
 }

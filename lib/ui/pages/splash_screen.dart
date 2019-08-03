@@ -1,54 +1,59 @@
 import 'package:bnv/bloc/authentication/bloc.dart';
 import 'package:bnv/utils/page_navigator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SplashScreenWidget extends StatelessWidget {
-  const SplashScreenWidget({
-    Key key,
-  }) : super(key: key);
+
+  void _handleListener(BuildContext context, AuthenticationState state) {
+    if (state is HomeScreen)
+      PageNavigator.goRaffleList(context);
+    if (state is LoginScreen)
+      PageNavigator.goLogin(context, canBack: false);
+  }
+
+  Widget _handleState(AuthenticationBloc authBloc, AuthenticationState state) {
+    if (state is AuthInit)
+      authBloc.dispatch(AppStarted());
+    else if (state is Authenticated)
+      authBloc.dispatch(GoHomeScreen(state.user));
+    else if (state is Unauthenticated)
+      authBloc.dispatch(GoLoginScreen());
+
+    return _buildScreenWidget();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var bloc = BlocProvider.of<AuthenticationBloc>(context);
+    var authBloc = BlocProvider.of<AuthenticationBloc>(context);
     return new Scaffold(
         body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              BlocListener<AuthenticationBloc, AuthenticationState>(
-                listener: (context, state) {
-                  if (state is Authenticated)
-                    PageNavigator.goRaffleList(context);
-                  if (state is Unauthenticated)
-                    PageNavigator.goLogin(context, canBack: false);
-                },
-                child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                    builder: (context, state) {
-                      if (state is AuthInit)
-                        bloc.dispatch(AppStarted());
+          child: _buildBlocListener(authBloc),
+        ),
+    );
+  }
 
-                      return Column(
-                        children: <Widget>[
-                          Text(
-                            "BedavaNeVar",
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Padding(padding: EdgeInsets.symmetric(vertical: 20)),
-                          CircularProgressIndicator(),
-                        ],
-                      );
-                    }
-                ),
-              ),
-
-            ],
-          ),
+  Widget _buildBlocListener(AuthenticationBloc authBloc) =>
+      BlocListener<AuthenticationBloc, AuthenticationState>(
+        listener: _handleListener,
+        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+            builder: (context, state) => _handleState(authBloc, state)
         ),
       );
-  }
+
+  Widget _buildScreenWidget() =>
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(
+            "BedavaNeVar",
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Padding(padding: EdgeInsets.symmetric(vertical: 20)),
+          CircularProgressIndicator(),
+        ],
+      );
 
 }

@@ -1,6 +1,7 @@
+import 'package:bnv/data/services/db/firestore_db_service.dart';
+import 'package:bnv/data/services/interfaces/auth_service.dart';
+import 'package:bnv/data/services/interfaces/db_service.dart';
 import 'package:bnv/model/user_model.dart';
-import 'package:bnv/services/db/firestore_service_adapter.dart';
-import 'package:bnv/services/interfaces/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -11,7 +12,7 @@ class FirebaseAuthService implements AuthService {
   final GoogleSignIn _googleSignIn;
   final FacebookLogin _facebookLogin;
 
-  final DBServiceAdapter _firestoreDB = DBServiceAdapter();
+  final DBService _firestoreDB = FirestoreDBService();
 
   FirebaseAuthService({firebaseAuth, googleSignIn, facebookLogin})
       :
@@ -90,7 +91,7 @@ class FirebaseAuthService implements AuthService {
   Future<void> userCreateOrUpdate(User user) => _firestoreDB.userCreateOrUpdate(user);
 
   @override
-  Future<void> saveToken(String token, { String uid}) => _firestoreDB.saveToken(token, uid: uid);
+  Future<void> saveToken(String token, { String uid = ""}) => _firestoreDB.saveToken(token, uid: uid);
 
 
 }

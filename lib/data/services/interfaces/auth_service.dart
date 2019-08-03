@@ -17,6 +17,6 @@ abstract class AuthService {
 
   void dispose();
 
-  Future<void> saveToken(String token, {String uid});
+  Future<void> saveToken(String token, {String uid = ""});
 
 }
