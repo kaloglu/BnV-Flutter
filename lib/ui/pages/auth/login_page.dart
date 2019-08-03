@@ -1,6 +1,6 @@
 import 'package:bnv/common_widgets/platform_error_dialog.dart';
 import 'package:bnv/constants/strings.dart';
-import 'package:bnv/services/auth/auth_manager.dart';
+import 'package:bnv/data/repository/login_repository.dart';
 import 'package:bnv/services/interfaces/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,12 +18,12 @@ class LoginPageBuilder extends StatelessWidget {
       builder: (_) => ValueNotifier<bool>(false),
       child: Consumer<ValueNotifier<bool>>(
         builder: (_, ValueNotifier<bool> isLoading, __) =>
-            Provider<AuthManager>(
+            Provider<LoginRepository>(
               builder: (_) {
-                return AuthManager(auth: auth, isLoading: isLoading);
+                return LoginRepository(auth: auth, isLoading: isLoading);
               },
-              child: Consumer<AuthManager>(
-                builder: (_, AuthManager manager, __) =>
+              child: Consumer<LoginRepository>(
+                builder: (_, LoginRepository manager, __) =>
                     LoginPage._(
                       isLoading: isLoading.value,
                       manager: manager,
@@ -37,7 +37,7 @@ class LoginPageBuilder extends StatelessWidget {
 
 class LoginPage extends StatelessWidget {
   LoginPage._({Key key, this.isLoading, this.manager}) : super(key: key);
-  final AuthManager manager;
+  final LoginRepository manager;
   final bool isLoading;
 
   Future<void> _showSignInError(BuildContext context, PlatformException exception) async {

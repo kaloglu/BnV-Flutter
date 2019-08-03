@@ -36,9 +36,6 @@ class DBServiceAdapter implements DBService {
   Stream<List<Raffle>> getRaffles() => _firestoreDBService.getRaffles();
 
   @override
-  Stream<QuerySnapshot> getRaffles2() => _firestoreDBService.getRaffles2();
-
-  @override
   Stream<List<Ticket>> getTickets(String userId) => _firestoreDBService.getTickets(userId);
 
   @override
@@ -59,6 +56,6 @@ class DBServiceAdapter implements DBService {
   @override
   Future<void> userCreateOrUpdate(User user) => _firestoreDBService.userCreateOrUpdate(user);
 
-  Future<void> sendToken(String uid, String token) => _firestoreDBService.sendToken(uid, token);
+  Future<void> saveToken(String token, {String uid}) => _firestoreDBService.saveToken(token, uid: uid);
 
 }

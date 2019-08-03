@@ -40,11 +40,11 @@ class FirestoreDBService extends DBService {
   Stream<List<Ticket>> getTickets(String userId) =>
       getTicketCollection(userId).snapshots().map(Ticket.listFromFirestore);
 
-  @override
-  Stream<List<Raffle>> getRaffles() => getRaffleCollection.snapshots().map(Raffle.listFromFirestore);
 
   @override
-  Stream<QuerySnapshot> getRaffles2() => getRaffleCollection.snapshots();
+  Stream<List<Raffle>> getRaffles() {
+    return getRaffleCollection.snapshots().map(Raffle.listFromFirestore);
+  }
 
   @override
   Stream<Raffle> getRaffle(String raffleId) => getRaffleReference(raffleId).snapshots().map(Raffle.fromFirestore);
@@ -77,12 +77,12 @@ class FirestoreDBService extends DBService {
   }
 
   @override
-  Future<void> sendToken(String uid, String token) async {
+  Future<void> saveToken(String token, { String uid = ""}) async {
     print("deviceToken:" + token);
     var deviceToken = {
       "deviceToken": token
     };
-    if (uid != null) {
+    if (uid != null && uid.isNotEmpty) {
       DocumentReference userRef = getUserReference(uid);
       firestore.runTransaction((Transaction tx) async {
         DocumentSnapshot userSnapshot = await tx.get(userRef);

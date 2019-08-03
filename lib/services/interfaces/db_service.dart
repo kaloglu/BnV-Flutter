@@ -13,7 +13,6 @@ abstract class DBService {
   Stream<List<User>> getUsers();
 
   Stream<List<Raffle>> getRaffles();
-  Stream<QuerySnapshot> getRaffles2();
 
   Future<QuerySnapshot> getUnregisteredDeviceTokens(String deviceToken);
 
@@ -31,6 +30,6 @@ abstract class DBService {
 
   Future<void> userCreateOrUpdate(User user);
 
-  Future<void> sendToken(String uid, String token);
+  Future<void> saveToken(String token, { String uid});
 
 }

@@ -62,4 +62,7 @@ class AuthServiceAdapter implements AuthService {
   @override
   Future<void> signOut() => authService.signOut();
 
+  @override
+  Future<void> saveToken(String token, { String uid}) => authService.saveToken(token, uid: uid);
+
 }
