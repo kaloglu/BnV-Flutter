@@ -1,5 +1,4 @@
 import 'package:bnv/model/base/base_model.dart';
-import 'package:bnv/model/media_model.dart';
 import 'package:flutter/material.dart';
 
 @immutable

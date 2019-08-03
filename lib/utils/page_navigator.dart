@@ -1,7 +1,7 @@
-import 'package:bnv/pages/auth/login_page.dart';
-import 'package:bnv/pages/raffle/raffle_detail.dart';
-import 'package:bnv/pages/raffle/raffle_list.dart';
-import 'package:bnv/pages/splash_screen.dart';
+import 'package:bnv/ui/pages/auth/login_page.dart';
+import 'package:bnv/ui/pages/raffle/raffle_detail.dart';
+import 'package:bnv/ui/pages/raffle/raffle_list.dart';
+import 'package:bnv/ui/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 class PageNavigator {
@@ -12,17 +12,17 @@ class PageNavigator {
 
   static get defaultCanBack => true;
 
-  static _goPage(context, String pageName, {bool canBack = true}) {
+  static _goPage(context, String pageName, {bool canBack = true, Object arguments}) {
     canBack = canBack ??= defaultCanBack;
     Navigator.pushNamedAndRemoveUntil(context, pageName,
-            (Route<dynamic> route) => canBack);
+            (Route<dynamic> route) => canBack, arguments: arguments);
   }
 
   static goRaffleList(context, {bool canBack = true}) =>
       _goPage(context, raffleList, canBack: canBack);
 
-  static goRaffleDetail(context, {bool canBack = true}) =>
-      _goPage(context, raffleDetail, canBack: canBack);
+  static goRaffleDetail(context, {bool canBack = true, String raffleId}) =>
+      _goPage(context, raffleDetail, canBack: canBack, arguments: raffleId);
 
   static goLogin(context, {bool canBack = true}) => _goPage(context, login, canBack: canBack);
 
@@ -31,22 +31,22 @@ class PageNavigator {
   static goBack(context) => Navigator.pop(context);
 
   static Route onGenerateRoute(settings) =>
-      MaterialPageRoute(builder: (context) => _buildNavigationMap(settings));
+      MaterialPageRoute(builder: (context) => _buildNavigationMap(context, settings));
 
-  static _buildNavigationMap(settings) {
+  static _buildNavigationMap(context, settings) {
     var page;
     switch (settings.name) {
       case splash:
-        page = SplashScreenPage();
+        page = SplashScreenWidget();
         break;
       case login:
-        page = LoginPageBuilder();
+        page = LoginPage();
         break;
       case raffleList:
         page = RaffleListPage(arguments: settings.arguments);
         break;
       case raffleDetail:
-        page = RaffleDetailPage(arguments: settings.arguments);
+        page = RaffleDetailPage(raffleId: settings.arguments);
         break;
     }
     return page;
