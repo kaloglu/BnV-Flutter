@@ -1,14 +1,11 @@
 import 'dart:async';
 
-import 'package:bnv/bloc/authentication/bloc.dart';
 import 'package:bnv/bloc/raffle_list/bloc.dart';
 import 'package:bnv/constants/strings.dart';
 import 'package:bnv/model/raffle_model.dart';
-import 'package:bnv/model/user_model.dart';
 import 'package:bnv/ui/widgets/common/platform_alert_dialog.dart';
 import 'package:bnv/utils/page_navigator.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_html_textview/flutter_html_textview.dart';
 
 class RaffleListPage extends StatelessWidget {
@@ -35,6 +32,9 @@ class RaffleListPage extends StatelessWidget {
   void _handleRaffleListListener(BuildContext context, RaffleListState state) {}
 
   Widget _handleRaffleListState(BuildContext context, RaffleListState state) {
+    final raffleListBloc = BlocProvider.of<RaffleListBloc>(context);
+    if (state is Loading)
+      raffleListBloc.dispatch(LoadList());
     if (state is Content) {
       return _buildListView(state.data);
     } else {
@@ -44,20 +44,23 @@ class RaffleListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: FloatingSearchBar(
-          children: [
-            _buildBlocListener(),
-          ],
+    return BlocProvider<RaffleListBloc>(
+      builder: (context) => RaffleListBloc(),
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: FloatingSearchBar(
+            children: [
+              _buildBlocListener(),
+            ],
 
-          trailing: _buildProfilePhoto(context),
-          drawer: _buildDrawer(),
-          onChanged: (String value) {},
-          onTap: () {},
-          decoration: InputDecoration.collapsed(
-            hintText: "Search...",
+            trailing: _buildProfilePhoto(context),
+            drawer: _buildDrawer(),
+            onChanged: (String value) {},
+            onTap: () {},
+            decoration: InputDecoration.collapsed(
+              hintText: "Search...",
+            ),
           ),
         ),
       ),
@@ -72,16 +75,13 @@ class RaffleListPage extends StatelessWidget {
         ),
       );
 
-  Column _buildListView(List<Raffle> data) {
-    return Column(
-        children: [
-          ListView.builder(itemBuilder: null),
-          //                            _buildRaffleItem(context, state.raffleList),
-          Divider(
-            height: 2.0,
-            color: Colors.green,
-          ),
-        ]
+  Widget _buildListView(List<Raffle> data) {
+    return ListView.builder(
+      padding: EdgeInsets.symmetric(vertical: 8.0),
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemBuilder: (context, position) => _buildRaffleItem(context, data[position]),
+      itemCount: data.length,
     );
   }
 
@@ -112,13 +112,27 @@ class RaffleListPage extends StatelessWidget {
   }
 
   Widget _buildRaffleItem(BuildContext context, Raffle raffle) {
-    return Container(
-      child: ListTile(
-        leading: Image.network(raffle.productInfo.images[0]['path']),
-        title: HtmlTextView(data: raffle.title),
-        subtitle: HtmlTextView(data: raffle.description),
-        onTap: () => PageNavigator.goRaffleDetail(context, raffleId: raffle.id),
-      ),
+    return Column(
+        children: [
+          ListTile(
+            leading: SizedBox(
+              width: 75,
+              child: Image.network(
+                raffle.productInfo.images[0]['path'],
+                fit: BoxFit.scaleDown,
+              ),
+            ),
+            title: HtmlTextView(data: raffle.title),
+            subtitle: HtmlTextView(data: raffle.description),
+            onTap: () => PageNavigator.goRaffleDetail(context, raffle),
+          ),
+          Divider(
+            indent: 16,
+            endIndent: 16,
+            height: 2.0,
+            color: Colors.black26,
+          ),
+        ]
     );
   }
 

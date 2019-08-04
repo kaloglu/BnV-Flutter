@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'bloc/authentication/bloc.dart';
-import 'bloc/raffle_list/raffle_list_bloc.dart';
 import 'utils/page_navigator.dart';
 
 void main() async {
@@ -10,9 +9,6 @@ void main() async {
     MultiBlocProvider(providers: [
       BlocProvider<AuthenticationBloc>(
         builder: (context) => AuthenticationBloc(),
-      ),
-      BlocProvider<RaffleListBloc>(
-        builder: (context) => RaffleListBloc(),
       ),
     ], child: BnVApp()),
   );
@@ -29,5 +25,7 @@ class BnVApp extends StatelessWidget {
         ),
         initialRoute: PageNavigator.splash,
         onGenerateRoute: PageNavigator.onGenerateRoute,
+//        onGenerateRoute: PageNavigator.getFadeRoute,
     );
+
 }

@@ -44,24 +44,34 @@ class LoginPage extends StatelessWidget {
       );
 
   Widget _buildHeader() =>
-      Text(
-      Strings.signIn,
-      textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.w600),
-    );
+      Column(
+        children: <Widget>[
+          Text(
+            Strings.BnV,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.w600),
+          ),
+          Padding(padding: EdgeInsets.symmetric(vertical: 10),),
+          Text(
+            Strings.signIn,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
+          ),
+        ],
+      );
 
   Widget _buildLoginScreen(BuildContext context, AuthenticationBloc authBloc) =>
       Container(
-      padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(48.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           SizedBox(
-            height: 50.0,
+            height: 100.0,
             child: _buildHeader(),
           ),
-          SizedBox(height: 48.0),
+          SizedBox(height: 36.0),
           GoogleSignInButton(
             text: Strings.signInWithGoogle,
             onPressed: () => authBloc.signInWithGoogle(context),
