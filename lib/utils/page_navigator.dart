@@ -1,6 +1,6 @@
 import 'package:bnv/ui/pages/auth/login_page.dart';
-import 'package:bnv/ui/pages/raffle/raffle_detail.dart';
-import 'package:bnv/ui/pages/raffle/raffle_list.dart';
+import 'package:bnv/ui/pages/raffle/detail/raffle_detail_page.dart';
+import 'package:bnv/ui/pages/raffle/raffle_list_page.dart';
 import 'package:bnv/ui/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -21,8 +21,8 @@ class PageNavigator {
   static goRaffleList(context, {bool canBack = true}) =>
       _goPage(context, raffleList, canBack: canBack);
 
-  static goRaffleDetail(context, {bool canBack = true, String raffleId}) =>
-      _goPage(context, raffleDetail, canBack: canBack, arguments: raffleId);
+  static goRaffleDetail(context, raffle, {bool canBack = true}) =>
+      _goPage(context, raffleDetail, canBack: canBack, arguments: raffle);
 
   static goLogin(context, {bool canBack = true}) => _goPage(context, login, canBack: canBack);
 
@@ -46,7 +46,8 @@ class PageNavigator {
         page = RaffleListPage(arguments: settings.arguments);
         break;
       case raffleDetail:
-        page = RaffleDetailPage(raffleId: settings.arguments);
+        page = RaffleDetailPage(raffle: settings.arguments);
+//        page = PokemonInfo();
         break;
     }
     return page;

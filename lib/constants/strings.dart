@@ -1,4 +1,5 @@
 class Strings {
+  static const String BnV = 'BedavaNeVar';
   // Generic strings
   static const String ok = 'OK';
   static const String cancel = 'Cancel';
@@ -8,7 +9,7 @@ class Strings {
   static const String logoutAreYouSure = 'Are you sure that you want to logout?';
 
   // Sign In Page
-  static const String signIn = 'Sign in';
+  static const String signIn = 'Uygulamanın özelliklerinden yararlanabilmek için giriş yapman gerek...';
   static const String signInWithEmail = 'Sign in with email';
   static const String signInWithFacebook = 'Sign in with Facebook';
   static const String signInWithGoogle = 'Sign in with Google';
