@@ -30,7 +30,12 @@ class FirestoreDBService extends DBService {
   Stream<List<User>> getUsers() => getUserCollection.snapshots().map(User.listFromFirestore);
 
   @override
-  Stream<User> getUser(String userId) => getUserReference(userId).snapshots().map(User.fromFirestore);
+  Future<User> getUser(String userId) async =>
+      Future.value(
+          User.fromFirestore(await getUserReference(userId).get())
+      );
+
+//      .snapshots().map(User.fromFirestore);
 
   @override
   Stream<List<Enroll>> getEnrolls(String userId) =>

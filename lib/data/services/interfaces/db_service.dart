@@ -22,7 +22,7 @@ abstract class DBService {
 
   Stream<List<Ticket>> getTickets(String userId);
 
-  Stream<User> getUser(String userId);
+  Future<User> getUser(String userId);
 
   Stream<Raffle> getRaffle(String raffleId);
 

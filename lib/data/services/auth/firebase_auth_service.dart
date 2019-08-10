@@ -31,8 +31,8 @@ class FirebaseAuthService implements AuthService {
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
       if (googleAuth.accessToken != null && googleAuth.idToken != null) {
-        var firebaseUser = await _firebaseAuth.signInWithCredential(googleAuthCredential(googleAuth));
-        return User.userFromFirebaseAuth(firebaseUser);
+        final authResult = await _firebaseAuth.signInWithCredential(googleAuthCredential(googleAuth));
+        return User.userFromFirebaseAuth(authResult.user);
       } else
         throw PlatformException(
             code: 'ERROR_MISSING_GOOGLE_AUTH_TOKEN',
@@ -45,14 +45,14 @@ class FirebaseAuthService implements AuthService {
 
   @override
   Future<User> signInWithFacebook() async {
-    final FacebookLoginResult result =
+    final FacebookLoginResult loginResult =
     await _facebookLogin.logInWithReadPermissions(<String>['public_profile']);
-    if (result.accessToken != null) {
-      final FirebaseUser user = await _firebaseAuth.signInWithCredential(
-        FacebookAuthProvider.getCredential(accessToken: result.accessToken.token),
+    if (loginResult.accessToken != null) {
+      final authResult = await _firebaseAuth.signInWithCredential(
+          FacebookAuthProvider.getCredential(accessToken: loginResult.accessToken.token)
       );
 
-      return User.userFromFirebaseAuth(user);
+      return User.userFromFirebaseAuth(authResult.user);
     } else {
       throw PlatformException(code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
     }
@@ -63,10 +63,7 @@ class FirebaseAuthService implements AuthService {
     var firebaseUser = await _firebaseAuth.currentUser();
     if (firebaseUser==null)
       return null;
-    Stream<User> userStream = _firestoreDB.getUser(firebaseUser.uid);
-    await for (User value in userStream) {
-      return value;
-    }
+    return _firestoreDB.getUser(firebaseUser.uid);
   }
 
   @override
