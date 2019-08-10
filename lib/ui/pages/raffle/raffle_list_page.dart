@@ -6,7 +6,7 @@ import 'package:bnv/model/raffle_model.dart';
 import 'package:bnv/ui/widgets/common/platform_alert_dialog.dart';
 import 'package:bnv/utils/page_navigator.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
-import 'package:flutter_html_textview/flutter_html_textview.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class RaffleListPage extends StatelessWidget {
   final Object arguments;
@@ -112,27 +112,33 @@ class RaffleListPage extends StatelessWidget {
   }
 
   Widget _buildRaffleItem(BuildContext context, Raffle raffle) {
-    return Column(
-        children: [
-          ListTile(
-            leading: SizedBox(
-              width: 75,
-              child: Image.network(
-                raffle.productInfo.images[0]['path'],
-                fit: BoxFit.scaleDown,
+    return SizedBox(
+      height: 75,
+      child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical:8.0),
+              child: ListTile(
+                leading: SizedBox(
+                  width: 75,
+                  child: Image.network(
+                    raffle.productInfo.images[0]['path'],
+                    fit: BoxFit.scaleDown,
+                  ),
+                ),
+                title: Html(data: raffle.title),
+//            subtitle: Html(data: raffle.description),
+                onTap: () => PageNavigator.goRaffleDetail(context, raffle),
               ),
             ),
-            title: HtmlTextView(data: raffle.title),
-            subtitle: HtmlTextView(data: raffle.description),
-            onTap: () => PageNavigator.goRaffleDetail(context, raffle),
-          ),
-          Divider(
-            indent: 16,
-            endIndent: 16,
-            height: 2.0,
-            color: Colors.black26,
-          ),
-        ]
+            Divider(
+              indent: 16,
+              endIndent: 16,
+              height: 2.0,
+              color: Colors.black26,
+            ),
+          ]
+      ),
     );
   }
 

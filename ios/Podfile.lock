@@ -104,6 +104,9 @@ PODS:
     - FBSDKCoreKit (= 4.39.1)
     - FBSDKLoginKit (= 4.39.1)
     - Flutter
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
   - google_sign_in (0.0.1):
     - Flutter
     - GoogleSignIn (~> 4.0)
@@ -166,9 +169,14 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - path_provider (0.0.1):
+    - Flutter
   - Protobuf (3.8.0)
   - shared_preferences (0.0.1):
     - Flutter
+  - sqflite (0.0.1):
+    - Flutter
+    - FMDB (~> 2.7.2)
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
@@ -179,7 +187,9 @@ DEPENDENCIES:
   - flutter_crashlytics (from `.symlinks/plugins/flutter_crashlytics/ios`)
   - flutter_facebook_login (from `.symlinks/plugins/flutter_facebook_login/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - sqflite (from `.symlinks/plugins/sqflite/ios`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -198,6 +208,7 @@ SPEC REPOS:
     - FirebaseFirestore
     - FirebaseInstanceID
     - FirebaseMessaging
+    - FMDB
     - GoogleAppMeasurement
     - GoogleSignIn
     - GoogleToolboxForMac
@@ -226,21 +237,25 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_facebook_login/ios"
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
+  sqflite:
+    :path: ".symlinks/plugins/sqflite/ios"
 
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
-  cloud_firestore: 5698a9bd01b94fd31e7b7b56d8fe1665f4fb43cb
+  cloud_firestore: 41f84086d2e1a5c216a6af07ef050758de825ff0
   Crashlytics: 611738c7847f8291a1a51084e35987b86ba6b3ee
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FBSDKCoreKit: f442aa96179cc9b382bb4abeb7e340a47cca8f91
   FBSDKLoginKit: c3079d9a4db27c492287b1eed7a4272b28cf8a59
   Firebase: 8432d732974498afd5987e9001a05f90f1a3d625
-  firebase_auth: a5a625aecc89c176ee75e0266efe2c048df10052
-  firebase_core: bae884ab4513092d80d01406455054a5af5482dd
-  firebase_messaging: 049d2d722cb4c48d62be7f7a8020fc4d7b2b9e0a
+  firebase_auth: 0fed4be9a305986c406db1a34ecb1819e9e5415c
+  firebase_core: b3b02d0b5e9d01aab5e50ba7cbcf84c73cb6883c
+  firebase_messaging: efa1c09df5b6fbf505ee319bf27a0c88efe9ff8c
   FirebaseAnalytics: 470ddab7253b21ad5a40bebd4a9903d7ae19386a
   FirebaseAnalyticsInterop: efbe45c8385ec626e29f9525e5ebd38520dfb6c1
   FirebaseAuth: 7fa2cc010b93770831a4e7a60651b52c3b8d111a
@@ -252,6 +267,7 @@ SPEC CHECKSUMS:
   Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
   flutter_crashlytics: 7b5bba7233066381c8e18343435342ba05f3053c
   flutter_facebook_login: be61e24a4b7d621515353c6b4583d1981bdaa3d6
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   google_sign_in: 27e70a98b529f0b076d4b19f231b81da28b1750b
   GoogleAppMeasurement: a35a645835bae31b6bdc0576396bc23908f12a22
   GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
@@ -262,8 +278,10 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
   Protobuf: 3f617b9a6e73605565086864c9bc26b2bf2dd5a3
   shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
+  sqflite: ff1d9da63c06588cc8d1faf7256d741f16989d5a
 
 PODFILE CHECKSUM: b7d0755641915265774624f3b3be49c5c073d379
 
