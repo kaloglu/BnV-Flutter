@@ -1,47 +1,23 @@
-import 'package:bnv/bloc/authentication/bloc.dart';
 import 'package:bnv/utils/page_navigator.dart';
 import 'package:flutter/material.dart';
 
-class SplashScreenWidget extends StatelessWidget {
+class SplashScreenPage extends StatefulWidget {
+  static const route = "splash_screen";
 
-  void _handleListener(BuildContext context, AuthenticationState state) {
-    if (state is HomeScreen)
-      PageNavigator.goRaffleList(context);
-    if (state is LoginScreen)
-      PageNavigator.goLogin(context, canBack: false);
+  @override
+  createState() => _SplashScreenPageState();
+
+  static void navigate(BuildContext context) {
+    PageNavigator.navigate(context, route, canBack: false);
   }
+}
 
-  Widget _handleState(AuthenticationBloc authBloc, AuthenticationState state) {
-    if (state is AuthInit)
-      authBloc.dispatch(AppStarted());
-    else if (state is Authenticated)
-      authBloc.dispatch(GoHomeScreen(state.user));
-    else if (state is Unauthenticated)
-      authBloc.dispatch(GoLoginScreen());
-
-    return _buildScreenWidget();
-  }
+class _SplashScreenPageState extends State<SplashScreenPage> {
 
   @override
   Widget build(BuildContext context) {
-    var authBloc = BlocProvider.of<AuthenticationBloc>(context);
-    return new Scaffold(
-        body: Center(
-          child: _buildBlocListener(authBloc),
-        ),
-    );
-  }
-
-  Widget _buildBlocListener(AuthenticationBloc authBloc) =>
-      BlocListener<AuthenticationBloc, AuthenticationState>(
-        listener: _handleListener,
-        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-            builder: (context, state) => _handleState(authBloc, state)
-        ),
-      );
-
-  Widget _buildScreenWidget() =>
-      Column(
+    return Center(
+      child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
@@ -54,6 +30,14 @@ class SplashScreenWidget extends StatelessWidget {
           Padding(padding: EdgeInsets.symmetric(vertical: 20)),
           CircularProgressIndicator(),
         ],
-      );
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    print("dispose splash!");
+    super.dispose();
+  }
 
 }

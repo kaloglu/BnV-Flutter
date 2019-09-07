@@ -13,7 +13,7 @@ abstract class AuthService {
 
   Future<void> signOut();
 
-  Stream<User> get onAuthStateChanged;
+  Stream<String> get onAuthStateChanged;
 
   void dispose();
 

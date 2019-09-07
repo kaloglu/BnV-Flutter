@@ -14,7 +14,7 @@ description: BedavaNeVar ios ve android
 version: 1.0.1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -35,14 +35,16 @@ dependencies:
   cloud_firestore: #^0.12.7
 #  flutter_html_textview: #^0.2.6
   flutter_html: #^0.2.6
-  cached_network_image: ^1.1.1
+  cached_network_image: #^1.1.1
   floating_search_bar: #^0.2.0
   flutter_crashlytics: #^1.0.0
   flutter_bloc: ^0.20.0
-  meta: ^1.1.6
-  equatable: ^0.2.0
+  meta: #^1.1.6
+  equatable: #^0.2.0
   provider: #^3.0.0+1
   carousel_pro: #^1.0.0
+  intl: #^0.15.8
+
 
 
 dev_dependencies:

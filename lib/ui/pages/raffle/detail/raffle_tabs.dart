@@ -1,4 +1,5 @@
-import 'package:bnv/bloc/raffle_list/bloc.dart';
+
+import 'package:flutter/material.dart';
 
 class TabData {
   final String label;

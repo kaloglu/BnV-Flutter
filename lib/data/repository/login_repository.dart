@@ -5,7 +5,9 @@ import 'package:bnv/data/services/interfaces/auth_service.dart';
 import 'package:bnv/data/services/notifications/firebase_notifications.dart';
 import 'package:bnv/model/user_model.dart';
 
-class LoginRepository {
+import 'interfaces/repository.dart';
+
+class LoginRepository implements Repository {
   final AuthService _auth;
 
   LoginRepository({AuthService auth}) :_auth=auth ?? FirebaseAuthService();
