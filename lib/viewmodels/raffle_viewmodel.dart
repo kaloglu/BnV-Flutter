@@ -1,65 +1,41 @@
 import 'dart:async';
 
+import 'package:bnv/constants/strings.dart';
 import 'package:bnv/data/repository/raffle_repository.dart';
+import 'package:bnv/model/enroll_model.dart';
 import 'package:bnv/model/raffle_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+import 'package:bnv/model/ticket_model.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 
-class RaffleViewModel extends ChangeNotifier {
-  final Raffle _raffle;
-  final RaffleRepository _repository;
+import 'base/base_viewmodel.dart';
+
+class RaffleViewModel extends BaseViewModel<RaffleRepository> {
+  Raffle raffle;
+  var dateFormat;
 
   StreamController<int> ticketController = StreamController.broadcast();
   StreamController<int> enrollController = StreamController.broadcast();
 
-  var dateFormat;
+  List<Ticket> tickets;
 
-  RaffleViewModel({
-    @required Raffle raffle,
-    @required RaffleRepository repository,
-  })
-      : assert(raffle != null),
-        _raffle = raffle,
-        assert(repository != null),
-        _repository = repository,
-        super() {
-    _loadAttributes();
-  }
+  get productImages => raffle.productInfo.images;
 
+  get raffleTitle => raffle.title;
 
-  @override
-  void dispose() {
-    ticketController?.close();
-    enrollController?.close();
-    super.dispose();
-  }
+  get productCount => raffle.productInfo.count;
 
-  FutureOr _loadAttributes() async {
-    _repository.getTickets().listen((data) {
-      ticketController.add(data.length);
-    });
-    _repository.getEnrolls(_raffle.id).listen((data) {
-      ticketController.add(data.length);
-    });
-  }
+  get productUnit => raffle.productInfo.unit;
 
-  List get productImages => _raffle.productInfo.images;
+  get productName => raffle.productInfo.name;
 
-  get raffleTitle => _raffle.title;
+  get productUnitPrice => raffle.productInfo.unitPrice.toStringAsFixed(2);
 
-  get productCount => _raffle.productInfo.count;
+  get startDate => raffle.startDate;
 
-  get productUnit => _raffle.productInfo.unit;
+  get endDate => raffle.endDate;
 
-  get productName => _raffle.productInfo.name;
-
-  get productUnitPrice => _raffle.productInfo.unitPrice.toStringAsFixed(2);
-
-  Timestamp get startDate => _raffle.startDate;
-
-  Timestamp get endDate => _raffle.endDate;
-
-  get description => _raffle.description;
+  get description => raffle.description;
 
   get startDateString => dateFormat.format(startDate.toDate());
 
@@ -68,5 +44,40 @@ class RaffleViewModel extends ChangeNotifier {
   Stream<int> get ticketCount$ => ticketController.stream;
 
   Stream<int> get enrollCount$ => enrollController.stream;
+
+  RaffleViewModel(RaffleRepository repository, Raffle raffle) : super() {
+    assert(repository != null);
+    this.repository = repository;
+    assert(raffle != null);
+    this.raffle = raffle;
+    initializeDateFormatting("tr_TR");
+    dateFormat = DateFormat(Strings.DATE_FOR_RAFFLE_DETAIL, "tr_TR");
+  }
+
+  @override
+  void dispose() {
+    ticketController?.close();
+    enrollController?.close();
+    super.dispose();
+  }
+
+  FutureOr loadAttributes(String uid) async {
+    repository.getTickets(uid).listen((tickets) {
+      this.tickets = tickets;
+      var ticketCount = 0;
+      tickets.forEach((ticket) {
+        ticketCount += ticket.remain;
+      });
+      ticketController.add(ticketCount);
+    });
+    repository.getEnrolls(raffle.id, uid).listen((enrolls) {
+      enrollController.add(enrolls.length);
+    });
+  }
+
+  void enroll(String uid) {
+    var activeTicket = tickets.first;
+    repository.enroll(Enroll(ticketId: activeTicket.id, raffleId: raffle.id), uid);
+  }
 
 }

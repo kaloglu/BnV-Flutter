@@ -1,21 +1,25 @@
 import 'dart:async';
 
-import 'package:bnv/viewmodels/raffle_viewmodel.dart';
 import 'package:bnv/data/repository/raffle_repository.dart';
-import 'package:flutter/material.dart';
+import 'package:bnv/viewmodels/raffle_viewmodel.dart';
 
-class RaffleListViewModel extends ChangeNotifier {
-  final RaffleRepository _repository;
+import 'base/base_viewmodel.dart';
 
-  Stream<List<RaffleViewModel>> _raffleViewModelList$;
+class RaffleListViewModel extends BaseViewModel<RaffleRepository> {
 
-  get viewModelList$ => _raffleViewModelList$;
+  StreamController<List<RaffleViewModel>> listController = StreamController.broadcast();
 
-  RaffleListViewModel({RaffleRepository repository})
-      : _repository = repository ?? RaffleRepository(),
-        super();
+  get raffleList$ => listController.stream;
 
-  void load(String uid){
-    _raffleViewModelList$ = _repository.getRaffleViewModelList();
+  @override
+  void dispose() {
+    listController?.close();
+    super.dispose();
+  }
+
+  void load(String uid) {
+    repository.getRaffleViewModelList().listen((raffleList) {
+      listController.add(raffleList);
+    });
   }
 }

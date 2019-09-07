@@ -10,31 +10,16 @@ import 'package:flutter/services.dart';
 
 import 'base/base_viewmodel.dart';
 
-class AuthViewModel extends BaseViewModel {
-  final LoginRepository _repository;
-  StreamController<User> _userController = StreamController<User>();
+class AuthViewModel extends BaseViewModel<LoginRepository> {
 
-  User _currentUser;
-
-  User get currentUser => _currentUser;
-
-  AuthViewModel({LoginRepository repository})
-      : _repository = repository ?? LoginRepository() {
+  init() {
     FirebaseNotifications().setup();
-//    _repository.onAuthChanged$.listen(handleAuthChanged);
   }
 
-
-  @override
-  void dispose() {
-    _userController?.close();
-    super.dispose();
-  }
-
-  Stream<User> get user => _userController.stream;
+  Stream<User> get onAuthStateChanged => repository.onAuthStateChanged;
 
   Future<void> signOut() async {
-    await _repository.signOut();
+    await repository.signOut();
   }
 
   Future<void> _showSignInError(BuildContext context, PlatformException exception) async {
@@ -44,36 +29,27 @@ class AuthViewModel extends BaseViewModel {
     ).show(context);
   }
 
-  Future<bool> signInWithGoogle(BuildContext context) async {
-    Future<bool> success;
+  FutureOr<User> signInWithGoogle(BuildContext context) async {
     try {
-      var user = await _repository.signInWithGoogle();
-      _userController.add(user);
-      success = Future.value(user != null && user.uid != null);
+      return await repository.signInWithGoogle();
     } on PlatformException catch (e) {
       if (e.code != 'ERROR_ABORTED_BY_USER') {
         _showSignInError(context, e);
       }
-      success = Future.value(false);
     }
 
-    return success;
+    return null;
   }
 
-  Future<bool> signInWithFacebook(BuildContext context) async {
-    Future<bool> success;
+  FutureOr<User> signInWithFacebook(BuildContext context) async {
     try {
-      var user = await _repository.signInWithFacebook();
-      _userController.add(user);
-      success = Future.value(user != null && user.uid != null);
+      return await repository.signInWithFacebook();
     } on PlatformException catch (e) {
       if (e.code != 'ERROR_ABORTED_BY_USER') {
         _showSignInError(context, e);
       }
-      success = Future.value(false);
     }
 
-    return success;
+    return null;
   }
-
 }

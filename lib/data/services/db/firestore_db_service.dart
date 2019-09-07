@@ -8,7 +8,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreDBService implements DBService {
   final Firestore _firestore;
-  String activeUserUID;
 
   FirestoreDBService({Firestore firestore}) : _firestore = firestore ?? Firestore.instance;
 
@@ -21,11 +20,14 @@ class FirestoreDBService implements DBService {
 
   DocumentReference getUnregisteredToken(String token) => getUnRegisteredDeviceTokensCollection.document(token);
 
-  DocumentReference getUserReference([String uid]) => getUserCollection.document(uid ?? activeUserUID);
+  DocumentReference getUserReference(String uid) => getUserCollection.document(uid);
 
-  CollectionReference getEnrollCollection() => getUserReference(activeUserUID).collection("enrolls");
+  DocumentReference getTicketReference(String ticketId, String uid) => getTicketCollection(uid).document(ticketId);
 
-  CollectionReference getTicketCollection() => getUserReference(activeUserUID).collection("tickets");
+  CollectionReference getEnrollCollection(String uid) => getUserReference(uid).collection("enrolls");
+
+  CollectionReference getTicketCollection(String uid) =>
+      getUserReference(uid).collection("tickets");
 
   DocumentReference getRaffleReference(String raffleId) => getRaffleCollection.document(raffleId);
 
@@ -35,24 +37,18 @@ class FirestoreDBService implements DBService {
   Stream<List<User>> getUsers() => getUserCollection.snapshots().map(User.listFromFirestore);
 
   @override
-  Future<User> getLoggedInUser(String userId) async {
-    activeUserUID = userId;
-    return await getUser();
-  }
-
-  @override
   Future<User> getUser([userId]) async =>
       Future.value(
           User.fromFirestore(await getUserReference(userId).get())
       );
 
   @override
-  Stream<List<Enroll>> getEnrolls(String raffleId) =>
-      getEnrollCollection().where("raffleId", isEqualTo: raffleId).snapshots().map(Enroll.listFromFirestore);
+  Stream<List<Enroll>> getEnrolls(String raffleId, String uid) =>
+      getEnrollCollection(uid).where("raffleId", isEqualTo: raffleId).snapshots().map(Enroll.listFromFirestore);
 
   @override
-  Stream<List<Ticket>> getTickets() =>
-      getTicketCollection().snapshots().map(Ticket.listFromFirestore);
+  Stream<List<Ticket>> getTickets(String uid) =>
+      getTicketCollection(uid).where("remain", isGreaterThan: 0).snapshots().map(Ticket.listFromFirestore);
 
   @override
   Stream<List<Raffle>> getRaffles() => getRaffleCollection.snapshots().map(Raffle.listFromFirestore);
@@ -83,6 +79,23 @@ class FirestoreDBService implements DBService {
         await tx.update(userRef, User.fromFirestore(userSnapshot).toJson());
       } else {
         await tx.set(userRef, user.toJson());
+      }
+    });
+  }
+
+  @override
+  enroll(Enroll enroll, String uid) {
+    DocumentReference ticketRef = getTicketReference(enroll.ticketId, uid);
+    _firestore.runTransaction((Transaction tx) async {
+      DocumentSnapshot ticketSnapshot = await tx.get(ticketRef);
+      if (ticketSnapshot.exists) {
+        Ticket ticket = Ticket.fromFirestore(ticketSnapshot);
+        await tx.update(ticketRef, {
+          "remain": ticket.remain - 1
+        });
+        await getEnrollCollection(uid).add(enroll.toJson());
+        Attendee attendee = Attendee(userId: uid);
+        await getAttendeeCollection(enroll.raffleId).add(attendee.toJson());
       }
     });
   }

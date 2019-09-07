@@ -1,7 +1,8 @@
+import 'package:bnv/viewmodels/base/base_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class BaseWidget<T extends ChangeNotifier> extends StatefulWidget {
+class BaseWidget<T extends BaseViewModel> extends StatefulWidget {
   final Widget Function(BuildContext context, T viewModel, Widget child) builder;
   final T viewModel;
   final Widget child;
@@ -18,7 +19,7 @@ class BaseWidget<T extends ChangeNotifier> extends StatefulWidget {
   _BaseWidgetState<T> createState() => _BaseWidgetState<T>();
 }
 
-class _BaseWidgetState<T extends ChangeNotifier> extends State<BaseWidget<T>> {
+class _BaseWidgetState<T extends BaseViewModel> extends State<BaseWidget<T>> {
   T viewModel;
 
   @override

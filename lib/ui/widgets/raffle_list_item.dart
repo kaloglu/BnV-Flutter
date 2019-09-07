@@ -25,7 +25,7 @@ class RaffleListItem extends StatelessWidget {
             ),
             title: Html(data: viewModel.raffleTitle),
 //            subtitle: Html(data: raffle.description),
-            onTap: () => onTap,
+            onTap: onTap,
           ),
         ),
         Divider(

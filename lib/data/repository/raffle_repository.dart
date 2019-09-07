@@ -1,8 +1,8 @@
-import 'package:bnv/viewmodels/raffle_viewmodel.dart';
 import 'package:bnv/data/services/db/firestore_db_service.dart';
 import 'package:bnv/data/services/interfaces/db_service.dart';
 import 'package:bnv/model/enroll_model.dart';
 import 'package:bnv/model/ticket_model.dart';
+import 'package:bnv/viewmodels/raffle_viewmodel.dart';
 
 import 'interfaces/repository.dart';
 
@@ -15,9 +15,11 @@ class RaffleRepository implements Repository {
 
   Stream<List<RaffleViewModel>> getRaffleViewModelList() => firestoreDB
       .getRaffles()
-      .map((raffleList) => raffleList.map((raffle) => RaffleViewModel(raffle: raffle, repository: this)).toList());
+      .map((raffleList) => raffleList.map((raffle) => RaffleViewModel(this, raffle)).toList());
 
-  Stream<List<Ticket>> getTickets() => firestoreDB.getTickets();
+  Stream<List<Ticket>> getTickets(String uid) => firestoreDB.getTickets(uid);
 
-  Stream<List<Enroll>> getEnrolls(raffleId) => firestoreDB.getEnrolls(raffleId);
+  Stream<List<Enroll>> getEnrolls(String raffleId,String uid) => firestoreDB.getEnrolls(raffleId,uid);
+
+  void enroll(Enroll enroll, String uid) => firestoreDB.enroll(enroll,uid);
 }

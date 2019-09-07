@@ -20,8 +20,7 @@ class FirebaseAuthService implements AuthService {
         _firestoreDB = firestoreDB ?? FirestoreDBService();
 
   @override
-  Stream<String> get onAuthStateChanged =>
-      _firebaseAuth.onAuthStateChanged.map((user) => (user == null || user.uid == null) ? "" : user.uid);
+  Stream<User> get onAuthStateChanged => _firebaseAuth.onAuthStateChanged.map(User.userFromFirebaseAuth);
 
   @override
   Future<User> signInWithGoogle() async {
@@ -51,14 +50,6 @@ class FirebaseAuthService implements AuthService {
     } else {
       throw PlatformException(code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
     }
-  }
-
-  @override
-  Future<User> currentUser() async {
-    var firebaseUser = await _firebaseAuth.currentUser();
-    if (firebaseUser == null) return null;
-
-    return await _firestoreDB.getLoggedInUser(firebaseUser.uid);
   }
 
   @override

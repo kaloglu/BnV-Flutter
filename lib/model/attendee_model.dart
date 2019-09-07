@@ -8,7 +8,7 @@ class Attendee extends BaseModel {
   final String userId;
   final Timestamp attendDate;
 
-  const Attendee({Key key, this.id, this.userId, this.attendDate}) : super(key: key);
+  const Attendee({Key key, this.id, @required this.userId, this.attendDate}) : super(key: key);
 
   @override
   Map<String, dynamic> toJson() => {

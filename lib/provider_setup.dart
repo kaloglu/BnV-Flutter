@@ -55,14 +55,17 @@ List<SingleChildCloneableWidget> repositories = [
 
 List<SingleChildCloneableWidget> uiConsumableProviders = [
   ChangeNotifierProxyProvider<LoginRepository, AuthViewModel>(
-    builder: (context, loginRepository, authViewModel) => AuthViewModel(repository: loginRepository),
+    builder: (context, loginRepository, authViewModel) => authViewModel..repository = loginRepository,
     initialBuilder: (context) => AuthViewModel(),
   ),
-  ChangeNotifierProxyProvider<RaffleRepository, RaffleListViewModel>(
-    builder: (context, raffleRepository, raffleListViewModel) => RaffleListViewModel(repository: raffleRepository),
+  ListenableProxyProvider<RaffleRepository, RaffleListViewModel>(
+    builder: (context, raffleRepository, raffleListViewModel) => raffleListViewModel..repository = raffleRepository,
     initialBuilder: (context) => RaffleListViewModel(),
   ),
   StreamProvider<User>(
-    builder: (context) => Provider.of<AuthViewModel>(context, listen: false).user,
+    builder: (context) =>
+    Provider
+        .of<AuthViewModel>(context, listen: false)
+        .onAuthStateChanged,
   )
 ];

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bnv/model/user_model.dart';
 
 abstract class AuthService {
-  Future<User> currentUser();
 
   Future<User> signInWithGoogle();
 
@@ -13,7 +12,7 @@ abstract class AuthService {
 
   Future<void> signOut();
 
-  Stream<String> get onAuthStateChanged;
+  Stream<User> get onAuthStateChanged;
 
   void dispose();
 

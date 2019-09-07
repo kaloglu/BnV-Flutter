@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:bnv/viewmodels/auth_viewmodel.dart';
 import 'package:bnv/constants/strings.dart';
 import 'package:bnv/model/raffle_model.dart';
 import 'package:bnv/model/user_model.dart';
+import 'package:bnv/ui/pages/auth/login_page.dart';
 import 'package:bnv/ui/widgets/common/platform_alert_dialog.dart';
 import 'package:bnv/ui/widgets/raffle_list.dart';
 import 'package:bnv/utils/page_navigator.dart';
+import 'package:bnv/viewmodels/auth_viewmodel.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,6 +52,7 @@ class RaffleListPage extends StatelessWidget {
           onPositiveButtonClick: () {
             var authViewModel = Provider.of<AuthViewModel>(context);
             authViewModel.signOut();
+            LoginPage.navigate(context);
           },
           onNegativeButtonClick: () {
             print("click negative");

@@ -9,8 +9,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class DBService {
 
-  Future<User> getLoggedInUser(String userId);
-
   Stream<List<User>> getUsers();
 
   Stream<List<Raffle>> getRaffles();
@@ -19,9 +17,9 @@ abstract class DBService {
 
   Stream<List<Attendee>> attendees(String raffleId);
 
-  Stream<List<Enroll>> getEnrolls(String raffleId);
+  Stream<List<Enroll>> getEnrolls(String raffleId,String uid);
 
-  Stream<List<Ticket>> getTickets();
+  Stream<List<Ticket>> getTickets(String uid);
 
   Future<User> getUser();
 
@@ -32,5 +30,7 @@ abstract class DBService {
   Future<void> userCreateOrUpdate(User user);
 
   Future<void> saveToken(String token, { String uid});
+
+  enroll(Enroll enroll, String uid);
 
 }
