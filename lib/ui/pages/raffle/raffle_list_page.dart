@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bnv/constants/strings.dart';
-import 'package:bnv/model/raffle_model.dart';
 import 'package:bnv/model/user_model.dart';
 import 'package:bnv/ui/pages/auth/login_page.dart';
 import 'package:bnv/ui/widgets/common/platform_alert_dialog.dart';
