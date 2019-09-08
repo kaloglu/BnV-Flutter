@@ -6,21 +6,28 @@ import 'package:bnv/model/ticket_model.dart';
 import 'package:bnv/model/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirestoreDBService extends DBService {
+class FirestoreDBService implements DBService {
+  final Firestore _firestore;
 
-  CollectionReference get getUserCollection => firestore.collection("users");
+  FirestoreDBService({Firestore firestore}) : _firestore = firestore ?? Firestore.instance;
 
-  CollectionReference get getRaffleCollection => firestore.collection("raffles");
+  CollectionReference get getUserCollection => _firestore.collection("users");
+
+  CollectionReference get getRaffleCollection => _firestore.collection("raffles");
 
   CollectionReference get getUnRegisteredDeviceTokensCollection =>
-      firestore.collection("deviceTokens/users/unregistered");
+      _firestore.collection("deviceTokens/users/unregistered");
 
   DocumentReference getUnregisteredToken(String token) => getUnRegisteredDeviceTokensCollection.document(token);
-  DocumentReference getUserReference(String userId) => getUserCollection.document(userId);
 
-  CollectionReference getEnrollCollection(String userId) => getUserReference(userId).collection("enrolls");
+  DocumentReference getUserReference(String uid) => getUserCollection.document(uid);
 
-  CollectionReference getTicketCollection(String userId) => getUserReference(userId).collection("tickets");
+  DocumentReference getTicketReference(String ticketId, String uid) => getTicketCollection(uid).document(ticketId);
+
+  CollectionReference getEnrollCollection(String uid) => getUserReference(uid).collection("enrolls");
+
+  CollectionReference getTicketCollection(String uid) =>
+      getUserReference(uid).collection("tickets");
 
   DocumentReference getRaffleReference(String raffleId) => getRaffleCollection.document(raffleId);
 
@@ -30,26 +37,21 @@ class FirestoreDBService extends DBService {
   Stream<List<User>> getUsers() => getUserCollection.snapshots().map(User.listFromFirestore);
 
   @override
-  Future<User> getUser(String userId) async =>
+  Future<User> getUser([userId]) async =>
       Future.value(
           User.fromFirestore(await getUserReference(userId).get())
       );
 
-//      .snapshots().map(User.fromFirestore);
+  @override
+  Stream<List<Enroll>> getEnrolls(String raffleId, String uid) =>
+      getEnrollCollection(uid).where("raffleId", isEqualTo: raffleId).snapshots().map(Enroll.listFromFirestore);
 
   @override
-  Stream<List<Enroll>> getEnrolls(String userId) =>
-      getEnrollCollection(userId).snapshots().map(Enroll.listFromFirestore);
+  Stream<List<Ticket>> getTickets(String uid) =>
+      getTicketCollection(uid).where("remain", isGreaterThan: 0).snapshots().map(Ticket.listFromFirestore);
 
   @override
-  Stream<List<Ticket>> getTickets(String userId) =>
-      getTicketCollection(userId).snapshots().map(Ticket.listFromFirestore);
-
-
-  @override
-  Stream<List<Raffle>> getRaffles() {
-    return getRaffleCollection.snapshots().map(Raffle.listFromFirestore);
-  }
+  Stream<List<Raffle>> getRaffles() => getRaffleCollection.snapshots().map(Raffle.listFromFirestore);
 
   @override
   Stream<Raffle> getRaffle(String raffleId) => getRaffleReference(raffleId).snapshots().map(Raffle.fromFirestore);
@@ -71,12 +73,29 @@ class FirestoreDBService extends DBService {
   Future<void> userCreateOrUpdate(User user) async {
     // Check is already sign up
     final DocumentReference userRef = getUserReference(user.uid);
-    firestore.runTransaction((Transaction tx) async {
+    _firestore.runTransaction((Transaction tx) async {
       DocumentSnapshot userSnapshot = await tx.get(userRef);
       if (userSnapshot.exists) {
         await tx.update(userRef, User.fromFirestore(userSnapshot).toJson());
       } else {
         await tx.set(userRef, user.toJson());
+      }
+    });
+  }
+
+  @override
+  enroll(Enroll enroll, String uid) {
+    DocumentReference ticketRef = getTicketReference(enroll.ticketId, uid);
+    _firestore.runTransaction((Transaction tx) async {
+      DocumentSnapshot ticketSnapshot = await tx.get(ticketRef);
+      if (ticketSnapshot.exists) {
+        Ticket ticket = Ticket.fromFirestore(ticketSnapshot);
+        await tx.update(ticketRef, {
+          "remain": ticket.remain - 1
+        });
+        await getEnrollCollection(uid).add(enroll.toJson());
+        Attendee attendee = Attendee(userId: uid);
+        await getAttendeeCollection(enroll.raffleId).add(attendee.toJson());
       }
     });
   }
@@ -89,7 +108,7 @@ class FirestoreDBService extends DBService {
     };
     if (uid != null && uid.isNotEmpty) {
       DocumentReference userRef = getUserReference(uid);
-      firestore.runTransaction((Transaction tx) async {
+      _firestore.runTransaction((Transaction tx) async {
         DocumentSnapshot userSnapshot = await tx.get(userRef);
         if (userSnapshot.exists) {
           await tx.update(userRef, deviceToken);

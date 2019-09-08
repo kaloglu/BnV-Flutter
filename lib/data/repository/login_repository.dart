@@ -5,18 +5,20 @@ import 'package:bnv/data/services/interfaces/auth_service.dart';
 import 'package:bnv/data/services/notifications/firebase_notifications.dart';
 import 'package:bnv/model/user_model.dart';
 
-class LoginRepository {
+import 'interfaces/repository.dart';
+
+class LoginRepository implements Repository {
   final AuthService _auth;
 
   LoginRepository({AuthService auth}) :_auth=auth ?? FirebaseAuthService();
+
+  Stream<User> get onAuthStateChanged => _auth.onAuthStateChanged;
 
   Future<User> _signIn(Future<User> Function() signInMethod) async => await signInMethod();
 
   Future<User> signInWithGoogle() async => await _signIn(_auth.signInWithGoogle);
 
   Future<User> signInWithFacebook() async => await _signIn(_auth.signInWithFacebook);
-
-  Future<User> currentUser() async => await _auth.currentUser();
 
   Future<void> signOut() async => _auth.signOut();
 

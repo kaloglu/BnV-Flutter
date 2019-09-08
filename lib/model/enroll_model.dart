@@ -9,7 +9,7 @@ class Enroll extends BaseModel {
   final String raffleId;
   final Timestamp enrollDate;
 
-  const Enroll({Key key, this.id, this.ticketId, this.raffleId, this.enrollDate}) : super(key: key);
+  const Enroll({Key key, this.id, @required this.ticketId, @required this.raffleId, this.enrollDate}) : super(key: key);
 
   @override
   Map<String, dynamic> toJson() => {
