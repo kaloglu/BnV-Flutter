@@ -4,8 +4,6 @@ import 'package:bnv/model/raffle_rules_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-export 'package:bnv/model/user_model.dart';
-
 @immutable
 class Raffle extends BaseModel {
   final String id;

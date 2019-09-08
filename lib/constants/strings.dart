@@ -1,10 +1,12 @@
 class Strings {
-  static const String BnV = 'BedavaNeVar';
   // Generic strings
+  static const String DATE_FOR_RAFFLE_DETAIL = "yyyy, dd MMMM EEEE";
+
+  static const String BnV = 'BedavaNeVar';
   static const String ok = 'OK';
-  static const String cancel = 'Cancel';
 
   // Logout
+  static const String cancel = 'Cancel';
   static const String logout = 'Logout';
   static const String logoutAreYouSure = 'Are you sure that you want to logout?';
 
@@ -15,7 +17,6 @@ class Strings {
   static const String signInWithGoogle = 'Sign in with Google';
   static const String goAnonymous = 'Go anonymous';
   static const String or = 'or';
-
 
   // Email & Password page
   static const String signInFailed = 'Sign in failed';
@@ -28,4 +29,5 @@ class Strings {
   static const String developerMenu = 'Developer menu';
   static const String authenticationType = 'Authentication type';
   static const String firebase = 'Firebase';
+
 }
