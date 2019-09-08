@@ -2,9 +2,9 @@ import 'package:bnv/constants/strings.dart';
 import 'package:bnv/model/user_model.dart';
 import 'package:bnv/ui/pages/base/base_widget.dart';
 import 'package:bnv/ui/pages/raffle/raffle_list_page.dart';
-import 'package:bnv/utils/page_navigator.dart';
 import 'package:bnv/viewmodels/auth_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +29,7 @@ class LoginForm extends StatelessWidget {
               if (snapshot.hasData) {
                 user = snapshot.data;
                 if (user.uid != null) {
-                  PageNavigator.runOnUI((_) {
+                  SchedulerBinding.instance.addPostFrameCallback((duration) {
                     RaffleListPage.navigate(context);
                   });
                 }
