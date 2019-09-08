@@ -3,18 +3,11 @@ import 'package:bnv/ui/pages/raffle/detail/raffle_detail_page.dart';
 import 'package:bnv/ui/pages/raffle/raffle_list_page.dart';
 import 'package:bnv/ui/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 class PageNavigator {
   static get defaultCanBack => true;
 
   static get initialRoute => LoginPage.route;
-
-  static runOnUI(void onUI(Duration duration)) {
-    SchedulerBinding.instance.addPostFrameCallback((duration) {
-      onUI(duration);
-    });
-  }
 
   static navigate<T extends Object>(BuildContext context, String name, {bool canBack = true, T argument}) {
     canBack = canBack ??= defaultCanBack;
