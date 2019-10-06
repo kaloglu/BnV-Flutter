@@ -34,19 +34,20 @@ class Raffle extends BaseModel {
         'rules': rules,
         'productInfo': productInfo,
       };
-  static Raffle fromFirestore(DocumentSnapshot doc) => fromMap(doc.data, doc.documentID);
 
-  static List<Raffle> listFromFirestore(QuerySnapshot query) => query.documents.map(fromFirestore).toList();
+  static Raffle fromFirestore(DocumentSnapshot doc) => fromMap(doc.data, doc.documentID);
 
   static Raffle fromMap(Map data, [String documentId]) {
     return new Raffle(
-        id: documentId,
-        title: data['title'] ?? '',
-        description: data['description'] ?? '',
-        startDate: data['startDate'],
-        endDate: data['endDate'],
-        rules: RaffleRules.fromMap(data['rules']),
-        productInfo: ProductInfo.fromMap(data['productInfo']),
-      );
+      id: documentId,
+      title: data['title'] ?? '',
+      description: data['description'] ?? '',
+      startDate: data['startDate'],
+      endDate: data['endDate'],
+      rules: RaffleRules.fromMap(data['rules']),
+      productInfo: ProductInfo.fromMap(data['productInfo']),
+    );
   }
+
+  static List<Raffle> listFromFirestore(QuerySnapshot query) => query.documents.map(fromFirestore).toList();
 }

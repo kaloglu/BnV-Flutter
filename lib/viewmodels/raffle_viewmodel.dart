@@ -19,32 +19,6 @@ class RaffleViewModel extends BaseViewModel<RaffleRepository> {
 
   List<Ticket> tickets;
 
-  get productImages => raffle.productInfo.images;
-
-  get raffleTitle => raffle.title;
-
-  get productCount => raffle.productInfo.count;
-
-  get productUnit => raffle.productInfo.unit;
-
-  get productName => raffle.productInfo.name;
-
-  get productUnitPrice => raffle.productInfo.unitPrice.toStringAsFixed(2);
-
-  get startDate => raffle.startDate;
-
-  get endDate => raffle.endDate;
-
-  get description => raffle.description;
-
-  get startDateString => dateFormat.format(startDate.toDate());
-
-  get endDateString => dateFormat.format(endDate.toDate());
-
-  Stream<int> get ticketCount$ => ticketController.stream;
-
-  Stream<int> get enrollCount$ => enrollController.stream;
-
   RaffleViewModel(RaffleRepository repository, Raffle raffle) : super() {
     assert(repository != null);
     this.repository = repository;
@@ -54,11 +28,42 @@ class RaffleViewModel extends BaseViewModel<RaffleRepository> {
     dateFormat = DateFormat(Strings.DATE_FOR_RAFFLE_DETAIL, "tr_TR");
   }
 
+  get description => raffle.description;
+
+  get endDate => raffle.endDate;
+
+  get endDateString => dateFormat.format(endDate.toDate());
+
+  Stream<int> get enrollCount$ => enrollController.stream;
+
+  get productCount => raffle.productInfo.count;
+
+  get productImages => raffle.productInfo.images;
+
+  get productName => raffle.productInfo.name;
+
+  get productUnit => raffle.productInfo.unit;
+
+  get productUnitPrice => raffle.productInfo.unitPrice.toStringAsFixed(2);
+
+  get raffleTitle => raffle.title;
+
+  get startDate => raffle.startDate;
+
+  get startDateString => dateFormat.format(startDate.toDate());
+
+  Stream<int> get ticketCount$ => ticketController.stream;
+
   @override
   void dispose() {
     ticketController?.close();
     enrollController?.close();
     super.dispose();
+  }
+
+  void enroll(String uid) {
+    var activeTicket = tickets.first;
+    repository.enroll(Enroll(ticketId: activeTicket.id, raffleId: raffle.id), uid);
   }
 
   FutureOr loadAttributes(String uid) async {
@@ -74,10 +79,4 @@ class RaffleViewModel extends BaseViewModel<RaffleRepository> {
       enrollController.add(enrolls.length);
     });
   }
-
-  void enroll(String uid) {
-    var activeTicket = tickets.first;
-    repository.enroll(Enroll(ticketId: activeTicket.id, raffleId: raffle.id), uid);
-  }
-
 }

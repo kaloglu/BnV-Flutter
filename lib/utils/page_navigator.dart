@@ -9,13 +9,13 @@ class PageNavigator {
 
   static get initialRoute => LoginPage.route;
 
+  static goBack(context) => Navigator.pop(context);
+
   static navigate<T extends Object>(BuildContext context, String name, {bool canBack = true, T argument}) {
     canBack = canBack ??= defaultCanBack;
     print("page: $name");
     Navigator.pushNamedAndRemoveUntil(context, name, (Route<dynamic> route) => canBack, arguments: argument);
   }
-
-  static goBack(context) => Navigator.pop(context);
 
   static Route onGenerateRoute(settings) =>
       MaterialPageRoute(builder: (context) => _buildNavigationMap(context, settings));

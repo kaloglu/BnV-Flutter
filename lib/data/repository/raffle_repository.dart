@@ -9,17 +9,16 @@ import 'interfaces/repository.dart';
 class RaffleRepository implements Repository {
   final DBService _firestoreDb;
 
-  DBService get firestoreDB => _firestoreDb;
-
   RaffleRepository({DBService db}) : _firestoreDb = db ?? FirestoreDBService();
 
-  Stream<List<RaffleViewModel>> getRaffleViewModelList() => firestoreDB
-      .getRaffles()
-      .map((raffleList) => raffleList.map((raffle) => RaffleViewModel(this, raffle)).toList());
+  DBService get firestoreDB => _firestoreDb;
+
+  void enroll(Enroll enroll, String uid) => firestoreDB.enroll(enroll, uid);
+
+  Stream<List<Enroll>> getEnrolls(String raffleId, String uid) => firestoreDB.getEnrolls(raffleId, uid);
+
+  Stream<List<RaffleViewModel>> getRaffleViewModelList() =>
+      firestoreDB.getRaffles().map((raffleList) => raffleList.map((raffle) => RaffleViewModel(this, raffle)).toList());
 
   Stream<List<Ticket>> getTickets(String uid) => firestoreDB.getTickets(uid);
-
-  Stream<List<Enroll>> getEnrolls(String raffleId,String uid) => firestoreDB.getEnrolls(raffleId,uid);
-
-  void enroll(Enroll enroll, String uid) => firestoreDB.enroll(enroll,uid);
 }

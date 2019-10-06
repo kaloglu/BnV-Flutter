@@ -9,15 +9,6 @@ class FirebaseNotifications {
   final StreamController<String> _onTokenChangedController = StreamController<String>();
   StreamSubscription<String> _onTokenRefresh;
 
-  void setup() {
-    fcmListeners();
-    // Observable<String>.merge was considered here, but we need more fine grained control to ensure
-    // that only events from the currently active service are processed
-    _onTokenRefresh = _firebaseMessaging.onTokenRefresh.listen((token) {
-      _onTokenChangedController.add(token);
-    });
-  }
-
   Stream<String> get onTokenChanged => _onTokenChangedController.stream;
 
   void dispose() {
@@ -49,6 +40,14 @@ class FirebaseNotifications {
     _firebaseMessaging.requestNotificationPermissions(IosNotificationSettings(sound: true, badge: true, alert: true));
   }
 
-  static Future<String> getToken() => _firebaseMessaging.getToken();
+  void setup() {
+    fcmListeners();
+    // Observable<String>.merge was considered here, but we need more fine grained control to ensure
+    // that only events from the currently active service are processed
+    _onTokenRefresh = _firebaseMessaging.onTokenRefresh.listen((token) {
+      _onTokenChangedController.add(token);
+    });
+  }
 
+  static Future<String> getToken() => _firebaseMessaging.getToken();
 }

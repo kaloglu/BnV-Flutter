@@ -13,7 +13,6 @@ class SplashScreenPage extends StatefulWidget {
 }
 
 class _SplashScreenPageState extends State<SplashScreenPage> {
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -39,5 +38,4 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
     print("dispose splash!");
     super.dispose();
   }
-
 }

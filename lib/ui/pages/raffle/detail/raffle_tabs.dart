@@ -1,12 +1,4 @@
-
 import 'package:flutter/material.dart';
-
-class TabData {
-  final String label;
-  final Widget child;
-
-  TabData(this.label, this.child);
-}
 
 class RaffleTabs extends StatelessWidget {
   final List<TabData> _tabs = [
@@ -14,23 +6,6 @@ class RaffleTabs extends StatelessWidget {
     TabData("Ürün Detayı", Container(color: Colors.red)),
     TabData("Kurallar", Container(color: Colors.green)),
   ];
-
-  Widget _buildTabBar() {
-    return TabBar(
-      labelColor: Colors.black,
-      unselectedLabelColor: Colors.grey,
-      labelPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 24),
-      indicatorSize: TabBarIndicatorSize.tab,
-      indicatorColor: Colors.indigo,
-      tabs: _tabs.map((tab) => Text(tab.label)).toList(),
-    );
-  }
-
-  Widget _buildTabContent() => Expanded(
-        child: TabBarView(
-          children: _tabs.map((tab) => tab.child).toList(),
-        ),
-      );
 
   @override
   Widget build(BuildContext context) => DefaultTabController(
@@ -55,4 +30,28 @@ class RaffleTabs extends StatelessWidget {
           ),
         ),
       );
+
+  Widget _buildTabBar() {
+    return TabBar(
+      labelColor: Colors.black,
+      unselectedLabelColor: Colors.grey,
+      labelPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 24),
+      indicatorSize: TabBarIndicatorSize.tab,
+      indicatorColor: Colors.indigo,
+      tabs: _tabs.map((tab) => Text(tab.label)).toList(),
+    );
+  }
+
+  Widget _buildTabContent() => Expanded(
+        child: TabBarView(
+          children: _tabs.map((tab) => tab.child).toList(),
+        ),
+      );
+}
+
+class TabData {
+  final String label;
+  final Widget child;
+
+  TabData(this.label, this.child);
 }

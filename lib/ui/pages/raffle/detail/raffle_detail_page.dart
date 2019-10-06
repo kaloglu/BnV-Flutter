@@ -13,19 +13,16 @@ class RaffleDetailPage extends StatelessWidget {
 
   RaffleDetailPage({Key key, this.viewModel}) : assert(viewModel != null);
 
-  static void navigate(BuildContext context, RaffleViewModel raffleBloc) =>
-      PageNavigator.navigate<RaffleViewModel>(context, route, argument: raffleBloc);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Html(data: viewModel.raffleTitle)),
       body: Center(
-        child: RaffleDetail(viewModel, Provider
-            .of<User>(context)
-            .uid),
+        child: RaffleDetail(viewModel, Provider.of<User>(context).uid),
       ),
     );
   }
 
+  static void navigate(BuildContext context, RaffleViewModel raffleBloc) =>
+      PageNavigator.navigate<RaffleViewModel>(context, route, argument: raffleBloc);
 }

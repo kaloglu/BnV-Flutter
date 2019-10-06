@@ -2,12 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 String _dialogMessage = "Lütfen bekleyin...";
-enum ProgressDialogType { Normal, Download }
-
-ProgressDialogType _progressDialogType = ProgressDialogType.Normal;
-double _progress = 0.0;
-
 bool _isShowing = false;
+
+double _progress = 0.0;
+ProgressDialogType _progressDialogType = ProgressDialogType.Normal;
 
 class ProgressDialog {
   _MyDialog _dialog;
@@ -20,32 +18,21 @@ class ProgressDialog {
     _progressDialogType = progressDialogtype;
   }
 
-  void setMessage(String mess) {
-    _dialogMessage = mess;
-    debugPrint("ProgressDialog message changed: $mess");
-  }
-
-  void update({double progress, String message}) {
-    debugPrint("ProgressDialog message changed: ");
-    if (_progressDialogType == ProgressDialogType.Download) {
-      debugPrint("Old Progress: $_progress, New Progress: $progress");
-      _progress = progress;
-    }
-    debugPrint("Old message: $_dialogMessage, New Message: $message");
-    _dialogMessage = message;
-    _dialog.update();
-  }
-
-  bool isShowing() {
-    return _isShowing;
-  }
-
   void hide() {
     if (_isShowing) {
       _isShowing = false;
       Navigator.of(_context).pop();
       debugPrint('ProgressDialog dismissed');
     }
+  }
+
+  bool isShowing() {
+    return _isShowing;
+  }
+
+  void setMessage(String mess) {
+    _dialogMessage = mess;
+    debugPrint("ProgressDialog message changed: $mess");
   }
 
   void show() {
@@ -68,35 +55,37 @@ class ProgressDialog {
       );
     }
   }
+
+  void update({double progress, String message}) {
+    debugPrint("ProgressDialog message changed: ");
+    if (_progressDialogType == ProgressDialogType.Download) {
+      debugPrint("Old Progress: $_progress, New Progress: $progress");
+      _progress = progress;
+    }
+    debugPrint("Old message: $_dialogMessage, New Message: $message");
+    _dialogMessage = message;
+    _dialog.update();
+  }
 }
+
+enum ProgressDialogType { Normal, Download }
 
 // ignore: must_be_immutable
 class _MyDialog extends StatefulWidget {
   var _dialog = new _MyDialogState();
-
-  update() {
-    _dialog.changeState();
-  }
 
   @override
   // ignore: must_be_immutable
   State<StatefulWidget> createState() {
     return _dialog;
   }
+
+  update() {
+    _dialog.changeState();
+  }
 }
 
 class _MyDialogState extends State<_MyDialog> {
-  changeState() {
-    setState(() {});
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _isShowing = false;
-    debugPrint('ProgressDialog dismissed by back button');
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -130,5 +119,16 @@ class _MyDialogState extends State<_MyDialog> {
                   ),
           )
         ]));
+  }
+
+  changeState() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _isShowing = false;
+    debugPrint('ProgressDialog dismissed by back button');
   }
 }

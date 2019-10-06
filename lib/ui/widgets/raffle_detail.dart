@@ -53,13 +53,16 @@ class RaffleDetail extends StatelessWidget {
         });
   }
 
-  Widget _buildProductionWidget(RaffleViewModel viewModel) => Container(
-      color: Colors.grey,
-      height: 300,
-      child: GridTile(
-        child: _buildImageCarousel(viewModel.productImages),
-        footer: _buildInfoWidget(viewModel),
-      ));
+  Widget _buildDescriptionWidget(RaffleViewModel viewModel) => Container(
+        color: Colors.grey.withAlpha(30),
+        padding: EdgeInsets.only(top: 16, left: 8, right: 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Html(data: viewModel.description),
+          ],
+        ),
+      );
 
   Widget _buildImageCarousel(List images) => Carousel(
       overlayShadow: true,
@@ -94,16 +97,13 @@ class RaffleDetail extends StatelessWidget {
         trailing: Text(" Değeri: ${viewModel.productUnitPrice} ₺", style: TextStyle(color: Colors.blueGrey)),
       ));
 
-  Widget _buildDescriptionWidget(RaffleViewModel viewModel) => Container(
-        color: Colors.grey.withAlpha(30),
-        padding: EdgeInsets.only(top: 16, left: 8, right: 8),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Html(data: viewModel.description),
-          ],
-        ),
-      );
+  Widget _buildProductionWidget(RaffleViewModel viewModel) => Container(
+      color: Colors.grey,
+      height: 300,
+      child: GridTile(
+        child: _buildImageCarousel(viewModel.productImages),
+        footer: _buildInfoWidget(viewModel),
+      ));
 
   Widget _buildRaffleDateInfo(RaffleViewModel viewModel) {
     return Column(

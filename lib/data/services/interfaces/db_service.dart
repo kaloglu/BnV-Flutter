@@ -8,29 +8,27 @@ import 'package:bnv/model/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class DBService {
-
-  Stream<List<User>> getUsers();
-
-  Stream<List<Raffle>> getRaffles();
-
-  Future<QuerySnapshot> getUnregisteredDeviceTokens(String deviceToken);
-
   Stream<List<Attendee>> attendees(String raffleId);
-
-  Stream<List<Enroll>> getEnrolls(String raffleId,String uid);
-
-  Stream<List<Ticket>> getTickets(String uid);
-
-  Future<User> getUser();
-
-  Stream<Raffle> getRaffle(String raffleId);
 
   void dispose();
 
-  Future<void> userCreateOrUpdate(User user);
-
-  Future<void> saveToken(String token, { String uid});
-
   enroll(Enroll enroll, String uid);
 
+  Stream<List<Enroll>> getEnrolls(String raffleId, String uid);
+
+  Stream<Raffle> getRaffle(String raffleId);
+
+  Stream<List<Raffle>> getRaffles();
+
+  Stream<List<Ticket>> getTickets(String uid);
+
+  Future<QuerySnapshot> getUnregisteredDeviceTokens(String deviceToken);
+
+  Future<User> getUser();
+
+  Stream<List<User>> getUsers();
+
+  Future<void> saveToken(String token, {String uid});
+
+  Future<void> userCreateOrUpdate(User user);
 }

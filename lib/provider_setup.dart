@@ -12,27 +12,6 @@ import 'model/user_model.dart';
 import 'viewmodels/auth_viewmodel.dart';
 import 'viewmodels/raffle_list_viewmodel.dart';
 
-List<SingleChildCloneableWidget> providers = [
-  ...independentServices,
-  ...dependentServices,
-  ...dependent2Services,
-  ...repositories,
-  ...uiConsumableProviders
-];
-
-List<SingleChildCloneableWidget> independentServices = [
-  Provider.value(value: FirebaseAuth.instance),
-  Provider.value(value: Firestore.instance),
-  Provider.value(value: GoogleSignIn()),
-  Provider.value(value: FacebookLogin()),
-];
-
-List<SingleChildCloneableWidget> dependentServices = [
-  ProxyProvider<Firestore, FirestoreDBService>(
-    builder: (context, firestore, firestoreDbService) => FirestoreDBService(firestore: firestore),
-  ),
-];
-
 List<SingleChildCloneableWidget> dependent2Services = [
   ProxyProvider4<FirebaseAuth, GoogleSignIn, FacebookLogin, FirestoreDBService, FirebaseAuthService>(
     builder: (context, firebaseAuth, googleSignIn, facebookLogin, firestoreDbService, firebaseAuthService) =>
@@ -42,6 +21,27 @@ List<SingleChildCloneableWidget> dependent2Services = [
             facebookLogin: facebookLogin,
             firestoreDB: firestoreDbService),
   ),
+];
+
+List<SingleChildCloneableWidget> dependentServices = [
+  ProxyProvider<Firestore, FirestoreDBService>(
+    builder: (context, firestore, firestoreDbService) => FirestoreDBService(firestore: firestore),
+  ),
+];
+
+List<SingleChildCloneableWidget> independentServices = [
+  Provider.value(value: FirebaseAuth.instance),
+  Provider.value(value: Firestore.instance),
+  Provider.value(value: GoogleSignIn()),
+  Provider.value(value: FacebookLogin()),
+];
+
+List<SingleChildCloneableWidget> providers = [
+  ...independentServices,
+  ...dependentServices,
+  ...dependent2Services,
+  ...repositories,
+  ...uiConsumableProviders
 ];
 
 List<SingleChildCloneableWidget> repositories = [
@@ -63,9 +63,6 @@ List<SingleChildCloneableWidget> uiConsumableProviders = [
     initialBuilder: (context) => RaffleListViewModel(),
   ),
   StreamProvider<User>(
-    builder: (context) =>
-    Provider
-        .of<AuthViewModel>(context, listen: false)
-        .onAuthStateChanged,
+    builder: (context) => Provider.of<AuthViewModel>(context, listen: false).onAuthStateChanged,
   )
 ];

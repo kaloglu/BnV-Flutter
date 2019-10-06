@@ -23,6 +23,30 @@ class FirebaseAuthService implements AuthService {
   Stream<User> get onAuthStateChanged => _firebaseAuth.onAuthStateChanged.map(User.userFromFirebaseAuth);
 
   @override
+  void dispose() {}
+
+  AuthCredential googleAuthCredential(GoogleSignInAuthentication googleAuth) => GoogleAuthProvider.getCredential(
+        idToken: googleAuth.idToken,
+        accessToken: googleAuth.accessToken,
+      );
+
+  @override
+  Future<void> saveToken(String token, {String uid = ""}) => _firestoreDB.saveToken(token, uid: uid);
+
+  @override
+  Future<User> signInWithFacebook() async {
+    final FacebookLoginResult loginResult = await _facebookLogin.logInWithReadPermissions(<String>['public_profile']);
+    if (loginResult.accessToken != null) {
+      final authResult = await _firebaseAuth
+          .signInWithCredential(FacebookAuthProvider.getCredential(accessToken: loginResult.accessToken.token));
+
+      return User.userFromFirebaseAuth(authResult.user);
+    } else {
+      throw PlatformException(code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
+    }
+  }
+
+  @override
   Future<User> signInWithGoogle() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
 
@@ -40,34 +64,10 @@ class FirebaseAuthService implements AuthService {
   }
 
   @override
-  Future<User> signInWithFacebook() async {
-    final FacebookLoginResult loginResult = await _facebookLogin.logInWithReadPermissions(<String>['public_profile']);
-    if (loginResult.accessToken != null) {
-      final authResult = await _firebaseAuth
-          .signInWithCredential(FacebookAuthProvider.getCredential(accessToken: loginResult.accessToken.token));
-
-      return User.userFromFirebaseAuth(authResult.user);
-    } else {
-      throw PlatformException(code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
-    }
-  }
-
-  @override
   Future<void> signOut() async {
     return Future.wait([_firebaseAuth.signOut(), _googleSignIn.signOut(), _facebookLogin.logOut()]);
   }
 
   @override
-  void dispose() {}
-
-  AuthCredential googleAuthCredential(GoogleSignInAuthentication googleAuth) => GoogleAuthProvider.getCredential(
-        idToken: googleAuth.idToken,
-        accessToken: googleAuth.accessToken,
-      );
-
-  @override
   Future<void> userCreateOrUpdate(User user) => _firestoreDB.userCreateOrUpdate(user);
-
-  @override
-  Future<void> saveToken(String token, {String uid = ""}) => _firestoreDB.saveToken(token, uid: uid);
 }

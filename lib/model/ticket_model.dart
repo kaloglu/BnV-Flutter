@@ -39,8 +39,6 @@ class Ticket extends BaseModel {
 
   static Ticket fromFirestore(DocumentSnapshot doc) => fromMap(doc.data, doc.documentID);
 
-  static List<Ticket> listFromFirestore(QuerySnapshot query) => query.documents.map(fromFirestore).toList();
-
   static Ticket fromMap(Map data, [String documentId]) => Ticket(
         id: documentId,
         source: data['source'] ?? '',
@@ -51,4 +49,6 @@ class Ticket extends BaseModel {
         expireDate: data['expireDate'] ?? Timestamp.now(),
         lastUpdate: data['lastUpdate'],
       );
+
+  static List<Ticket> listFromFirestore(QuerySnapshot query) => query.documents.map(fromFirestore).toList();
 }

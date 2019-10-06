@@ -15,7 +15,6 @@ class RaffleListPage extends StatelessWidget {
   static const route = "raffle_list";
   final dummyPic =
       "https://cdn1.iconfinder.com/data/icons/circle-outlines-colored/512/Robot_User_Profile_Dummy_Avatar_Person_AI-512.png";
-  static void navigate(BuildContext context) => PageNavigator.navigate(context, route, canBack: false);
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +37,14 @@ class RaffleListPage extends StatelessWidget {
     );
   }
 
+  Widget _buildDrawer() {
+    return Drawer(
+      child: Container(),
+    );
+  }
+
   Widget _buildProfilePhoto(BuildContext context) {
-    var profilePicUrl = Provider
-        .of<User>(context)
-        ?.profilePicUrl ?? dummyPic;
+    var profilePicUrl = Provider.of<User>(context)?.profilePicUrl ?? dummyPic;
     return ButtonTheme(
       minWidth: 1.0,
       child: FlatButton(
@@ -63,12 +66,6 @@ class RaffleListPage extends StatelessWidget {
           backgroundColor: Colors.transparent,
         ),
       ),
-      );
-  }
-
-  Widget _buildDrawer() {
-    return Drawer(
-      child: Container(),
     );
   }
 
@@ -89,4 +86,6 @@ class RaffleListPage extends StatelessWidget {
     else
       onNegativeButtonClick();
   }
+
+  static void navigate(BuildContext context) => PageNavigator.navigate(context, route, canBack: false);
 }

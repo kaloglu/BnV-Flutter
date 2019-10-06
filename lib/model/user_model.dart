@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
 @immutable
 class User extends BaseModel {
   final String uid;
@@ -53,8 +52,6 @@ class User extends BaseModel {
 
   static User fromFirestore(DocumentSnapshot doc) => fromMap(doc.data, doc.documentID);
 
-  static List<User> listFromFirestore<T>(QuerySnapshot query) => query.documents.map(fromFirestore).toList();
-
   static User fromMap(Map data, [String documentId]) => User(
         uid: documentId,
         email: data['email'] ?? '',
@@ -70,6 +67,8 @@ class User extends BaseModel {
         deviceToken: data['deviceToken'],
       );
 
+  static List<User> listFromFirestore<T>(QuerySnapshot query) => query.documents.map(fromFirestore).toList();
+
   static User userFromFirebaseAuth(FirebaseUser firebaseUser) {
     if (firebaseUser == null) return null;
 
@@ -77,7 +76,6 @@ class User extends BaseModel {
         uid: firebaseUser.uid,
         email: firebaseUser.email,
         fullname: firebaseUser.displayName,
-        profilePicUrl: firebaseUser.photoUrl
-    );
+        profilePicUrl: firebaseUser.photoUrl);
   }
 }

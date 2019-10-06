@@ -18,11 +18,11 @@ class Attendee extends BaseModel {
 
   static Attendee fromFirestore(DocumentSnapshot doc) => fromMap(doc.data, doc.documentID);
 
-  static List<Attendee> listFromFirestore(QuerySnapshot query) => query.documents.map(fromFirestore).toList();
-
   static Attendee fromMap(Map data, [String documentId]) => Attendee(
         id: documentId,
         userId: data['userId'] ?? '',
         attendDate: data['attendDate'] ?? Timestamp.now(),
       );
+
+  static List<Attendee> listFromFirestore(QuerySnapshot query) => query.documents.map(fromFirestore).toList();
 }

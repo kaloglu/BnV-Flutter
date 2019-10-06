@@ -6,7 +6,6 @@ import 'package:bnv/viewmodels/raffle_viewmodel.dart';
 import 'base/base_viewmodel.dart';
 
 class RaffleListViewModel extends BaseViewModel<RaffleRepository> {
-
   StreamController<List<RaffleViewModel>> listController = StreamController.broadcast();
 
   get raffleList$ => listController.stream;

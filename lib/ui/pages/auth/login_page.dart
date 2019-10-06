@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
   static const route = "login";
-  static void navigate(BuildContext context) => PageNavigator.navigate(context, route, canBack: false);
 
   @override
   Widget build(BuildContext context) {
@@ -16,4 +15,5 @@ class LoginPage extends StatelessWidget {
     );
   }
 
+  static void navigate(BuildContext context) => PageNavigator.navigate(context, route, canBack: false);
 }

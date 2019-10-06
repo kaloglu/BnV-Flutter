@@ -16,7 +16,6 @@ class StreamLoading<T> extends StreamBuilder<T> {
     this.initialData,
   }) : super(key: key, stream: stream, initialData: initialData, builder: builder);
 
-
   @override
   Widget build(BuildContext context, AsyncSnapshot<T> currentSummary) {
     if (currentSummary.connectionState == ConnectionState.active && loadingDialog.isShowing()) {

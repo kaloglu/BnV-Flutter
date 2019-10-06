@@ -29,5 +29,4 @@ class Strings {
   static const String developerMenu = 'Developer menu';
   static const String authenticationType = 'Authentication type';
   static const String firebase = 'Firebase';
-
 }

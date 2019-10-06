@@ -1,5 +1,3 @@
-import com.google.gms.googleservices.GoogleServicesPlugin
-
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {

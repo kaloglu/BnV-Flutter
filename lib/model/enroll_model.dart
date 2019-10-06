@@ -21,12 +21,12 @@ class Enroll extends BaseModel {
 
   static Enroll fromFirestore(DocumentSnapshot doc) => fromMap(doc.data, doc.documentID);
 
-  static List<Enroll> listFromFirestore(QuerySnapshot query) => query.documents.map(fromFirestore).toList();
-
   static Enroll fromMap(Map data, [String documentId]) => Enroll(
         id: documentId,
         ticketId: data['ticketId'] ?? '',
         raffleId: data['raffleId'] ?? '',
         enrollDate: data['enrollDate'] ?? Timestamp.now(),
       );
+
+  static List<Enroll> listFromFirestore(QuerySnapshot query) => query.documents.map(fromFirestore).toList();
 }

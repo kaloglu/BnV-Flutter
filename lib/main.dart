@@ -16,12 +16,12 @@ void main() async {
 class BnVApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MaterialApp(
-    debugShowCheckedModeBanner: false,
-    theme: ThemeData(
-      primarySwatch: Colors.indigo,
-    ),
-    initialRoute: PageNavigator.initialRoute,
-    onGenerateRoute: PageNavigator.onGenerateRoute,
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.indigo,
+        ),
+        initialRoute: PageNavigator.initialRoute,
+        onGenerateRoute: PageNavigator.onGenerateRoute,
 //        onGenerateRoute: PageNavigator.getFadeRoute,
-  );
+      );
 }

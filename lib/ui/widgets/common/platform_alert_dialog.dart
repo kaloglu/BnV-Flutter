@@ -5,6 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PlatformAlertDialog extends PlatformWidget {
+  final String title;
+
+  final String content;
+  final String cancelActionText;
+  final String defaultActionText;
   PlatformAlertDialog({
     @required this.title,
     @required this.content,
@@ -13,24 +18,6 @@ class PlatformAlertDialog extends PlatformWidget {
   })  : assert(title != null),
         assert(content != null),
         assert(defaultActionText != null);
-
-  final String title;
-  final String content;
-  final String cancelActionText;
-  final String defaultActionText;
-
-  Future<bool> show(BuildContext context) async {
-    return Platform.isIOS
-        ? await showCupertinoDialog<bool>(
-      context: context,
-      builder: (BuildContext context) => this,
-    )
-        : await showDialog<bool>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) => this,
-    );
-  }
 
   @override
   Widget buildCupertinoWidget(BuildContext context) {
@@ -48,6 +35,19 @@ class PlatformAlertDialog extends PlatformWidget {
       content: Text(content),
       actions: _buildActions(context),
     );
+  }
+
+  Future<bool> show(BuildContext context) async {
+    return Platform.isIOS
+        ? await showCupertinoDialog<bool>(
+            context: context,
+            builder: (BuildContext context) => this,
+          )
+        : await showDialog<bool>(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => this,
+          );
   }
 
   List<Widget> _buildActions(BuildContext context) {
@@ -71,9 +71,10 @@ class PlatformAlertDialog extends PlatformWidget {
 }
 
 class PlatformAlertDialogAction extends PlatformWidget {
-  PlatformAlertDialogAction({this.child, this.onPressed});
   final Widget child;
+
   final VoidCallback onPressed;
+  PlatformAlertDialogAction({this.child, this.onPressed});
 
   @override
   Widget buildCupertinoWidget(BuildContext context) {
