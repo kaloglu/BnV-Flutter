@@ -16,7 +16,7 @@ class RaffleDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Html(data: viewModel.raffleTitle)),
+      appBar: AppBar(title: Text(viewModel.raffleTitle)),
       body: Center(
         child: RaffleDetail(viewModel, Provider.of<User>(context).uid),
       ),

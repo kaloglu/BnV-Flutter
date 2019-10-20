@@ -30,11 +30,11 @@ class Ticket extends BaseModel {
         'id': id,
         'source': source,
         'userId': userId,
-        'earn': earn,
-        'remain': remain,
-        'createDate': createDate,
+        'earn': earn ?? 1,
+        'remain': remain ?? earn,
+        'createDate': createDate ?? Timestamp.now(),
         'expireDate': expireDate,
-        'lastUpdate': lastUpdate,
+        'lastUpdate': lastUpdate ?? Timestamp.now(),
       };
 
   static Ticket fromFirestore(DocumentSnapshot doc) => fromMap(doc.data, doc.documentID);
@@ -44,7 +44,7 @@ class Ticket extends BaseModel {
         source: data['source'] ?? '',
         userId: data['userId'] ?? '',
         earn: data['earn'] ?? 0,
-        remain: data['remain'] ?? 0,
+        remain: data['remain'] ?? data['earn'] ?? 0,
         createDate: data['createDate'] ?? Timestamp.now(),
         expireDate: data['expireDate'] ?? Timestamp.now(),
         lastUpdate: data['lastUpdate'],

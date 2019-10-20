@@ -37,13 +37,13 @@ dependencies:
   cached_network_image: #^1.1.1
   floating_search_bar: #^0.2.0
   flutter_crashlytics: #^1.0.0
-  flutter_bloc: ^0.20.0
   meta: #^1.1.6
   equatable: #^0.2.0
   provider: #^3.0.0+1
   carousel_pro: #^1.0.0
   intl: #^0.15.8
 #  progress_dialog: #^1.2.0
+  firebase_admob: #^0.9.0+7
 
 
 dev_dependencies:

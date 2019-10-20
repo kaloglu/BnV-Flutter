@@ -35,7 +35,7 @@ class FirebaseAuthService implements AuthService {
 
   @override
   Future<User> signInWithFacebook() async {
-    final FacebookLoginResult loginResult = await _facebookLogin.logInWithReadPermissions(<String>['public_profile']);
+    final FacebookLoginResult loginResult = await _facebookLogin.logIn(<String>['public_profile']);
     if (loginResult.accessToken != null) {
       final authResult = await _firebaseAuth
           .signInWithCredential(FacebookAuthProvider.getCredential(accessToken: loginResult.accessToken.token));

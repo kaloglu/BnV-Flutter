@@ -15,6 +15,8 @@ class RaffleRepository implements Repository {
 
   void enroll(Enroll enroll, String uid) => firestoreDB.enroll(enroll, uid);
 
+  void rewardTicket(int count, String source, String uid) => firestoreDB.rewardTicket(count, source, uid);
+
   Stream<List<Enroll>> getEnrolls(String raffleId, String uid) => firestoreDB.getEnrolls(raffleId, uid);
 
   Stream<List<RaffleViewModel>> getRaffleViewModelList() =>

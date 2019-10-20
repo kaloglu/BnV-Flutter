@@ -1,21 +1,76 @@
 import 'package:bnv/ui/pages/base/base_widget.dart';
+import 'package:bnv/utils/AppAds.dart';
 import 'package:bnv/viewmodels/raffle_viewmodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-class RaffleDetail extends StatelessWidget {
+class RaffleDetail extends StatefulWidget {
   final RaffleViewModel viewModel;
   final String userId;
 
   const RaffleDetail(this.viewModel, this.userId, {Key key}) : super(key: key);
 
   @override
+  _RaffleDetailState createState() => _RaffleDetailState();
+}
+
+class _RaffleDetailState extends State<RaffleDetail> {
+  static MobileAdTargetingInfo targetInfo;
+  static bool canShowRewardedVideo = false;
+  var rewardedVideoAd = RewardedVideoAd.instance;
+
+  @override
+  void initState() {
+    rewardedVideoAd = RewardedVideoAd.instance;
+    _buildRewardedVideo();
+    super.initState();
+  }
+
+  void _buildRewardedVideo() {
+    FirebaseAdMob.instance.initialize(appId: AppAds.appId);
+    targetInfo = MobileAdTargetingInfo(childDirected: true, keywords: widget.viewModel.raffleDescription.split(" "));
+    rewardedVideoAd.listener = (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
+      if (event == RewardedVideoAdEvent.closed) {
+        print("$rewardAmount $rewardType için reklam kapandı");
+        setState(() {
+          canShowRewardedVideo = false;
+        });
+        loadAd(rewardedVideoAd);
+      }
+
+      if (event == RewardedVideoAdEvent.started) print("$rewardAmount $rewardType için video başladı");
+      if (event == RewardedVideoAdEvent.rewarded) rewardTicket(rewardAmount, rewardType);
+
+      if (event == RewardedVideoAdEvent.loaded) {
+        print("$rewardAmount $rewardType için reklam yüklendi");
+        setState(() {
+          canShowRewardedVideo = true;
+        });
+      }
+      if (event == RewardedVideoAdEvent.failedToLoad) print("$rewardAmount $rewardType için reklam yüklenmedi: ");
+    };
+
+    loadAd(rewardedVideoAd);
+    print("ilk yükleme");
+  }
+
+  void loadAd(RewardedVideoAd rewardedVideoAd) {
+    rewardedVideoAd.load(adUnitId: AppAds.rewardedUnitId, targetingInfo: targetInfo);
+  }
+
+  void rewardTicket(int rewardAmount, String rewardType) {
+    print("tebrikler $rewardAmount $rewardType hesabınıza eklendi.");
+    widget.viewModel.reward(widget.userId, rewardAmount, rewardType);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BaseWidget<RaffleViewModel>(
-        viewModel: viewModel,
-        onModelReady: (viewModel) => viewModel?.loadAttributes(userId),
+        viewModel: widget.viewModel,
+        onModelReady: (viewModel) => viewModel?.loadAttributes(widget.userId),
         builder: (context, viewModel, child) {
           return ListView(
             children: <Widget>[
@@ -32,9 +87,9 @@ class RaffleDetail extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                     ),
-                    buildCountLine(viewModel.ticketCount$, "<b>#</b> katılım hakkınız bulunuyor."),
+                    buildTicketCountLine(viewModel, "<b>#</b> katılım hakkınız bulunuyor.", CountType.TICKET),
                     _buildRaffleDetailButton(viewModel),
-                    buildCountLine(viewModel.enrollCount$, "Bu çekilişe " + "<b>#</b> kez katıldınız."),
+                    buildTicketCountLine(viewModel, "Bu çekilişe " + "<b>#</b> kez katıldınız.", CountType.ENROLL),
                   ],
                 ),
               ),
@@ -43,12 +98,16 @@ class RaffleDetail extends StatelessWidget {
         });
   }
 
-  Widget buildCountLine(Stream stream, String text) {
+  Widget buildTicketCountLine(RaffleViewModel viewModel, String text, CountType type) {
     return StreamBuilder<int>(
-        stream: stream,
+        stream: viewModel.getCount$(type),
         builder: (context, snapshot) {
           int count = 0;
-          if (snapshot.hasData) count = snapshot.data;
+          if (snapshot.hasData) {
+            count = snapshot.data;
+            viewModel.setActiveCount(type, count);
+          }
+
           return Html(data: text.replaceAll("#", count.toString()));
         });
   }
@@ -59,7 +118,7 @@ class RaffleDetail extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Html(data: viewModel.description),
+            Html(data: viewModel.raffleDescription),
           ],
         ),
       );
@@ -139,16 +198,22 @@ class RaffleDetail extends StatelessWidget {
           return RaisedButton(
             child: Text("Enroll Button"),
             onPressed: () {
-              viewModel.enroll(userId);
+              viewModel.enroll(widget.userId);
             },
           );
         } else {
           return RaisedButton(
             child: Text("Earn Button"),
-            onPressed: null,
+            onPressed: (canShowRewardedVideo)
+                ? () {
+                    RewardedVideoAd.instance.show();
+                  }
+                : null,
           );
         }
       },
     );
   }
 }
+
+enum CountType { TICKET, ENROLL }

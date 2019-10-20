@@ -14,6 +14,8 @@ abstract class DBService {
 
   enroll(Enroll enroll, String uid);
 
+  rewardTicket(int count, String source, String uid);
+
   Stream<List<Enroll>> getEnrolls(String raffleId, String uid);
 
   Stream<Raffle> getRaffle(String raffleId);
