@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-0165663276066705~4520522723</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -67,20 +69,19 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-
 	<key>Fabric</key>
-        <dict>
-            <key>APIKey</key>
-            <string>7cad3579b2a9af7c857622049b676a1de0ef354e</string>
-            <key>Kits</key>
-            <array>
-                <dict>
-                    <key>KitInfo</key>
-                    <dict/>
-                    <key>KitName</key>
-                    <string>Crashlytics</string>
-                </dict>
-            </array>
-        </dict>
+	<dict>
+		<key>APIKey</key>
+		<string>7cad3579b2a9af7c857622049b676a1de0ef354e</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
 </dict>
 </plist>

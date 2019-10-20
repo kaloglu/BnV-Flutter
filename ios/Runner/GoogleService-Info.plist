@@ -7,7 +7,7 @@
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.414030755976-hfv8qvjc09j9764fct0l375fqh73gqpa</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>414030755976-i4vhgp48a5n7i18ue11s1ak6fg442g0o.apps.googleusercontent.com</string>
+	<string>414030755976-5vje6stho8a2u2ed766v5pul3476a2o1.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCek-GYYKmxEk6gsKm09UnBfIjxcoZkpOA</string>
 	<key>GCM_SENDER_ID</key>
@@ -34,5 +34,7 @@
 	<string>1:414030755976:ios:67e271792f706bcd</string>
 	<key>DATABASE_URL</key>
 	<string>https://bedavanevar-2019.firebaseio.com</string>
+	<key>ADMOB_APP_ID</key>
+	<string>ca-app-pub-0165663276066705~4520522723</string>
 </dict>
 </plist>

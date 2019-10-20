@@ -40,6 +40,16 @@ class FirestoreDBService implements DBService {
     });
   }
 
+  @override
+  rewardTicket(int count, String source, String uid) {
+    _firestore.runTransaction((Transaction tx) async {
+      var documentRef = getTicketCollection(uid).document();
+      await getTicketCollection(uid)
+          .document(documentRef.documentID)
+          .setData(Ticket(id: documentRef.documentID, source: source, userId: uid, earn: count).toJson());
+    });
+  }
+
   CollectionReference getAttendeeCollection(String raffleId) => getRaffleReference(raffleId).collection("attendees");
 
   CollectionReference getEnrollCollection(String uid) => getUserReference(uid).collection("enrolls");

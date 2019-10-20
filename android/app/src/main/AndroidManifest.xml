@@ -5,6 +5,7 @@
         android:name="io.flutter.app.FlutterApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="bnv">
+
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -54,6 +55,9 @@
             android:name="io.fabric.ApiKey"
             android:value="7cad3579b2a9af7c857622049b676a1de0ef354e" />
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-0165663276066705~8640565281"/>
     </application>
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that

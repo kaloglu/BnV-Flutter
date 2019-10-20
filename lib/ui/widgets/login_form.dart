@@ -8,7 +8,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:provider/provider.dart';
 
-import 'common/progress_dialog.dart';
 import 'common/stream_loading.dart';
 
 class LoginForm extends StatelessWidget {
@@ -21,12 +20,15 @@ class LoginForm extends StatelessWidget {
         onModelReady: (viewModel) => viewModel?.init(),
         builder: (context, viewModel, child) {
           return StreamLoading<User>(
-            loadingDialog: ProgressDialog(context, ProgressDialogType.Normal),
+//            loadingDialog: ProgressDialog(context, ProgressDialogType.Normal),
             stream: viewModel.onAuthStateChanged,
-            builder: (context, snapshot) {
+            builder: (context, snapshot, loadingDialog) {
               User user;
 
               if (snapshot.hasData) {
+//                SchedulerBinding.instance.addPostFrameCallback((duration) {
+//                  loadingDialog.hide();
+//                });
                 user = snapshot.data;
                 if (user.uid != null) {
                   SchedulerBinding.instance.addPostFrameCallback((duration) {

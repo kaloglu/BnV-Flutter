@@ -6,7 +6,6 @@ import 'package:bnv/viewmodels/raffle_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'common/progress_dialog.dart';
 import 'common/stream_loading.dart';
 import 'raffle_list_item.dart';
 
@@ -20,12 +19,17 @@ class RaffleList extends StatelessWidget {
         onModelReady: (viewModel) => viewModel?.load(Provider.of<User>(context).uid),
         builder: (context, viewModel, child) {
           return StreamLoading<List<RaffleViewModel>>(
-            loadingDialog: ProgressDialog(context, ProgressDialogType.Normal),
+//            loadingDialog: ProgressDialog(context, ProgressDialogType.Normal),
             stream: viewModel.raffleList$,
-            builder: (context, snapshot) {
+            builder: (context, snapshot, loadingDialog) {
               List<RaffleViewModel> data = [];
 
-              if (snapshot.hasData) data = snapshot.data;
+              if (snapshot.hasData) {
+//                SchedulerBinding.instance.addPostFrameCallback((duration) {
+//                  loadingDialog.hide();
+//                });
+                data = snapshot.data;
+              }
 
               return ListView.builder(
                   padding: EdgeInsets.symmetric(vertical: 8.0),
