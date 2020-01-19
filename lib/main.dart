@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 
 import 'provider_setup.dart';
 
-void main() async {
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MultiProvider(
       providers: providers,
