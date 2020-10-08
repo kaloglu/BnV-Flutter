@@ -1,4 +1,4 @@
-import 'package:bnv/ui/widgets/common/platform_alert_dialog.dart';
+import 'package:BedavaNeVar/ui/widgets/common/platform_alert_dialog.dart';
 import 'package:flutter/services.dart';
 
 class PlatformErrorDialog extends PlatformAlertDialog {

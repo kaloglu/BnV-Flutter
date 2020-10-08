@@ -10,7 +10,7 @@ class Strings {
   static const String logout = 'Logout';
   static const String logoutAreYouSure = 'Are you sure that you want to logout?';
 
-  // Sign In Page
+  // Sign In Screen
   static const String signIn = 'Uygulamanın özelliklerinden yararlanabilmek için giriş yapman gerek...';
   static const String signInWithEmail = 'Sign in with email';
   static const String signInWithFacebook = 'Sign in with Facebook';
@@ -23,7 +23,7 @@ class Strings {
   static const String backToSignIn = 'Back to sign in';
 
   // Home page
-  static const String homePage = 'Home Page';
+  static const String homeScreen = 'Home Screen';
 
   // Developer menu
   static const String developerMenu = 'Developer menu';

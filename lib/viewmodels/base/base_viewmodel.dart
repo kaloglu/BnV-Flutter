@@ -1,4 +1,4 @@
-import 'package:bnv/data/repository/interfaces/repository.dart';
+import 'package:BedavaNeVar/data/repository/interfaces/repository.dart';
 import 'package:flutter/material.dart';
 
 abstract class BaseViewModel<R extends Repository> extends ChangeNotifier {

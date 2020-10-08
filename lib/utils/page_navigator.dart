@@ -1,13 +1,12 @@
-import 'package:bnv/ui/pages/auth/login_page.dart';
-import 'package:bnv/ui/pages/raffle/detail/raffle_detail_page.dart';
-import 'package:bnv/ui/pages/raffle/raffle_list_page.dart';
-import 'package:bnv/ui/pages/splash_screen.dart';
+import 'package:BedavaNeVar/ui/screens/auth/login_screen.dart';
+import 'package:BedavaNeVar/ui/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
-class PageNavigator {
+class ScreenNavigator {
   static get defaultCanBack => true;
 
-  static get initialRoute => LoginPage.route;
+  // static get initialRoute => LoginScreen.route;
+  static get initialRoute => LoginScreen.route;
 
   static goBack(context) => Navigator.pop(context);
 
@@ -23,18 +22,18 @@ class PageNavigator {
   static _buildNavigationMap(context, settings) {
     var page;
     switch (settings.name) {
-      case SplashScreenPage.route:
-        page = SplashScreenPage();
+      case SplashScreenScreen.route:
+        page = SplashScreenScreen();
         break;
-      case LoginPage.route:
-        page = LoginPage();
+      case LoginScreen.route:
+        page = LoginScreen();
         break;
-      case RaffleListPage.route:
-        page = RaffleListPage();
-        break;
-      case RaffleDetailPage.route:
-        page = RaffleDetailPage(viewModel: settings.arguments);
-        break;
+      // case RaffleListScreen.route:
+      //   page = RaffleListScreen();
+      //   break;
+      // case RaffleDetailScreen.route:
+      //   page = RaffleDetailScreen(viewModel: settings.arguments);
+      //   break;
     }
 
     return page;

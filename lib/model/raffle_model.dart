@@ -1,6 +1,6 @@
-import 'package:bnv/model/base/base_model.dart';
-import 'package:bnv/model/product_info_model.dart';
-import 'package:bnv/model/raffle_rules_model.dart';
+import 'package:BedavaNeVar/model/base/base_model.dart';
+import 'package:BedavaNeVar/model/product_info_model.dart';
+import 'package:BedavaNeVar/model/raffle_rules_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +35,7 @@ class Raffle extends BaseModel {
         'productInfo': productInfo,
       };
 
-  static Raffle fromFirestore(DocumentSnapshot doc) => fromMap(doc.data, doc.documentID);
+  static Raffle fromFirestore(DocumentSnapshot doc) => fromMap(doc.data(), doc.documentID);
 
   static Raffle fromMap(Map data, [String documentId]) {
     return new Raffle(

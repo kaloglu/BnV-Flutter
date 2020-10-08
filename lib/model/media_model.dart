@@ -1,5 +1,5 @@
-import 'package:bnv/enums.dart';
-import 'package:bnv/model/base/base_model.dart';
+import 'package:BedavaNeVar/enums.dart';
+import 'package:BedavaNeVar/model/base/base_model.dart';
 import 'package:flutter/material.dart';
 
 @immutable

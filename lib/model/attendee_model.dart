@@ -1,4 +1,4 @@
-import 'package:bnv/model/base/base_model.dart';
+import 'package:BedavaNeVar/model/base/base_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +16,7 @@ class Attendee extends BaseModel {
         'attendDate': attendDate,
       };
 
-  static Attendee fromFirestore(DocumentSnapshot doc) => fromMap(doc.data, doc.documentID);
+  static Attendee fromFirestore(DocumentSnapshot doc) => fromMap(doc.data(), doc.documentID);
 
   static Attendee fromMap(Map data, [String documentId]) => Attendee(
         id: documentId,

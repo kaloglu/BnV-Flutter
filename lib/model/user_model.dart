@@ -1,4 +1,4 @@
-import 'package:bnv/model/base/base_model.dart';
+import 'package:BedavaNeVar/model/base/base_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +50,7 @@ class User extends BaseModel {
         'deviceToken': deviceToken,
       };
 
-  static User fromFirestore(DocumentSnapshot doc) => fromMap(doc.data, doc.documentID);
+  static User fromFirestore(DocumentSnapshot doc) => fromMap(doc.data(), doc.documentID);
 
   static User fromMap(Map data, [String documentId]) => User(
         uid: documentId,

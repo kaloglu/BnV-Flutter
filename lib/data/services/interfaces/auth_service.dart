@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bnv/model/user_model.dart';
+import 'package:BedavaNeVar/model/user_model.dart';
 
 abstract class AuthService {
   Stream<User> get onAuthStateChanged;

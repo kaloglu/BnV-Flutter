@@ -1,23 +1,15 @@
-import 'dart:async';
-
-import 'package:bnv/constants/strings.dart';
-import 'package:bnv/data/repository/login_repository.dart';
-import 'package:bnv/data/services/notifications/firebase_notifications.dart';
-import 'package:bnv/model/user_model.dart';
-import 'package:bnv/ui/widgets/common/platform_error_dialog.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:BedavaNeVar/data/repository/login_repository.dart';
 
 import 'base/base_viewmodel.dart';
 
 class AuthViewModel extends BaseViewModel<LoginRepository> {
-  Stream<User> get onAuthStateChanged => repository.onAuthStateChanged;
+  // Stream<User> get onAuthStateChanged => repository.onAuthStateChanged;
 
   init() {
-    FirebaseNotifications().setup();
+    // FirebaseNotifications().setup();
   }
 
-  FutureOr<User> signInWithFacebook(BuildContext context) async {
+/*FutureOr<User> signInWithFacebook(BuildContext context) async {
     try {
       return await repository.signInWithFacebook();
     } on PlatformException catch (e) {
@@ -50,5 +42,5 @@ class AuthViewModel extends BaseViewModel<LoginRepository> {
       title: Strings.signInFailed,
       exception: exception,
     ).show(context);
-  }
+  }*/
 }

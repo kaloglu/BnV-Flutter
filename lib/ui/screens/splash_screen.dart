@@ -1,18 +1,18 @@
-import 'package:bnv/utils/page_navigator.dart';
+import 'package:BedavaNeVar/utils/page_navigator.dart';
 import 'package:flutter/material.dart';
 
-class SplashScreenPage extends StatefulWidget {
+class SplashScreenScreen extends StatefulWidget {
   static const route = "splash_screen";
 
   @override
-  createState() => _SplashScreenPageState();
+  createState() => _SplashScreenScreenState();
 
   static void navigate(BuildContext context) {
-    PageNavigator.navigate(context, route, canBack: false);
+    ScreenNavigator.navigate(context, route, canBack: false);
   }
 }
 
-class _SplashScreenPageState extends State<SplashScreenPage> {
+class _SplashScreenScreenState extends State<SplashScreenScreen> {
   @override
   Widget build(BuildContext context) {
     return Center(

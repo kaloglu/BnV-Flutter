@@ -1,4 +1,4 @@
-import 'package:bnv/model/base/base_model.dart';
+import 'package:BedavaNeVar/model/base/base_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +19,7 @@ class Enroll extends BaseModel {
         'enrollDate': enrollDate,
       };
 
-  static Enroll fromFirestore(DocumentSnapshot doc) => fromMap(doc.data, doc.documentID);
+  static Enroll fromFirestore(DocumentSnapshot doc) => fromMap(doc.data(), doc.documentID);
 
   static Enroll fromMap(Map data, [String documentId]) => Enroll(
         id: documentId,
