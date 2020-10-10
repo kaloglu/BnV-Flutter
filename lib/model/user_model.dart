@@ -1,6 +1,6 @@
 import 'package:BedavaNeVar/model/base/base_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as Firebase;
 import 'package:flutter/material.dart';
 
 @immutable
@@ -50,7 +50,7 @@ class User extends BaseModel {
         'deviceToken': deviceToken,
       };
 
-  static User fromFirestore(DocumentSnapshot doc) => fromMap(doc.data(), doc.documentID);
+  static User fromFirestore(DocumentSnapshot doc) => fromMap(doc.data(), doc.id);
 
   static User fromMap(Map data, [String documentId]) => User(
         uid: documentId,
@@ -67,15 +67,15 @@ class User extends BaseModel {
         deviceToken: data['deviceToken'],
       );
 
-  static List<User> listFromFirestore<T>(QuerySnapshot query) => query.documents.map(fromFirestore).toList();
+  static List<User> listFromFirestore<T>(QuerySnapshot query) => query.docs.map(fromFirestore).toList();
 
-  static User userFromFirebaseAuth(FirebaseUser firebaseUser) {
+  static User userFromFirebaseAuth(Firebase.User firebaseUser) {
     if (firebaseUser == null) return null;
 
     return User(
         uid: firebaseUser.uid,
         email: firebaseUser.email,
         fullname: firebaseUser.displayName,
-        profilePicUrl: firebaseUser.photoUrl);
+        profilePicUrl: firebaseUser.photoURL);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:BedavaNeVar/ui/screens/auth/login_screen.dart';
+import 'package:BedavaNeVar/ui/screens/raffle/raffle_list_screen.dart';
 import 'package:BedavaNeVar/ui/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -28,12 +29,14 @@ class ScreenNavigator {
       case LoginScreen.route:
         page = LoginScreen();
         break;
-      // case RaffleListScreen.route:
-      //   page = RaffleListScreen();
-      //   break;
+      case RaffleListScreen.route:
+        page = RaffleListScreen();
+        break;
       // case RaffleDetailScreen.route:
       //   page = RaffleDetailScreen(viewModel: settings.arguments);
       //   break;
+      default:
+        throw ("Define a route case on page_navigator! \ne.g: case NewScreen.route");
     }
 
     return page;

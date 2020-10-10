@@ -45,8 +45,8 @@
 //     _firestore.runTransaction((Transaction tx) async {
 //       var documentRef = getTicketCollection(uid).document();
 //       await getTicketCollection(uid)
-//           .document(documentRef.documentID)
-//           .setData(Ticket(id: documentRef.documentID, source: source, userId: uid, earn: count).toJson());
+//           .document(documentRef.id)
+//           .setData(Ticket(id: documentRef.id, source: source, userId: uid, earn: count).toJson());
 //     });
 //   }
 //
@@ -99,15 +99,15 @@
 //         if (userSnapshot.exists) {
 //           await tx.update(userRef, deviceToken);
 //           await getUnregisteredDeviceTokens(token).then((result) {
-//             result.documents.forEach((doc) {
-//               tx.delete(getUnregisteredToken(doc.documentID));
+//             result.docs.forEach((doc) {
+//               tx.delete(getUnregisteredToken(doc.id));
 //             });
 //           });
 //         }
 //       });
 //     } else {
 //       getUnregisteredDeviceTokens(token).then((result) {
-//         if (result.documents.length <= 0) getUnRegisteredDeviceTokensCollection.document().setData(deviceToken);
+//         if (result.docs.length <= 0) getUnRegisteredDeviceTokensCollection.document().setData(deviceToken);
 //       });
 //     }
 //   }

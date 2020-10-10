@@ -1,4 +1,4 @@
-# bnv
+# BedavaNeVar
 [![Codemagic build status](https://api.codemagic.io/apps/5d380e771062a4001495aa85/5d380e771062a4001495aa84/status_badge.svg)](https://codemagic.io/apps/5d380e771062a4001495aa85/5d380e771062a4001495aa84/latest_build)
 BedavaNeVar ios ve android
 

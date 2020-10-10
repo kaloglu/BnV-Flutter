@@ -1,5 +1,3 @@
-// import 'dart:async';
-//
 // import 'package:BedavaNeVar/constants/strings.dart';
 // import 'package:BedavaNeVar/model/user_model.dart';
 // import 'package:BedavaNeVar/ui/screens/auth/login_screen.dart';
@@ -9,16 +7,20 @@
 // import 'package:BedavaNeVar/viewmodels/auth_viewmodel.dart';
 // import 'package:floating_search_bar/floating_search_bar.dart';
 // import 'package:flutter/material.dart';
-// // import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 //
-// class RaffleListScreen extends StatelessWidget {
-//   static const route = "raffle_list";
-//   final dummyPic =
-//       "https://cdn1.iconfinder.com/data/icons/circle-outlines-colored/512/Robot_User_Profile_Dummy_Avatar_Person_AI-512.png";
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
+import 'package:BedavaNeVar/constants/constants.dart';
+import 'package:BedavaNeVar/utils/page_navigator.dart';
+
+class RaffleListScreen extends StatelessWidget {
+  static const route = "raffle_list";
+
+  final dummyPic =
+      "https://cdn1.iconfinder.com/data/icons/circle-outlines-colored/512/Robot_User_Profile_Dummy_Avatar_Person_AI-512.png";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
 //       body: Padding(
 //         padding: const EdgeInsets.all(16.0),
 //         child: FloatingSearchBar(
@@ -34,8 +36,9 @@
 //           ),
 //         ),
 //       ),
-//     );
-//   }
+        );
+  }
+
 //
 //   Widget _buildDrawer() {
 //     return Drawer(
@@ -87,5 +90,5 @@
 //       onNegativeButtonClick();
 //   }
 //
-//   static void navigate(BuildContext context) => ScreenNavigator.navigate(context, route, canBack: false);
-// }
+  static void navigate(BuildContext context) => ScreenNavigator.navigate(context, route, canBack: false);
+}
