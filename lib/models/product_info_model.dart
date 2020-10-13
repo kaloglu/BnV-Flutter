@@ -1,4 +1,4 @@
-import 'package:BedavaNeVar/model/base/base_model.dart';
+import 'package:BedavaNeVar/models/base/base_model.dart';
 import 'package:flutter/material.dart';
 
 @immutable

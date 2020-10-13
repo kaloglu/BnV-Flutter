@@ -4,6 +4,7 @@ class Strings {
 
   static const String BnV = 'BedavaNeVar';
   static const String ok = 'OK';
+  static const String sortingTooltip = 'Sırala';
 
   // Logout
   static const String cancel = 'Cancel';
@@ -29,4 +30,8 @@ class Strings {
   static const String developerMenu = 'Developer menu';
   static const String authenticationType = 'Authentication type';
   static const String firebase = 'Firebase';
+
+  static const String currentValue = "Değeri";
+
+  static const String tlChar = "₺";
 }

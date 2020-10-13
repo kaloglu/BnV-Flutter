@@ -1,3 +1,4 @@
+import 'package:BedavaNeVar/ui/widgets/common/progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -7,15 +8,19 @@ typedef AsyncWidgetBuilder<T> = Widget Function(
     BuildContext context, AsyncSnapshot<T> snapshot, ProgressDialog loadingDialog);
 
 class StreamLoading<T> extends StreamBuilderBase<T, AsyncSnapshot<T>> {
-  final ProgressDialog loadingDialog;
+  final ProgressDialog _loadingDialog;
+  final BuildContext context;
 
-  const StreamLoading({
+  StreamLoading({
     Key key,
+    this.context,
     this.initialData,
     Stream<T> stream,
-    this.loadingDialog,
+    ProgressDialog loadingDialog,
     @required this.builder,
-  })  : assert(builder != null),
+  })  : assert(context != null),
+        assert(builder != null),
+        _loadingDialog = loadingDialog ?? ProgressDialog(context: context),
         super(key: key, stream: stream);
 
   final AsyncWidgetBuilder<T> builder;
@@ -44,12 +49,16 @@ class StreamLoading<T> extends StreamBuilderBase<T, AsyncSnapshot<T>> {
 
   @override
   Widget build(BuildContext context, AsyncSnapshot<T> currentSummary) {
-    if (currentSummary.connectionState != ConnectionState.active && loadingDialog != null) {
+    if (_loadingDialog != null) {
       SchedulerBinding.instance.addPostFrameCallback((duration) {
-        loadingDialog.show();
+        if (currentSummary.connectionState != ConnectionState.active) {
+          _loadingDialog.show();
+        }else{
+          _loadingDialog.hide();
+        }
       });
     }
 
-    return builder(context, currentSummary, loadingDialog);
+    return builder(context, currentSummary, _loadingDialog);
   }
 }

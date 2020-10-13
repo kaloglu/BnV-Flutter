@@ -1,6 +1,6 @@
-import 'package:BedavaNeVar/model/base/base_model.dart';
-import 'package:BedavaNeVar/model/product_info_model.dart';
-import 'package:BedavaNeVar/model/raffle_rules_model.dart';
+import 'package:BedavaNeVar/models/base/base_model.dart';
+import 'package:BedavaNeVar/models/product_info_model.dart';
+import 'package:BedavaNeVar/models/raffle_rules_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

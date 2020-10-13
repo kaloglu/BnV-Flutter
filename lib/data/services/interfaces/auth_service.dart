@@ -1,9 +1,9 @@
-import 'dart:async';
+import 'package:BedavaNeVar/models/user_model.dart';
 
-import 'package:BedavaNeVar/model/user_model.dart';
+export 'package:BedavaNeVar/models/user_model.dart';
 
 abstract class AuthService {
-  Stream<User> get onAuthStateChanged;
+  Stream<User> get stateChanges;
 
   void dispose();
 

@@ -1,94 +1,131 @@
-// import 'package:BedavaNeVar/constants/strings.dart';
-// import 'package:BedavaNeVar/model/user_model.dart';
-// import 'package:BedavaNeVar/ui/screens/auth/login_screen.dart';
-// import 'package:BedavaNeVar/ui/widgets/common/platform_alert_dialog.dart';
-// import 'package:BedavaNeVar/ui/widgets/raffle/raffle_list.dart';
-// import 'package:BedavaNeVar/utils/page_navigator.dart';
-// import 'package:BedavaNeVar/viewmodels/auth_viewmodel.dart';
-// import 'package:floating_search_bar/floating_search_bar.dart';
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-//
 import 'package:BedavaNeVar/constants/constants.dart';
+import 'package:BedavaNeVar/ui/widgets/common/Buttons.dart';
+import 'package:BedavaNeVar/ui/widgets/common/platform_alert_dialog.dart';
 import 'package:BedavaNeVar/utils/page_navigator.dart';
+import 'package:flutter/material.dart';
 
-class RaffleListScreen extends StatelessWidget {
+class RaffleListScreen extends StatefulWidget {
   static const route = "raffle_list";
 
+  @override
+  _RaffleListScreenState createState() => _RaffleListScreenState();
+
+  static void navigate(BuildContext context) => ScreenNavigator.navigate(context, route, canBack: false);
+}
+
+class _RaffleListScreenState extends State<RaffleListScreen> {
   final dummyPic =
       "https://cdn1.iconfinder.com/data/icons/circle-outlines-colored/512/Robot_User_Profile_Dummy_Avatar_Person_AI-512.png";
+
+  ScrollController _scrollController;
+
+  bool lastStatus = true;
+
+  double height = 200;
+
+  void _scrollListener() {
+    if (_isCollapsed != lastStatus) {
+      setState(() {
+        lastStatus = _isCollapsed;
+      });
+    }
+  }
+
+  bool get _isCollapsed => _scrollController.hasClients && _scrollController.offset > (height - kToolbarHeight);
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController = ScrollController()..addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: FloatingSearchBar(
-//           children: [
-//             RaffleList(),
-//           ],
-//           trailing: _buildProfilePhoto(context),
-//           drawer: _buildDrawer(),
-//           onChanged: (String value) {},
-//           onTap: () {},
-//           decoration: InputDecoration.collapsed(
-//             hintText: "Search...",
-//           ),
-//         ),
-//       ),
-        );
+      body: NestedScrollView(
+        controller: _scrollController,
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) => <Widget>[
+          SliverAppBar(
+            brightness: Brightness.dark,
+            expandedHeight: height,
+            floating: true,
+            pinned: true,
+            snap: true,
+            actions: <Widget>[
+              SortButton(
+                onPressed: () => {
+                  PlatformAlertDialog(
+                    title: "Warning",
+                    content: "Sıralama yapılacak",
+                    defaultActionText: "OK",
+                  ).show(context)
+                },
+              ),
+              SearchButton(
+                onPressed: () => {
+                  PlatformAlertDialog(
+                    title: "Warning",
+                    content: "Arama yapılacak",
+                    defaultActionText: "OK",
+                  ).show(context)
+                },
+              ),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                color: kPrimaryColor,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Text("featured Item gösterilecek!"),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            title: Text("Çekiliş Listesi"),
+          ),
+        ],
+        body: ListView.builder(
+          itemCount: 100,
+          itemBuilder: (context, index) {
+            return Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              height: 40,
+              child: Text(index.toString()),
+            );
+          },
+        ),
+      ),
+    );
   }
-
-//
-//   Widget _buildDrawer() {
-//     return Drawer(
-//       child: Container(),
-//     );
-//   }
-//
-//   Widget _buildProfilePhoto(BuildContext context) {
-//     var profilePicUrl = Provider.of<User>(context)?.profilePicUrl ?? dummyPic;
-//     return ButtonTheme(
-//       minWidth: 1.0,
-//       child: FlatButton(
-//         padding: EdgeInsets.symmetric(horizontal: 0.0),
-//         onPressed: () => _confirmSignOut(
-//           context,
-//           onPositiveButtonClick: () {
-//             var authViewModel = Provider.of<AuthViewModel>(context);
-//             authViewModel.signOut();
-//             LoginScreen.navigate(context);
-//           },
-//           onNegativeButtonClick: () {
-//             print("click negative");
-//           },
-//         ),
-//         child: CircleAvatar(
-//           radius: 20.0,
-//           backgroundImage: NetworkImage(profilePicUrl),
-//           backgroundColor: Colors.transparent,
+// @override
+// Widget build(BuildContext context) {
+//   return Scaffold(
+//     body: Padding(
+//       padding: const EdgeInsets.all(16.0),
+//       child: FloatingSearchBar(
+//         children: [
+//           RaffleList(),
+//         ],
+//         trailing: _buildProfilePhoto(context),
+//         drawer: _buildDrawer(),
+//         onChanged: (String value) {},
+//         onTap: () {},
+//         decoration: InputDecoration.collapsed(
+//           hintText: "Search...",
 //         ),
 //       ),
-//     );
-//   }
-//
-//   Future<void> _confirmSignOut(BuildContext context,
-//       {void onPositiveButtonClick(), void onNegativeButtonClick()}) async {
-//     onPositiveButtonClick ??= () => {print("positive Click")};
-//     onNegativeButtonClick ??= () => {print("negative Click")};
-//
-//     final bool didRequestSignOut = await PlatformAlertDialog(
-//       title: Strings.logout,
-//       content: Strings.logoutAreYouSure,
-//       cancelActionText: Strings.cancel,
-//       defaultActionText: Strings.logout,
-//     ).show(context);
-//
-//     if (didRequestSignOut == true)
-//       onPositiveButtonClick();
-//     else
-//       onNegativeButtonClick();
-//   }
-//
-  static void navigate(BuildContext context) => ScreenNavigator.navigate(context, route, canBack: false);
+//     ),
+//       );
+// }
 }

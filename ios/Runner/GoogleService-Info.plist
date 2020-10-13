@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>414030755976-hfv8qvjc09j9764fct0l375fqh73gqpa.apps.googleusercontent.com</string>
+	<string>414030755976-1dblmam92an86gjh0j7dsblvhj6t3i2f.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.414030755976-hfv8qvjc09j9764fct0l375fqh73gqpa</string>
+	<string>com.googleusercontent.apps.414030755976-1dblmam92an86gjh0j7dsblvhj6t3i2f</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>414030755976-5vje6stho8a2u2ed766v5pul3476a2o1.apps.googleusercontent.com</string>
+	<string>414030755976-ed56a9jbnbtlii14b0m8evdqc1eq7bjg.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCek-GYYKmxEk6gsKm09UnBfIjxcoZkpOA</string>
 	<key>GCM_SENDER_ID</key>
@@ -31,10 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:414030755976:ios:67e271792f706bcd</string>
+	<string>1:414030755976:ios:868ba3f4d074d928db473d</string>
 	<key>DATABASE_URL</key>
 	<string>https://bedavanevar-2019.firebaseio.com</string>
-	<key>ADMOB_APP_ID</key>
-	<string>ca-app-pub-0165663276066705~4520522723</string>
 </dict>
 </plist>

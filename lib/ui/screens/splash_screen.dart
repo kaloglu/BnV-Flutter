@@ -20,7 +20,7 @@ class _SplashScreenScreenState extends State<SplashScreenScreen> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
-            "BedavaNeVar",
+            "BedavaNeVar ",
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,

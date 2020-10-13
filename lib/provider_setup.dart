@@ -1,68 +1,74 @@
-// import 'package:BedavaNeVar/data/repository/login_repository.dart';
-// import 'package:BedavaNeVar/data/repository/raffle_repository.dart';
-// import 'package:BedavaNeVar/data/services/auth/firebase_auth_service.dart';
-// import 'package:BedavaNeVar/data/services/db/firestore_db_service.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:provider/provider.dart';
-//
-// import 'model/user_model.dart';
-// import 'viewmodels/auth_viewmodel.dart';
-// import 'viewmodels/raffle_list_viewmodel.dart';
-//
-// List<SingleChildCloneableWidget> dependent2Services = [
-//   ProxyProvider4<FirebaseAuth, GoogleSignIn, FacebookLogin, FirestoreDBService, FirebaseAuthService>(
-//     builder: (context, firebaseAuth, googleSignIn, facebookLogin, firestoreDbService, firebaseAuthService) =>
-//         FirebaseAuthService(
-//             firebaseAuth: firebaseAuth,
-//             googleSignIn: googleSignIn,
-//             facebookLogin: facebookLogin,
-//             firestoreDB: firestoreDbService),
-//   ),
-// ];
-//
-// List<SingleChildCloneableWidget> dependentServices = [
-//   ProxyProvider<Firestore, FirestoreDBService>(
-//     builder: (context, firestore, firestoreDbService) => FirestoreDBService(firestore: firestore),
-//   ),
-// ];
-//
-// List<SingleChildCloneableWidget> independentServices = [
-//   Provider.value(value: FirebaseAuth.instance),
-//   Provider.value(value: Firestore.instance),
-//   Provider.value(value: GoogleSignIn()),
-//   Provider.value(value: FacebookLogin()),
-// ];
-//
-// List<SingleChildCloneableWidget> providers = [
-//   ...independentServices,
-//   ...dependentServices,
-//   ...dependent2Services,
-//   ...repositories,
-//   ...uiConsumableProviders
-// ];
-//
-// List<SingleChildCloneableWidget> repositories = [
-//   ProxyProvider<FirebaseAuthService, LoginRepository>(
-//     builder: (context, firebaseAuth, loginRepository) => LoginRepository(auth: firebaseAuth),
-//   ),
-//   ProxyProvider<FirestoreDBService, RaffleRepository>(
-//     builder: (context, firestoreDbService, loginRepository) => RaffleRepository(db: firestoreDbService),
-//   ),
-// ];
-//
-// List<SingleChildCloneableWidget> uiConsumableProviders = [
-//   ChangeNotifierProxyProvider<LoginRepository, AuthViewModel>(
-//     builder: (context, loginRepository, authViewModel) => authViewModel..repository = loginRepository,
-//     initialBuilder: (context) => AuthViewModel(),
-//   ),
-//   ListenableProxyProvider<RaffleRepository, RaffleListViewModel>(
-//     builder: (context, raffleRepository, raffleListViewModel) => raffleListViewModel..repository = raffleRepository,
-//     initialBuilder: (context) => RaffleListViewModel(),
-//   ),
-//   StreamProvider<User>(
-//     builder: (context) => Provider.of<AuthViewModel>(context, listen: false).onAuthStateChanged,
-//   )
-// ];
+import 'package:BedavaNeVar/data/repositories/login_repository.dart';
+import 'package:BedavaNeVar/data/repositories/raffle_repository.dart';
+import 'package:BedavaNeVar/data/services/auth/firebase_auth_service.dart';
+import 'package:BedavaNeVar/data/services/db/firestore_db_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide User;
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
+
+import 'viewmodels/auth_viewmodel.dart';
+import 'viewmodels/raffle_list_viewmodel.dart';
+
+export 'package:cloud_firestore/cloud_firestore.dart';
+export 'package:firebase_core/firebase_core.dart';
+export 'package:provider/provider.dart';
+
+List<SingleChildWidget> dependent2Services = [
+  ProxyProvider4<FirebaseAuth, GoogleSignIn, FacebookLogin, FirestoreDBService, FirebaseAuthService>(
+    update: (context, firebaseAuth, googleSignIn, facebookLogin, firestoreDbService, firebaseAuthService) =>
+        FirebaseAuthService(
+            firebaseAuth: firebaseAuth,
+            googleSignIn: googleSignIn,
+            facebookLogin: facebookLogin,
+            firestoreDB: firestoreDbService),
+  ),
+];
+
+List<SingleChildWidget> dependentServices = [
+  ProxyProvider<FirebaseFirestore, FirestoreDBService>(
+    update: (context, firestore, firestoreDbService) => FirestoreDBService(firestore: firestore),
+  ),
+];
+
+List<SingleChildWidget> independentServices = [
+  Provider.value(value: Firebase.app()),
+  Provider.value(value: FirebaseAuth.instance),
+  Provider.value(value: FirebaseFirestore.instance),
+  Provider.value(value: GoogleSignIn()),
+  Provider.value(value: FacebookLogin()),
+];
+
+List<SingleChildWidget> providers = [
+  ...independentServices,
+  ...dependentServices,
+  ...dependent2Services,
+  ...repositories,
+  ...uiConsumableProviders
+];
+
+List<SingleChildWidget> repositories = [
+  ProxyProvider<FirebaseAuthService, LoginRepository>(
+    update: (context, firebaseAuth, loginRepository) => LoginRepository(auth: firebaseAuth),
+  ),
+  ProxyProvider<FirestoreDBService, RaffleRepository>(
+    update: (context, firestoreDbService, loginRepository) => RaffleRepository(db: firestoreDbService),
+  ),
+];
+
+List<SingleChildWidget> uiConsumableProviders = [
+  ChangeNotifierProxyProvider<LoginRepository, AuthViewModel>(
+    update: (context, loginRepository, authViewModel) => authViewModel..repository = loginRepository,
+    create: (context) => AuthViewModel(),
+  ),
+  ListenableProxyProvider<RaffleRepository, RaffleListViewModel>(
+    update: (context, raffleRepository, raffleListViewModel) => raffleListViewModel..repository = raffleRepository,
+    create: (context) => RaffleListViewModel(),
+  ),
+  StreamProvider<User>(
+    create: (context) => Provider.of<AuthViewModel>(context, listen: false).stateChanges,
+  )
+];

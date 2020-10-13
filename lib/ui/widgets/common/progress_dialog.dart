@@ -10,18 +10,17 @@ ProgressDialogType _progressDialogType = ProgressDialogType.Normal;
 class ProgressDialog {
   _MyDialog _dialog;
 
-  BuildContext _buildContext, _context;
+  BuildContext context;
 
-  ProgressDialog(BuildContext buildContext, ProgressDialogType progressDialogtype, {String message}) {
-    _buildContext = buildContext;
+  ProgressDialog({Key key, this.context, ProgressDialogType progressDialogtype, String message}) {
     _dialogMessage = message ?? _dialogMessage;
-    _progressDialogType = progressDialogtype;
+    _progressDialogType = progressDialogtype ?? ProgressDialogType.Normal;
   }
 
   void hide() {
     if (_isShowing) {
       _isShowing = false;
-      Navigator.of(_context).pop();
+      Navigator.of(context).pop();
       debugPrint('ProgressDialog dismissed');
     }
   }
@@ -41,10 +40,9 @@ class ProgressDialog {
       _isShowing = true;
       debugPrint('ProgressDialog shown');
       showDialog<dynamic>(
-        context: _buildContext,
+        context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          _context = context;
           return Dialog(
               insetAnimationCurve: Curves.easeInOut,
               insetAnimationDuration: Duration(milliseconds: 100),
@@ -94,7 +92,10 @@ class _MyDialogState extends State<_MyDialog> {
           const SizedBox(width: 15.0),
           SizedBox(
             width: 60.0,
-            child: Image.asset('assets/double_ring_loading_io.gif'),
+            child: Image(
+              image: AssetImage("assets/images/double_ring_loading_io.gif"),
+              fit: BoxFit.cover,
+            ),
           ),
           const SizedBox(width: 15.0),
           Expanded(
