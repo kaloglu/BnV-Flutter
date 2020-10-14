@@ -25,24 +25,52 @@ dependencies:
   intl: ^0.16.1
   meta: ^1.1.8
   cupertino_icons: ^1.0.0
+
+  # firebase products
+  ## core
+  firebase_core: ^0.5.0
+
+  ## db
+  cloud_firestore: ^0.14.1+3
+
+  ## auth
+  firebase_auth: ^0.18.1+2
+  google_sign_in: ^4.5.4
+
+  ## analytics
+  firebase_analytics: ^6.0.2
+
+  ## crashlytics
+  firebase_crashlytics: ^0.2.1+1
+
+  ## performance
+  firebase_performance: ^0.4.0+2
+
+  ## messaging
+  firebase_messaging: ^7.0.0
+  firebase_in_app_messaging: ^0.2.0
+
+  ## admob
+  firebase_admob: ^0.10.0
+
+  ## remote config
+  firebase_remote_config: ^0.4.0
+
+  #provider
+  provider: ^4.3.2+2
+
+  #auth
+  flutter_auth_buttons: ^0.10.0
+  flutter_facebook_auth: ^0.3.2
+
+  #image & icons
   flutter_svg: ^0.18.1
   font_awesome_flutter: ^8.10.0
-  flutter_html: 1.0.2
-  provider: ^4.3.2+2
-  cloud_firestore: ^0.14.1+3
-  firebase_core: ^0.5.0
-  google_sign_in: ^4.5.4
-  firebase_auth: ^0.18.1+2
-  firebase_messaging: ^7.0.0
-  firebase_admob: ^0.10.0+2
-  firebase_crashlytics: ^0.2.1+1
-  firebase_analytics: ^6.0.2
-  firebase_remote_config: ^0.4.0+2
-  firebase_performance: ^0.4.0+2
-  flutter_auth_buttons: ^0.10.0
-  flutter_facebook_login: ^3.0.0
   cached_network_image: ^2.3.2+1
   carousel_pro: ^1.0.0
+
+  #html
+  flutter_html: 1.0.2
 
 
 #  shared_preferences: #^0.5.3+1

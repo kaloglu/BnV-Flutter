@@ -46,7 +46,8 @@ class AuthViewModel extends BaseViewModel<LoginRepository> {
   Future<void> _showSignInError(BuildContext context, PlatformException exception) async {
     await PlatformErrorDialog(
       title: Strings.signInFailed,
-      exception: exception,
+      message: exception.message,
+      code: exception.code,
     ).show(context);
   }
 }

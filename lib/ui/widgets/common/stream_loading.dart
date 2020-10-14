@@ -53,7 +53,7 @@ class StreamLoading<T> extends StreamBuilderBase<T, AsyncSnapshot<T>> {
       SchedulerBinding.instance.addPostFrameCallback((duration) {
         if (currentSummary.connectionState != ConnectionState.active) {
           _loadingDialog.show();
-        }else{
+        } else {
           _loadingDialog.hide();
         }
       });

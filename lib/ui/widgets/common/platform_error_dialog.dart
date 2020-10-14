@@ -14,10 +14,17 @@ class PlatformErrorDialog extends PlatformAlertDialog {
     'ERROR_OPERATION_NOT_ALLOWED': 'This sign in method is not allowed. Please contact support.',
   };
 
-  PlatformErrorDialog({String title, PlatformException exception})
+  // PlatformErrorDialog({String title, PlatformException exception})
+  //     : super(
+  //         title: title,
+  //         content: message(exception),
+  //         defaultActionText: 'OK',
+  //       );
+
+  PlatformErrorDialog({String title, String message, String code})
       : super(
           title: title,
-          content: message(exception),
+          content: (code ?? '') + message,
           defaultActionText: 'OK',
         );
 
