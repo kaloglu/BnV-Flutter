@@ -58,6 +58,13 @@ class LoginForm extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 36.0),
+                    AppleSignInButton(
+                      text: Strings.signInWithGoogle,
+                      onPressed: () async => await viewModel.signInWithPhone(context),
+                      style: AppleButtonStyle.black,
+                      borderRadius: 10,
+                    ),
+                    SizedBox(height: 36.0),
                     GoogleSignInButton(
                       text: Strings.signInWithGoogle,
                       onPressed: () async => await viewModel.signInWithGoogle(context),

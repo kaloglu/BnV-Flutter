@@ -24,6 +24,7 @@ class LoginRepository implements Repository {
   Future<User> signInWithFacebook() async => await _signIn(_auth.signInWithFacebook);
 
   Future<User> signInWithGoogle() async => await _signIn(_auth.signInWithGoogle);
+  Future<User> signInWithPhone() async => await _signIn(_auth.signInWithPhone);
 
   Future<void> signOut() async => _auth.signOut();
 

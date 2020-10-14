@@ -39,6 +39,18 @@ class AuthViewModel extends BaseViewModel<LoginRepository> {
     return null;
   }
 
+  FutureOr<User> signInWithPhone(BuildContext context) async {
+    try {
+      return await repository.signInWithPhone();
+    } on PlatformException catch (e) {
+      if (e.code != 'ERROR_ABORTED_BY_USER') {
+        _showSignInError(context, e);
+      }
+    }
+
+    return null;
+  }
+
   Future<void> signOut() async {
     await repository.signOut();
   }
