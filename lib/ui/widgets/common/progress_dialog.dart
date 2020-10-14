@@ -20,7 +20,7 @@ class ProgressDialog {
   void hide() {
     if (_isShowing) {
       _isShowing = false;
-      Navigator.of(context).pop();
+      Navigator.of(context, rootNavigator: true).pop();
       debugPrint('ProgressDialog dismissed');
     }
   }

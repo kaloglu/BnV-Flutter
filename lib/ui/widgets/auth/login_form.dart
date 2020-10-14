@@ -1,7 +1,7 @@
 import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/models/user_model.dart';
 import 'package:BedavaNeVar/ui/screens/base/base_widget.dart';
-import 'package:BedavaNeVar/ui/screens/raffle/raffle_list_screen.dart';
+import 'package:BedavaNeVar/ui/screens/screens.dart';
 import 'package:BedavaNeVar/ui/widgets/common/stream_loading.dart';
 import 'package:BedavaNeVar/viewmodels/auth_viewmodel.dart';
 import 'package:flutter/scheduler.dart';
@@ -25,7 +25,7 @@ class LoginForm extends StatelessWidget {
               User user = snapshot.data;
               if (user.uid != null) {
                 SchedulerBinding.instance.addPostFrameCallback((duration) {
-                  RaffleListScreen.navigate(context);
+                  HomeScreen.navigate(context);
                 });
               }
             }

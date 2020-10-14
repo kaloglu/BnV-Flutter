@@ -17,21 +17,12 @@ export 'package:cloud_firestore/cloud_firestore.dart';
 export 'package:firebase_core/firebase_core.dart';
 export 'package:provider/provider.dart';
 
-List<SingleChildWidget> dependent2Services = [
-  ProxyProvider4<FirebaseAuth, GoogleSignIn, FacebookAuth, FirestoreDBService, FirebaseAuthService>(
-    update: (context, firebaseAuth, googleSignIn, facebookAuth, firestoreDbService, firebaseAuthService) =>
-        FirebaseAuthService(
-            firebaseAuth: firebaseAuth,
-            googleSignIn: googleSignIn,
-            facebookAuth: facebookAuth,
-            firestoreDB: firestoreDbService),
-  ),
-];
-
-List<SingleChildWidget> dependentServices = [
-  ProxyProvider<FirebaseFirestore, FirestoreDBService>(
-    update: (context, firestore, firestoreDbService) => FirestoreDBService(firestore: firestore),
-  ),
+List<SingleChildWidget> providers = [
+  ...independentServices,
+  ...dependentServices,
+  ...dependent2Services,
+  ...repositories,
+  ...uiConsumableProviders
 ];
 
 List<SingleChildWidget> independentServices = [
@@ -42,12 +33,21 @@ List<SingleChildWidget> independentServices = [
   Provider.value(value: FacebookAuth.instance),
 ];
 
-List<SingleChildWidget> providers = [
-  ...independentServices,
-  ...dependentServices,
-  ...dependent2Services,
-  ...repositories,
-  ...uiConsumableProviders
+List<SingleChildWidget> dependentServices = [
+  ProxyProvider<FirebaseFirestore, FirestoreDBService>(
+    update: (context, firestore, firestoreDbService) => FirestoreDBService(firestore: firestore),
+  ),
+];
+
+List<SingleChildWidget> dependent2Services = [
+  ProxyProvider4<FirebaseAuth, GoogleSignIn, FacebookAuth, FirestoreDBService, FirebaseAuthService>(
+    update: (context, firebaseAuth, googleSignIn, facebookAuth, firestoreDbService, firebaseAuthService) =>
+        FirebaseAuthService(
+            firebaseAuth: firebaseAuth,
+            googleSignIn: googleSignIn,
+            facebookAuth: facebookAuth,
+            firestoreDB: firestoreDbService),
+  ),
 ];
 
 List<SingleChildWidget> repositories = [

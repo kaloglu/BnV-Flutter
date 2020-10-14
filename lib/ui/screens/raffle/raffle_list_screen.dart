@@ -5,12 +5,16 @@ import 'package:BedavaNeVar/utils/page_navigator.dart';
 import 'package:flutter/material.dart';
 
 class RaffleListScreen extends StatefulWidget {
-  static const route = "raffle_list";
+  static const route = "/raffle_list";
 
   @override
   _RaffleListScreenState createState() => _RaffleListScreenState();
 
-  static void navigate(BuildContext context) => ScreenNavigator.navigate(context, route, canBack: false);
+  static void navigate(BuildContext context) => ScreenNavigator.navigate(
+        context,
+        route,
+        canBack: false,
+      );
 }
 
 class _RaffleListScreenState extends State<RaffleListScreen> {

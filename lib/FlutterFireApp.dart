@@ -1,6 +1,5 @@
 import 'package:BedavaNeVar/BnvApp.dart';
 import 'package:BedavaNeVar/provider_setup.dart';
-import 'package:BedavaNeVar/ui/screens/splash_screen.dart';
 import 'package:BedavaNeVar/ui/widgets/common/platform_alert_dialog.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -44,7 +43,9 @@ class FlutterFireApp extends StatelessWidget {
           }
           return MultiProvider(providers: providers, child: BnVApp());
         }
-        return BnVApp(route: SplashScreenScreen.route);
+        return Container(
+          child: Text("Loading..."),
+        );
       },
     );
   }

@@ -1,6 +1,5 @@
 import 'package:BedavaNeVar/ui/widgets/common/progress_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 import 'progress_dialog.dart';
 
@@ -49,15 +48,15 @@ class StreamLoading<T> extends StreamBuilderBase<T, AsyncSnapshot<T>> {
 
   @override
   Widget build(BuildContext context, AsyncSnapshot<T> currentSummary) {
-    if (_loadingDialog != null) {
-      SchedulerBinding.instance.addPostFrameCallback((duration) {
-        if (currentSummary.connectionState != ConnectionState.active) {
-          _loadingDialog.show();
-        } else {
-          _loadingDialog.hide();
-        }
-      });
-    }
+    // if (_loadingDialog != null) {
+    //   SchedulerBinding.instance.addPostFrameCallback((duration) {
+    //     if (currentSummary.connectionState != ConnectionState.active) {
+    //       _loadingDialog.show();
+    //     } else {
+    //       _loadingDialog.hide();
+    //     }
+    //   });
+    // }
 
     return builder(context, currentSummary, _loadingDialog);
   }

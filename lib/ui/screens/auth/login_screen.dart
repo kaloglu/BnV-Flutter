@@ -3,7 +3,7 @@ import 'package:BedavaNeVar/utils/page_navigator.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
-  static const route = "login";
+  static const route = "/login";
 
   @override
   Widget build(BuildContext context) {
@@ -15,5 +15,11 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  static void navigate(BuildContext context) => ScreenNavigator.navigate(context, route, canBack: false);
+  static void navigate(BuildContext context) {
+    return ScreenNavigator.navigate(
+      context,
+      route,
+      canBack: false,
+    );
+  }
 }

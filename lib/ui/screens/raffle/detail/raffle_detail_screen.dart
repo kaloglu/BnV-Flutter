@@ -6,7 +6,7 @@ import 'package:BedavaNeVar/viewmodels/raffle_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class RaffleDetailScreen extends StatelessWidget {
-  static const route = "raffle_detail";
+  static const route = "/raffle_detail";
 
   final RaffleViewModel viewModel;
 

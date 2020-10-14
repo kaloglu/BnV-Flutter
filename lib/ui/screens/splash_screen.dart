@@ -2,14 +2,16 @@ import 'package:BedavaNeVar/utils/page_navigator.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreenScreen extends StatefulWidget {
-  static const route = "splash_screen";
+  static const route = "/splash_screen";
 
   @override
   createState() => _SplashScreenScreenState();
 
-  static void navigate(BuildContext context) {
-    ScreenNavigator.navigate(context, route, canBack: false);
-  }
+  static void navigate(BuildContext context) => ScreenNavigator.navigate(
+        context,
+        route,
+        canBack: false,
+      );
 }
 
 class _SplashScreenScreenState extends State<SplashScreenScreen> {

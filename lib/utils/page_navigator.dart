@@ -11,10 +11,20 @@ class ScreenNavigator {
 
   static goBack(context) => Navigator.pop(context);
 
-  static navigate<T extends Object>(BuildContext context, String name, {bool canBack = true, T argument}) {
+  static navigate<T extends Object>(
+    BuildContext context,
+    String name, {
+    bool canBack = true,
+    T argument,
+  }) {
     canBack = canBack ??= defaultCanBack;
     print("page: $name");
-    Navigator.pushNamedAndRemoveUntil(context, name, (Route<dynamic> route) => canBack, arguments: argument);
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      name,
+      (Route<dynamic> route) => canBack,
+      arguments: argument,
+    );
   }
 
   static Route onGenerateRoute(settings) =>
