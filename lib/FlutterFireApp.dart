@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:BedavaNeVar/BnvApp.dart';
 import 'package:BedavaNeVar/provider_setup.dart';
 import 'package:BedavaNeVar/ui/widgets/common/platform_alert_dialog.dart';
@@ -43,9 +45,9 @@ class FlutterFireApp extends StatelessWidget {
           }
           return MultiProvider(providers: providers, child: BnVApp());
         }
-        return Container(
-          child: Text("Loading..."),
-        );
+        return new MediaQuery(
+            data: new MediaQueryData.fromWindow(ui.window),
+            child: new Directionality(textDirection: TextDirection.rtl, child: Text("Yükleniyor...")));
       },
     );
   }

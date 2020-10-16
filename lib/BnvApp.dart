@@ -16,11 +16,12 @@ class BnVApp extends StatelessWidget {
         ],
         theme: ThemeData(
           bottomNavigationBarTheme: BottomNavigationBarThemeData(
-              type: BottomNavigationBarType.shifting,
-              selectedItemColor: Colors.redAccent,
-              unselectedItemColor: Colors.black26,
-              showSelectedLabels: false,
-              showUnselectedLabels: true),
+            type: BottomNavigationBarType.shifting,
+            selectedItemColor: Colors.white,
+            unselectedItemColor: Colors.white54,
+            showSelectedLabels: false,
+            backgroundColor: kPrimaryColor,
+          ),
           primaryColor: kPrimaryColor,
           scaffoldBackgroundColor: Colors.white,
           shadowColor: kShadowColor,
@@ -34,6 +35,6 @@ class BnVApp extends StatelessWidget {
           HomeScreen.route: (context) => HomeScreen(),
           RaffleDetailScreen.route: (context) => RaffleDetailScreen(),
         },
-        initialRoute: HomeScreen.route,
+        initialRoute: LoginScreen.route,
       );
 }

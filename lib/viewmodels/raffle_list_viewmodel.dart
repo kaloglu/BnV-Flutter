@@ -16,7 +16,7 @@ class RaffleListViewModel extends BaseViewModel<RaffleRepository> {
     super.dispose();
   }
 
-  void load(String uid) {
+  void load() {
     repository.getRaffleViewModelList().listen((raffleList) {
       listController.add(raffleList);
     });

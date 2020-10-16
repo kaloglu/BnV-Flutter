@@ -1,5 +1,4 @@
 import 'package:BedavaNeVar/constants/constants.dart';
-import 'package:BedavaNeVar/models/user_model.dart';
 import 'package:BedavaNeVar/ui/screens/base/base_widget.dart';
 import 'package:BedavaNeVar/ui/screens/raffle/detail/raffle_detail_screen.dart';
 import 'package:BedavaNeVar/ui/widgets/common/stream_loading.dart';
@@ -14,12 +13,12 @@ class RaffleList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseWidget<RaffleListViewModel>(
         viewModel: Provider.of(context),
-        onModelReady: (viewModel) => viewModel?.load(Provider.of<User>(context).uid),
+        onModelReady: (viewModel) => viewModel?.load(),
         builder: (context, viewModel, child) {
           return StreamLoading<List<RaffleViewModel>>(
 //            loadingDialog: ProgressDialog(context, ProgressDialogType.Normal),
             stream: viewModel.raffleList$,
-            builder: (context, snapshot, loadingDialog) {
+            builder: (context, snapshot /*, loadingDialog*/) {
               List<RaffleViewModel> data = [];
 
               if (snapshot.hasData) {

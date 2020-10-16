@@ -4,22 +4,22 @@ import 'package:flutter/material.dart';
 import 'progress_dialog.dart';
 
 typedef AsyncWidgetBuilder<T> = Widget Function(
-    BuildContext context, AsyncSnapshot<T> snapshot, ProgressDialog loadingDialog);
+    BuildContext context, AsyncSnapshot<T> snapshot /*, ProgressDialog loadingDialog*/);
 
 class StreamLoading<T> extends StreamBuilderBase<T, AsyncSnapshot<T>> {
-  final ProgressDialog _loadingDialog;
-  final BuildContext context;
+  // final ProgressDialog _loadingDialog;
+  // final BuildContext context;
 
   StreamLoading({
     Key key,
-    this.context,
+    // this.context,
     this.initialData,
     Stream<T> stream,
     ProgressDialog loadingDialog,
     @required this.builder,
-  })  : assert(context != null),
-        assert(builder != null),
-        _loadingDialog = loadingDialog ?? ProgressDialog(context: context),
+  })  : assert(builder != null),
+        // assert(context != null),
+        // _loadingDialog = loadingDialog ?? ProgressDialog(context: context),
         super(key: key, stream: stream);
 
   final AsyncWidgetBuilder<T> builder;
@@ -58,6 +58,6 @@ class StreamLoading<T> extends StreamBuilderBase<T, AsyncSnapshot<T>> {
     //   });
     // }
 
-    return builder(context, currentSummary, _loadingDialog);
+    return builder(context, currentSummary /*, _loadingDialog*/);
   }
 }

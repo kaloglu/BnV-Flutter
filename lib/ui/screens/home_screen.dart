@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
       "https://cdn1.iconfinder.com/data/icons/circle-outlines-colored/512/Robot_User_Home_Dummy_Avatar_Person_AI-512.png";
 
   int _currentIndex = 0;
-  List<Widget> pages = [
+  List<Widget> _pages = [
     RaffleListScreen(),
     WinnersScreen(),
     ProfileScreen(),
@@ -30,17 +30,33 @@ class _HomeScreenState extends State<HomeScreen> {
     // var authViewModel = Provider.of<AuthViewModel>(context);
     // var user = Provider.of<User>(context);
     return Scaffold(
-      body: pages[_currentIndex],
+      body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        items: [
-          BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.user), label: "test"),
-          BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.home), label: "test"),
-          BottomNavigationBarItem(icon: Icon(FontAwesomeIcons.dochub), label: "test"),
-        ].toList(),
+        items: _getBottomNavigationItems(context),
         onTap: _onTapped,
       ),
     );
+  }
+
+  List<BottomNavigationBarItem> _getBottomNavigationItems(BuildContext context) {
+    return [
+      BottomNavigationBarItem(
+        icon: Icon(FontAwesomeIcons.ticketAlt),
+        label: "Çekilişler",
+        backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(FontAwesomeIcons.trophy),
+        label: "Kazananlar",
+        backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(FontAwesomeIcons.user),
+        label: "Profil",
+        backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+      ),
+    ];
   }
 
   void _onTapped(int value) {

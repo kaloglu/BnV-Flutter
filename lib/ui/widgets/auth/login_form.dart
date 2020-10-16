@@ -18,9 +18,9 @@ class LoginForm extends StatelessWidget {
       onModelReady: (viewModel) => viewModel?.init(),
       builder: (context, viewModel, child) {
         return StreamLoading<User>(
-          context: context,
+          // context: context,
           stream: viewModel.stateChanges,
-          builder: (context, snapshot, loadingDialog) {
+          builder: (context, snapshot /*, loadingDialog*/) {
             if (snapshot.hasData) {
               User user = snapshot.data;
               if (user.uid != null) {

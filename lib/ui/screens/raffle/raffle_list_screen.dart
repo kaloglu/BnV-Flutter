@@ -1,6 +1,7 @@
 import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/ui/widgets/common/Buttons.dart';
 import 'package:BedavaNeVar/ui/widgets/common/platform_alert_dialog.dart';
+import 'package:BedavaNeVar/ui/widgets/raffle/raffles.dart';
 import 'package:BedavaNeVar/utils/page_navigator.dart';
 import 'package:flutter/material.dart';
 
@@ -99,16 +100,17 @@ class _RaffleListScreenState extends State<RaffleListScreen> {
             title: Text("Çekiliş Listesi"),
           ),
         ],
-        body: ListView.builder(
-          itemCount: 100,
-          itemBuilder: (context, index) {
-            return Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              height: 40,
-              child: Text(index.toString()),
-            );
-          },
-        ),
+        body: RaffleList(),
+        // body: ListView.builder(
+        //   itemCount: 100,
+        //   itemBuilder: (context, index) {
+        //     return Container(
+        //       padding: EdgeInsets.symmetric(horizontal: 16.0),
+        //       height: 40,
+        //       child: Text(index.toString()),
+        //     );
+        //   },
+        // ),
       ),
     );
   }
