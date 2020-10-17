@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 
 /// Requires that a Firestore emulator is running locally.
 /// See https://firebase.flutter.dev/docs/firestore/usage#emulator-usage
-const bool USE_FIRESTORE_EMULATOR = true;
+const bool USE_FIRESTORE_EMULATOR = false;
 
 class FlutterFireApp extends StatelessWidget {
   // Create the initialization Future outside of `build`:

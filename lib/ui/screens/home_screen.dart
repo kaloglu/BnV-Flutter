@@ -1,6 +1,8 @@
+import 'package:BedavaNeVar/BnvApp.dart';
 import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/ui/screens/raffle/raffle_list_screen.dart';
 import 'package:BedavaNeVar/ui/screens/screens.dart';
+import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,7 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _pages = [
     RaffleListScreen(),
     WinnersScreen(),
-    ProfileScreen(),
   ];
 
   @override
@@ -31,31 +32,27 @@ class _HomeScreenState extends State<HomeScreen> {
     // var user = Provider.of<User>(context);
     return Scaffold(
       body: _pages[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        items: _getBottomNavigationItems(context),
-        onTap: _onTapped,
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 16.0),
+        child: CustomNavigationBar(
+          borderRadius: Radius.circular(30.0),
+          selectedColor: Colors.white,
+          unSelectedColor: Colors.white38,
+          backgroundColor: kPrimaryColor,
+          currentIndex: _currentIndex,
+          scaleFactor: 0.4,
+          isFloating: true,
+          items: _getBottomNavigationItems(context),
+          onTap: _onTapped,
+        ),
       ),
     );
   }
 
-  List<BottomNavigationBarItem> _getBottomNavigationItems(BuildContext context) {
+  List<CustomNavigationBarItem> _getBottomNavigationItems(BuildContext context) {
     return [
-      BottomNavigationBarItem(
-        icon: Icon(FontAwesomeIcons.ticketAlt),
-        label: "Çekilişler",
-        backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(FontAwesomeIcons.trophy),
-        label: "Kazananlar",
-        backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(FontAwesomeIcons.user),
-        label: "Profil",
-        backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
-      ),
+      CustomNavigationBarItem(icon: FontAwesomeIcons.ticketAlt),
+      CustomNavigationBarItem(icon: FontAwesomeIcons.trophy),
     ];
   }
 

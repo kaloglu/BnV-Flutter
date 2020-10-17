@@ -55,6 +55,8 @@ class RaffleViewModel extends BaseViewModel<RaffleRepository> {
 
   String get raffleTitle => raffle.title;
 
+  bool get isFeatured => raffle.isFeatured;
+
   @override
   void dispose() {
     ticketController?.close();

@@ -127,6 +127,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  custom_navigation_bar:
+    dependency: "direct main"
+    description:
+      name: custom_navigation_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.2"
   fake_async:
     dependency: transitive
     description:
@@ -267,6 +274,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.0+2"
+  floating_search_bar:
+    dependency: "direct main"
+    description:
+      name: floating_search_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0"
   flutter:
     dependency: "direct main"
     description: flutter

@@ -13,6 +13,7 @@ class Raffle extends BaseModel {
   final Timestamp endDate;
   final RaffleRules rules;
   final ProductInfo productInfo;
+  final bool isFeatured;
 
   const Raffle({
     Key key,
@@ -23,6 +24,7 @@ class Raffle extends BaseModel {
     this.endDate,
     this.rules,
     this.productInfo,
+    this.isFeatured,
   }) : super(key: key);
 
   @override
@@ -33,6 +35,7 @@ class Raffle extends BaseModel {
         'endDate': endDate,
         'rules': rules,
         'productInfo': productInfo,
+        'isFeatured': isFeatured,
       };
 
   static Raffle fromFirestore(DocumentSnapshot doc) => fromMap(doc.data(), doc.id);
@@ -46,6 +49,7 @@ class Raffle extends BaseModel {
       endDate: data['endDate'],
       rules: RaffleRules.fromMap(data['rules']),
       productInfo: ProductInfo.fromMap(data['productInfo']),
+      isFeatured: data['isFeatured'] ?? false,
     );
   }
 

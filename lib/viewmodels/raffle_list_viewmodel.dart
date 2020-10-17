@@ -8,7 +8,7 @@ import 'base/base_viewmodel.dart';
 class RaffleListViewModel extends BaseViewModel<RaffleRepository> {
   StreamController<List<RaffleViewModel>> listController = StreamController.broadcast();
 
-  get raffleList$ => listController.stream;
+  get raffleViewModelList$ => listController.stream;
 
   @override
   void dispose() {
@@ -17,8 +17,10 @@ class RaffleListViewModel extends BaseViewModel<RaffleRepository> {
   }
 
   void load() {
-    repository.getRaffleViewModelList().listen((raffleList) {
-      listController.add(raffleList);
+    repository.getRaffleViewModelList().listen((raffleViewModelList) {
+      raffleViewModelList.forEach((raffleViewModel) {
+        listController.add(raffleViewModelList);
+      });
     });
   }
 }

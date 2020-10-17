@@ -58,13 +58,6 @@ class LoginForm extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 36.0),
-                    AppleSignInButton(
-                      text: Strings.signInWithGoogle,
-                      onPressed: () async => await viewModel.signInWithPhone(context),
-                      style: AppleButtonStyle.black,
-                      borderRadius: 10,
-                    ),
-                    SizedBox(height: 36.0),
                     GoogleSignInButton(
                       text: Strings.signInWithGoogle,
                       onPressed: () async => await viewModel.signInWithGoogle(context),
@@ -72,12 +65,12 @@ class LoginForm extends StatelessWidget {
                       borderRadius: 10,
                     ),
                     SizedBox(height: 8),
-                    FacebookSignInButton(
-                      text: Strings.signInWithFacebook,
-                      onPressed: () async => await viewModel.signInWithFacebook(context),
-                      borderRadius: 10,
-                    ),
-                    SizedBox(height: 8),
+                    // FacebookSignInButton(
+                    //   text: Strings.signInWithFacebook,
+                    //   onPressed: () async => await viewModel.signInWithFacebook(context),
+                    //   borderRadius: 10,
+                    // ),
+                    // SizedBox(height: 8),
                   ],
                 ),
               ),
