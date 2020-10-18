@@ -12,14 +12,14 @@ class RaffleRules extends BaseModel {
     this.maxAttendByUser,
   }) : super(key: key);
 
+  factory RaffleRules.fromMap(Map<String, dynamic> data) => RaffleRules(
+        maxAttendee: data['maxAttendee'] ?? 0,
+        maxAttendByUser: data['maxAttendByUser'] ?? 0,
+      );
+
   @override
   Map<String, dynamic> toJson() => {
         'maxAttendee': maxAttendee,
         'maxAttendByUser': maxAttendByUser,
       };
-
-  static RaffleRules fromMap(Map data) => RaffleRules(
-        maxAttendee: data['maxAttendee'] ?? 0,
-        maxAttendByUser: data['maxAttendByUser'] ?? 0,
-      );
 }

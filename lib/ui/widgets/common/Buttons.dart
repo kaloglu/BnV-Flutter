@@ -31,7 +31,7 @@ class SortButton extends StatelessWidget {
   Widget build(BuildContext context) => IconButton(
         icon: Icon(FontAwesomeIcons.sortAmountDownAlt),
         tooltip: Strings.sortingTooltip,
-        onPressed: onPressed,
+        onPressed: () => onPressed,
       );
 }
 
@@ -47,6 +47,6 @@ class SearchButton extends StatelessWidget {
   Widget build(BuildContext context) => IconButton(
         icon: Icon(FontAwesomeIcons.search),
         tooltip: Strings.sortingTooltip,
-        onPressed: onPressed,
+        onPressed: () => onPressed,
       );
 }

@@ -27,6 +27,17 @@ class Raffle extends BaseModel {
     this.isFeatured,
   }) : super(key: key);
 
+  factory Raffle.fromMap(Map data) => Raffle(
+        id: data['id'],
+        title: data['title'] ?? '',
+        description: data['description'] ?? '',
+        startDate: data['startDate'],
+        endDate: data['endDate'],
+        rules: RaffleRules.fromMap(data['rules']),
+        productInfo: ProductInfo.fromMap(data['productInfo']),
+        isFeatured: data['isFeatured'] ?? false,
+      );
+
   @override
   Map<String, dynamic> toJson() => {
         'title': title,
@@ -38,20 +49,8 @@ class Raffle extends BaseModel {
         'isFeatured': isFeatured,
       };
 
-  static Raffle fromFirestore(DocumentSnapshot doc) => fromMap(doc.data(), doc.id);
+  factory Raffle.fromDocumentSnapshot(DocumentSnapshot docSnapshot) => Raffle.fromMap(docSnapshot.data());
 
-  static Raffle fromMap(Map data, [String documentId]) {
-    return new Raffle(
-      id: documentId,
-      title: data['title'] ?? '',
-      description: data['description'] ?? '',
-      startDate: data['startDate'],
-      endDate: data['endDate'],
-      rules: RaffleRules.fromMap(data['rules']),
-      productInfo: ProductInfo.fromMap(data['productInfo']),
-      isFeatured: data['isFeatured'] ?? false,
-    );
-  }
-
-  static List<Raffle> listFromFirestore(QuerySnapshot query) => query.docs.map(fromFirestore).toList();
+  static List<Raffle> listFromFirestore(QuerySnapshot querySnapshot) =>
+      querySnapshot.docs.map<Raffle>((snapshot) => Raffle.fromDocumentSnapshot(snapshot));
 }

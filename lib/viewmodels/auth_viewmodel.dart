@@ -1,65 +1,25 @@
 import 'dart:async';
 
-import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/data/repositories/login_repository.dart';
 import 'package:BedavaNeVar/models/user_model.dart';
-import 'package:BedavaNeVar/ui/widgets/common/platform_error_dialog.dart';
-import 'package:flutter/services.dart';
 
 import 'base/base_viewmodel.dart';
 
+export 'package:BedavaNeVar/models/user_model.dart';
+
 class AuthViewModel extends BaseViewModel<LoginRepository> {
-  Stream<User> get stateChanges => repository.authStateChanges;
+  AuthViewModel() : super(LoginRepository());
 
-  init() {
-    FirebaseNotifications().setup();
-  }
+  Stream<User> get user$ => repository.user$;
 
-  FutureOr<User> signInWithFacebook(BuildContext context) async {
-    try {
-      return await repository.signInWithFacebook();
-    } on PlatformException catch (e) {
-      if (e.code != 'ERROR_ABORTED_BY_USER') {
-        _showSignInError(context, e);
-      }
-    }
+  Future<User> get user => repository.user;
 
-    return null;
-  }
+  Future<void> signOut() async => await repository.signOut();
 
-  FutureOr<User> signInWithGoogle(BuildContext context) async {
-    try {
-      return await repository.signInWithGoogle();
-    } on PlatformException catch (e) {
-      if (e.code != 'ERROR_ABORTED_BY_USER') {
-        _showSignInError(context, e);
-      }
-    }
+  Future<void> signInWithFacebook() async => await repository.signInWithFacebook();
 
-    return null;
-  }
+  Future<void> signInWithGoogle() async => await repository.signInWithGoogle();
 
-  FutureOr<User> signInWithPhone(BuildContext context) async {
-    try {
-      return await repository.signInWithPhone();
-    } on PlatformException catch (e) {
-      if (e.code != 'ERROR_ABORTED_BY_USER') {
-        _showSignInError(context, e);
-      }
-    }
-
-    return null;
-  }
-
-  Future<void> signOut() async {
-    await repository.signOut();
-  }
-
-  Future<void> _showSignInError(BuildContext context, PlatformException exception) async {
-    await PlatformErrorDialog(
-      title: Strings.signInFailed,
-      message: exception.message,
-      code: exception.code,
-    ).show(context);
-  }
+  Future<void> signInWithEmail(String username, String password) async =>
+      await repository.signInWithEmail(username, password);
 }

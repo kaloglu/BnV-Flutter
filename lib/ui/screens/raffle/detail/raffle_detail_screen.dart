@@ -1,7 +1,6 @@
 import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/models/user_model.dart';
 import 'package:BedavaNeVar/ui/widgets/raffle/raffles.dart';
-import 'package:BedavaNeVar/utils/page_navigator.dart';
 import 'package:BedavaNeVar/viewmodels/raffle_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +21,8 @@ class RaffleDetailScreen extends StatelessWidget {
     );
   }
 
-  static void navigate(BuildContext context, RaffleViewModel raffleBloc) =>
-      ScreenNavigator.navigate<RaffleViewModel>(context, route, argument: raffleBloc);
+  static navigate(BuildContext context, RaffleViewModel raffleViewModel) {
+    print("page: $route");
+    Navigator.pushNamed(context, route, arguments: raffleViewModel);
+  }
 }

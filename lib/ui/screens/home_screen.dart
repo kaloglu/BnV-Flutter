@@ -2,6 +2,7 @@ import 'package:BedavaNeVar/BnvApp.dart';
 import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/ui/screens/raffle/raffle_list_screen.dart';
 import 'package:BedavaNeVar/ui/screens/screens.dart';
+import 'package:BedavaNeVar/viewmodels/auth_viewmodel.dart';
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -13,12 +14,24 @@ class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 
-  static void navigate(BuildContext context) => Navigator.pushReplacementNamed(context, route);
+  static navigate(BuildContext context) {
+    print("page: $route");
+    Navigator.pushReplacementNamed(context, route);
+  }
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   final dummyPic =
       "https://cdn1.iconfinder.com/data/icons/circle-outlines-colored/512/Robot_User_Home_Dummy_Avatar_Person_AI-512.png";
+  AuthViewModel viewModel = AuthViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel.user.then(
+      (user) => {if (user == null) LoginScreen.navigate(context)},
+    );
+  }
 
   int _currentIndex = 0;
   List<Widget> _pages = [
@@ -28,8 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // var authViewModel = Provider.of<AuthViewModel>(context);
-    // var user = Provider.of<User>(context);
     return Scaffold(
       body: _pages[_currentIndex],
       bottomNavigationBar: Padding(

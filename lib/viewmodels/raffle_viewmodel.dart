@@ -20,9 +20,7 @@ class RaffleViewModel extends BaseViewModel<RaffleRepository> {
 
   List<Ticket> tickets;
 
-  RaffleViewModel(RaffleRepository repository, Raffle raffle) : super() {
-    assert(repository != null);
-    this.repository = repository;
+  RaffleViewModel(Raffle raffle) : super(RaffleRepository()) {
     assert(raffle != null);
     this.raffle = raffle;
     initializeDateFormatting("tr_TR");
@@ -37,7 +35,7 @@ class RaffleViewModel extends BaseViewModel<RaffleRepository> {
 
   Timestamp get startDate => raffle.startDate;
 
-  List get productImages => raffle.productInfo.images;
+  List<Media> get productImages => raffle.productInfo.images;
 
   String get endDateString => dateFormat.format(endDate.toDate());
 
@@ -72,17 +70,17 @@ class RaffleViewModel extends BaseViewModel<RaffleRepository> {
   }
 
   FutureOr loadAttributes(String uid) async {
-    repository.getTickets(uid).listen((tickets) {
-      this.tickets = tickets;
-      var ticketCount = 0;
-      tickets.forEach((ticket) {
-        ticketCount += ticket.remain;
-      });
-      ticketController.add(ticketCount);
-    });
-    repository.getEnrolls(raffle.id, uid).listen((enrolls) {
-      enrollController.add(enrolls.length);
-    });
+    // repository.getTickets(uid).listen((tickets) {
+    //   this.tickets = tickets;
+    //   var ticketCount = 0;
+    //   tickets.forEach((ticket) {
+    //     ticketCount += ticket.remain;
+    //   });
+    //   ticketController.add(ticketCount);
+    // });
+    // repository.getEnrolls(raffle.id, uid).listen((enrolls) {
+    //   enrollController.add(enrolls.length);
+    // });
   }
 
   void setActiveCount(CountType type, int count) {
@@ -93,13 +91,13 @@ class RaffleViewModel extends BaseViewModel<RaffleRepository> {
   }
 
   void enroll(String uid) {
-    var activeTicket = tickets.first;
-    ticketController.add(activeTicketCount - 1);
-    enrollController.add(activeEnrollCount + 1);
-    repository.enroll(Enroll(ticketId: activeTicket.id, raffleId: raffle.id), uid);
+    // var activeTicket = tickets.first;
+    // ticketController.add(activeTicketCount - 1);
+    // enrollController.add(activeEnrollCount + 1);
+    // repository.enroll(Enroll(ticketId: activeTicket.id, raffleId: raffle.id), uid);
   }
 
   void reward(String uid, int rewardAmount, String rewardType) {
-    repository.rewardTicket(rewardAmount, rewardType, uid);
+    // repository.rewardTicket(rewardAmount, rewardType, uid);
   }
 }

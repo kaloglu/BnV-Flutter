@@ -1,11 +1,10 @@
-import 'package:BedavaNeVar/enums.dart';
+import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/models/base/base_model.dart';
-import 'package:flutter/material.dart';
 
 @immutable
 class Media extends BaseModel {
   final String path;
-  final ProductType type;
+  final String type;
 
   const Media({
     Key key,
@@ -19,9 +18,9 @@ class Media extends BaseModel {
         'type': type,
       };
 
-  static Media fromMap(Map data, [String documentId]) => Media(
+  factory Media.fromMap(Map<String, dynamic> data, [String documentId]) => Media(
         path: data['path'] ?? '',
-        type: data['type'] ?? ProductType.IMAGE,
+        type: data['type'] ?? MediaType.IMAGE,
       );
 
   static List<Media> listFromMap(

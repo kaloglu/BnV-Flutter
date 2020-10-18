@@ -1,32 +1,36 @@
-import 'package:BedavaNeVar/data/services/auth/firebase_auth_service.dart';
-import 'package:BedavaNeVar/data/services/notifications/firebase_notifications.dart';
+import 'package:BedavaNeVar/BnvApp.dart';
+import 'package:BedavaNeVar/constants/enums.dart';
+import 'package:BedavaNeVar/data/repositories/interfaces/repository.dart';
+import 'package:BedavaNeVar/data/services/firebase_auth_service.dart';
 
-import 'interfaces/repository.dart';
+class LoginRepository with AuthService implements Repository {
+  @override
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  @override
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+  @override
+  final FacebookAuth facebookSignIn = FacebookAuth.instance;
 
-export 'package:BedavaNeVar/data/services/notifications/firebase_notifications.dart';
+  LoginRepository();
 
-class LoginRepository implements Repository {
-  final AuthService _auth;
-
-  LoginRepository({AuthService auth}) : _auth = auth ?? FirebaseAuthService();
-
-  Stream<User> get authStateChanges => _auth.stateChanges;
-
-  Future<void> saveToken([User user]) async {
-    final User _user = user ?? null;
-    var uid = (user != null) ? _user.uid : "";
-    String token = await FirebaseNotifications.getToken();
-    if (token != null) {
-      _auth.saveToken(token, uid: uid);
+  Future<void> signIn(SignInType signInType, [String username, String password]) async {
+    switch (signInType) {
+      case SignInType.GOOGLE:
+        signInWithGoogle();
+        break;
+      case SignInType.FACEBOOK:
+        signInWithFacebook();
+        break;
+      case SignInType.USERNAME:
+        signInWithEmail(username, password);
+        break;
+      default:
+        break;
     }
   }
 
-  Future<User> signInWithFacebook() async => await _signIn(_auth.signInWithFacebook);
-
-  Future<User> signInWithGoogle() async => await _signIn(_auth.signInWithGoogle);
-  Future<User> signInWithPhone() async => await _signIn(_auth.signInWithPhone);
-
-  Future<void> signOut() async => _auth.signOut();
-
-  Future<User> _signIn(Future<User> Function() signInMethod) async => await signInMethod();
+  Future<void> signOut() async {
+    await signOutWithGoogle();
+    await signOutWithFacebook();
+  }
 }
