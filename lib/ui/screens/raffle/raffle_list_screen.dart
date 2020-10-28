@@ -34,7 +34,7 @@ class _RaffleListScreenState extends State<RaffleListScreen> {
     return StreamBuilder<List<RaffleViewModel>>(
         stream: RaffleListViewModel().getRaffleListViewModel(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.active) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Scaffold(
               body: Center(
                 child: SizedBox(

@@ -36,19 +36,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             return Scaffold(
               appBar: AppBar(
                 title: Text("Profile: ${user?.fullname}"),
-                actions: [
-                  LogoutButton(
-                    onPressed: () => _onLogout(authViewModel),
-                  ),
-                ],
+                actions: [LogoutButton(onPressed: () => _onLogout(authViewModel))],
               ),
-              body: Container(
-                child: Text("test ${user.uid}"),
-              ),
+              body: Container(child: Text("test ${user.email}")),
             );
           }
 
-          return CircularProgressIndicator();
+          return Center(
+            child: SizedBox(width: 150, height: 150, child: CircularProgressIndicator()),
+          );
         });
   }
 

@@ -38,6 +38,10 @@ class _LoginScreenState extends State<LoginScreen> {
         child: StreamBuilder<User>(
             stream: viewModel.user$,
             builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              }
+
               if (!snapshot.hasData && snapshot?.data == null) {
                 return LoginForm(viewModel: viewModel);
               }
