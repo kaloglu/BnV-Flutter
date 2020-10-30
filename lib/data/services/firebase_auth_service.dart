@@ -1,5 +1,6 @@
 import 'package:BedavaNeVar/models/user_model.dart';
 import 'package:BedavaNeVar/ui/widgets/common/platform_error_dialog.dart';
+import 'package:BedavaNeVar/utils/firebase/firebase_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -14,10 +15,23 @@ mixin AuthService {
   GoogleSignIn googleSignIn;
   FacebookAuth facebookSignIn;
 
-  Stream<User> get user$ => firebaseAuth.userChanges().map(User.userFromFirebaseAuth);
+  bool _lastLoginState = false;
 
-  Future<User> get user async {
+  Stream<bool> get isLoggedIn$ async* {
+    await for (var user in firebaseAuth.authStateChanges()) {
+      var currentLoginState = user != null;
+
+      if (_lastLoginState != currentLoginState) {
+        _lastLoginState = currentLoginState;
+        yield _lastLoginState;
+      }
+    }
+  }
+
+  Future<User> getUser() async {
     var firebaseUser = firebaseAuth.currentUser;
+    //TODO: Users tablosuna kayıt atma fonksiyonu çalıştırılmalı!!! Sonrasında commentli kısım açılır.
+    // return Document<User>(path: Constants.USERS, id: firebaseUser.uid).getData();
     return User.userFromFirebaseAuth(firebaseUser);
   }
 

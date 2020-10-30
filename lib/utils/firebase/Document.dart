@@ -12,13 +12,13 @@ class Document<T> {
   }
 
   Future<T> getData() {
-    return document.get().then<T>((v) {
-      return Constants.models[T](v.data);
+    return document.get().then((v) {
+      return Constants.models[T](v.data) as T;
     });
   }
 
   Stream<T> streamData() {
-    return document.snapshots().map<T>((v) => Constants.models[T](v.data));
+    return document.snapshots().map((v) => Constants.models[T](v.data) as T);
   }
 
   Future<void> upsert(Map data) {

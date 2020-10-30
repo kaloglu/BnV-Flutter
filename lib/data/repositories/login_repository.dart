@@ -13,10 +13,6 @@ class LoginRepository with AuthService implements Repository {
 
   LoginRepository();
 
-  Stream<List<Raffle>> getRaffles() {
-    return Collection<Raffle>(path: Constants.RAFFLES).streamData();
-  }
-
   Future<void> signIn(SignInType signInType, [String username, String password]) async {
     switch (signInType) {
       case SignInType.GOOGLE:

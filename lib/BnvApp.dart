@@ -22,6 +22,7 @@ class BnVApp extends StatelessWidget {
           HomeScreen.route: (context) => HomeScreen(),
           RaffleDetailScreen.route: (context) => RaffleDetailScreen(),
         },
+        // home: LoginScreen.route,
         initialRoute: LoginScreen.route,
       );
 }

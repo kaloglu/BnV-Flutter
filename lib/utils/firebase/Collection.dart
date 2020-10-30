@@ -11,14 +11,12 @@ class Collection<T> {
 
   Future<List<T>> getData([String id]) async {
     var snapshots = await collection.get();
-    return snapshots.docs.map<T>((doc) => Constants.models[T](doc.data)).toList();
+    return snapshots.docs.map<T>((doc) => Constants.models[T](doc.data) as T).toList();
   }
 
   Stream<List<T>> streamData() {
     return collection.snapshots().map((list) {
-      return list.docs.map<T>((doc) {
-        return Constants.models[T](doc.data);
-      }).toList();
+      return list.docs.map<T>((doc) => Constants.models[T](doc.data) as T).toList();
     });
   }
 }

@@ -1,6 +1,5 @@
 import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/models/user_model.dart';
-import 'package:BedavaNeVar/ui/screens/auth/login_screen.dart';
 import 'package:BedavaNeVar/ui/widgets/common/Buttons.dart';
 import 'package:BedavaNeVar/viewmodels/auth_viewmodel.dart';
 
@@ -22,35 +21,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final dummyPic =
       "https://cdn1.iconfinder.com/data/icons/circle-outlines-colored/512/Robot_User_Profile_Dummy_Avatar_Person_AI-512.png";
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   AuthViewModel authViewModel = AuthViewModel();
+  //   authViewModel.isLoggedIn$.listen((loggedIn) {
+  //     if (!loggedIn) LoginScreen.navigate(context);
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     var authViewModel = AuthViewModel();
 
     return FutureBuilder<User>(
-        future: authViewModel.user,
+        future: authViewModel.getUser(),
         builder: (context, snapshot) {
-          User user;
-          if (snapshot.hasData) {
-            user = snapshot.data;
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return Center(
+                child: SizedBox(
+                  width: 150,
+                  height: 150,
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            default:
+              User user;
+              if (snapshot.hasData) {
+                user = snapshot.data;
 
-            return Scaffold(
-              appBar: AppBar(
-                title: Text("Profile: ${user?.fullname}"),
-                actions: [LogoutButton(onPressed: () => _onLogout(authViewModel))],
-              ),
-              body: Container(child: Text("test ${user.email}")),
-            );
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text("Profile: ${user?.fullname}"),
+                    actions: [LogoutButton(onPressed: () => _onLogout(authViewModel))],
+                  ),
+                  body: Container(child: Text("test ${user.email}")),
+                );
+              } else {
+                return Center(
+                  child: SizedBox(
+                    width: 150,
+                    height: 150,
+                    child: Text("Kullanıcı bulunamadı!"),
+                  ),
+                );
+              }
           }
-
-          return Center(
-            child: SizedBox(width: 150, height: 150, child: CircularProgressIndicator()),
-          );
         });
   }
 
   _onLogout(AuthViewModel viewModel) async {
-    await viewModel.signOut().whenComplete(() {
+    await viewModel.signOut();
+    /*.whenComplete(() {
       LoginScreen.navigate(context);
-    });
+    });*/
   }
 }

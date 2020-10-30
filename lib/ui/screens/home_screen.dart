@@ -1,6 +1,5 @@
 import 'package:BedavaNeVar/BnvApp.dart';
 import 'package:BedavaNeVar/constants/constants.dart';
-import 'package:BedavaNeVar/ui/screens/raffle/raffle_list_screen.dart';
 import 'package:BedavaNeVar/ui/screens/screens.dart';
 import 'package:BedavaNeVar/viewmodels/auth_viewmodel.dart';
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
@@ -28,9 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    viewModel.user.then(
-      (user) => {if (user == null) LoginScreen.navigate(context)},
-    );
+    viewModel.isLoggedIn$.listen((loggedIn) {
+      if (!loggedIn) LoginScreen.navigate(context);
+    });
   }
 
   int _currentIndex = 0;

@@ -20,5 +20,6 @@ class Constants {
     Raffle: (data) => Raffle.fromMap(data),
     ProductInfo: (data) => ProductInfo.fromMap(data),
     RaffleRules: (data) => RaffleRules.fromMap(data),
+    User: (data) => User.fromMap(data),
   };
 }

@@ -28,6 +28,6 @@ List<SingleChildWidget> uiConsumableProviders = [
     update: (context, raffleRepository, raffleListViewModel) => raffleListViewModel..repository = raffleRepository,
     create: (context) => RaffleListViewModel(),
   ),
-  StreamProvider<User>(create: (context) => Provider.of<AuthViewModel>(context).user$),
-  FutureProvider<User>(create: (context) => Provider.of<AuthViewModel>(context).user),
+  StreamProvider<bool>(create: (context) => Provider.of<AuthViewModel>(context).isLoggedIn$),
+  FutureProvider<User>(create: (context) => Provider.of<AuthViewModel>(context).getUser()),
 ];

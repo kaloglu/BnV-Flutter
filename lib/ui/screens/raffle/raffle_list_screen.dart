@@ -97,7 +97,7 @@ class _RaffleListScreenState extends State<RaffleListScreen> {
 
   Widget _buildProfilePhoto() {
     return FutureBuilder<User>(
-      future: AuthViewModel().user,
+      future: AuthViewModel().getUser(),
       builder: (context, snapshot) {
         var user = snapshot.data;
         var profilePicUrl = user?.profilePicUrl ?? dummyPic;

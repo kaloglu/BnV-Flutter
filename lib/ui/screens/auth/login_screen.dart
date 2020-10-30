@@ -23,8 +23,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    viewModel.user.then((user) {
-      if (user != null) {
+    viewModel.isLoggedIn$.listen((loggedIn) {
+      if (loggedIn) {
         HomeScreen.navigate(context);
       }
     });
@@ -35,17 +35,21 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: StreamBuilder<User>(
-            stream: viewModel.user$,
+        child: StreamBuilder<bool>(
+            stream: viewModel.isLoggedIn$,
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+              switch (snapshot.connectionState) {
+                case ConnectionState.done:
+                case ConnectionState.active:
+                  if (!snapshot.hasData && !snapshot.data) {
+                    return LoginForm(viewModel: viewModel);
+                  } else {
+                    return Container();
+                  }
+                  break;
+                default:
+                  return CircularProgressIndicator();
               }
-
-              if (!snapshot.hasData && snapshot?.data == null) {
-                return LoginForm(viewModel: viewModel);
-              }
-              return CircularProgressIndicator();
             }),
       ),
     );
