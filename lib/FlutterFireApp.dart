@@ -2,7 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:BedavaNeVar/BnvApp.dart';
 import 'package:BedavaNeVar/provider_setup.dart';
-import 'package:BedavaNeVar/ui/widgets/common/platform_alert_dialog.dart';
+import 'package:BedavaNeVar/ui/widgets/common/platform_error_dialog.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 
@@ -22,33 +22,38 @@ class FlutterFireApp extends StatelessWidget {
       builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {
-          return PlatformAlertDialog(
-            title: "Firebase Error",
-            content: snapshot.error,
-            defaultActionText: "OK",
-          );
+          return PlatformErrorDialog(message: snapshot.error);
         }
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-          // turn this off after seeing reports in in the console.
-          FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+          _initCrashlytics();
+          _firebaseEmulator();
 
-          if (USE_FIRESTORE_EMULATOR) {
-            // Switch host based on platform.
-            FirebaseFirestore.instance.settings = Settings(
-              host: defaultTargetPlatform == TargetPlatform.android ? '10.0.2.2:8080' : 'localhost:8080',
-              sslEnabled: false,
-              persistenceEnabled: false,
-            );
-          }
           return MultiProvider(providers: providers, child: BnVApp());
         }
+
         return new MediaQuery(
             data: new MediaQueryData.fromWindow(ui.window),
             child: new Directionality(textDirection: TextDirection.rtl, child: Text("Yükleniyor...")));
       },
     );
+  }
+
+  void _firebaseEmulator() {
+    if (USE_FIRESTORE_EMULATOR) {
+      // Switch host based on platform.
+      FirebaseFirestore.instance.settings = Settings(
+        host: defaultTargetPlatform == TargetPlatform.android ? '10.0.2.2:8080' : 'localhost:8080',
+        sslEnabled: false,
+        persistenceEnabled: false,
+      );
+    }
+  }
+
+  void _initCrashlytics() {
+    FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    // turn this off after seeing reports in in the console.
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   }
 }

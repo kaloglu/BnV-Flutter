@@ -10,7 +10,7 @@ export 'package:BedavaNeVar/models/user_model.dart';
 class AuthViewModel extends BaseViewModel<LoginRepository> {
   AuthViewModel() : super(LoginRepository());
 
-  Stream<bool> get isLoggedIn$ => repository.isLoggedIn$;
+  Stream<User> get authState$ => repository.authState;
 
   Future<User> getUser() => repository.getUser();
 

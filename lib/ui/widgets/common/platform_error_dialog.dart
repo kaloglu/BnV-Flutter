@@ -23,7 +23,7 @@ class PlatformErrorDialog extends PlatformAlertDialog {
 
   PlatformErrorDialog({String title, String message, String code})
       : super(
-          title: title,
+          title: title ?? "Error",
           content: (code ?? '') + message,
           defaultActionText: 'OK',
         );

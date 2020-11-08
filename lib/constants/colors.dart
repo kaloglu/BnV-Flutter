@@ -1,13 +1,38 @@
 import 'constants.dart';
 
-// Colors
-const kBackgroundColor = Color(0xFFFEFEFE);
-const kTitleTextColor = Color(0xFF303030);
-const kBodyTextColor = Color(0xFF4B4B4B);
-const kTextLightColor = Color(0xFF959595);
-const kInfectedColor = Color(0xFFFF8748);
-const kDeathColor = Color(0xFFFF4848);
-const kRecovercolor = Color(0xFF36C12C);
-const kPrimaryColor = Color(0xFF3383CD);
-final kShadowColor = Color(0xFFB7B7B7).withOpacity(.16);
-final kActiveShadowColor = Color(0xFF4056C6).withOpacity(.15);
+// Light Colors
+const lightAccentColor = Colors.pinkAccent;
+const lightPrimaryColor = Colors.pink;
+const lightTitleTextColor = Color(0xFF303030);
+const lightBodyTextColor = Color(0xFF4B4B4B);
+const lightTextLightColor = Color(0xFF959595);
+const lightInfectedColor = Color(0xFFFF8748);
+const lightBackgroundColor = Color(0xFFFEFEFE);
+const lightDeathColor = Color(0xFFFF4848);
+const lightRecoverColor = Color(0xFF36C12C);
+final lightShadowColor = Color(0xFFB7B7B7).withOpacity(.16);
+final lightActiveShadowColor = Color(0xFF4056C6).withOpacity(.15);
+
+// Dark Colors
+const darkAccentColor = Colors.redAccent;
+const darkPrimaryColor = Colors.amber;
+const darkTitleTextColor = Color(0xFF303030);
+const darkBodyTextColor = Color(0xFF4B4B4B);
+const darkTextLightColor = Color(0xFF959595);
+const darkInfectedColor = Color(0xFFFF8748);
+const darkBackgroundColor = Color(0xFFFEFEFE);
+const darkDeathColor = Color(0xFFFF4848);
+const darkRecoverColor = Color(0xFF36C12C);
+final darkShadowColor = Color(0xFFB7B7B7).withOpacity(.16);
+final darkActiveShadowColor = Color(0xFF4056C6).withOpacity(.15);
+
+ThemeData lightTheme = ThemeData(
+  brightness: Brightness.light,
+  accentColor: lightAccentColor,
+  primaryColor: lightPrimaryColor,
+);
+ThemeData darkTheme = ThemeData(
+  brightness: Brightness.dark,
+  accentColor: darkAccentColor,
+  primaryColor: darkPrimaryColor,
+);
