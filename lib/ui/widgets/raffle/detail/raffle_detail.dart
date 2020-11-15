@@ -1,17 +1,16 @@
 import 'package:BedavaNeVar/constants/constants.dart';
-import 'package:BedavaNeVar/ui/screens/base/base_widget.dart';
+import 'package:BedavaNeVar/models/models.dart';
 import 'package:BedavaNeVar/utils/AppAds.dart';
-import 'package:BedavaNeVar/viewmodels/raffle_viewmodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class RaffleDetail extends StatefulWidget {
-  final RaffleViewModel viewModel;
+  final Raffle item;
   final String userId;
 
-  const RaffleDetail(this.viewModel, this.userId, {Key key}) : super(key: key);
+  const RaffleDetail(this.item, this.userId, {Key key}) : super(key: key);
 
   @override
   _RaffleDetailState createState() => _RaffleDetailState();
@@ -31,7 +30,7 @@ class _RaffleDetailState extends State<RaffleDetail> {
 
   void _buildRewardedVideo() {
     FirebaseAdMob.instance.initialize(appId: AppAds.appId);
-    targetInfo = MobileAdTargetingInfo(childDirected: true, keywords: widget.viewModel.raffleDescription.split(" "));
+    targetInfo = MobileAdTargetingInfo(childDirected: true, keywords: widget.item.description.split(" "));
     rewardedVideoAd.listener = (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
       if (event == RewardedVideoAdEvent.closed) {
         print("$rewardAmount $rewardType için reklam kapandı");
@@ -63,62 +62,62 @@ class _RaffleDetailState extends State<RaffleDetail> {
 
   void rewardTicket(int rewardAmount, String rewardType) {
     print("tebrikler $rewardAmount $rewardType hesabınıza eklendi.");
-    widget.viewModel.reward(widget.userId, rewardAmount, rewardType);
+    // widget.item.reward(widget.userId, rewardAmount, rewardType);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget<RaffleViewModel>(
-        viewModel: widget.viewModel,
-        onModelReady: (viewModel) => viewModel?.loadAttributes(widget.userId),
-        builder: (context, viewModel, child) {
-          return ListView(
-            children: <Widget>[
-              _buildProductionWidget(viewModel),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: _buildDescriptionWidget(viewModel),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: <Widget>[
-                    _buildRaffleDateInfo(viewModel),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                    ),
-                    buildTicketCountLine(viewModel, "<b>#</b> katılım hakkınız bulunuyor.", CountType.TICKET),
-                    _buildRaffleDetailButton(viewModel),
-                    buildTicketCountLine(viewModel, "Bu çekilişe " + "<b>#</b> kez katıldınız.", CountType.ENROLL),
-                  ],
-                ),
-              ),
-            ],
-          );
-        });
+    // return BaseWidget<RaffleViewModel>(
+    //     item: widget.item,
+    //     onModelReady: (viewModel) => viewModel?.loadAttributes(widget.userId),
+    //     builder: (context, viewModel, child) {
+    //       return ListView(
+    //         children: <Widget>[
+    //           _buildProductionWidget(viewModel),
+    //           Padding(
+    //             padding: const EdgeInsets.all(8.0),
+    //             child: _buildDescriptionWidget(viewModel),
+    //           ),
+    //           Padding(
+    //             padding: const EdgeInsets.all(8.0),
+    //             child: Column(
+    //               children: <Widget>[
+    //                 _buildRaffleDateInfo(viewModel),
+    //                 Padding(
+    //                   padding: const EdgeInsets.all(8.0),
+    //                 ),
+    //                 buildTicketCountLine(viewModel, "<b>#</b> katılım hakkınız bulunuyor.", CountType.TICKET),
+    //                 _buildRaffleDetailButton(viewModel),
+    //                 buildTicketCountLine(viewModel, "Bu çekilişe " + "<b>#</b> kez katıldınız.", CountType.ENROLL),
+    //               ],
+    //             ),
+    //           ),
+    //         ],
+    //       );
+    //     });
   }
 
-  Widget buildTicketCountLine(RaffleViewModel viewModel, String text, CountType type) {
-    return StreamBuilder<int>(
-        stream: viewModel.getCount$(type),
-        builder: (context, snapshot) {
-          int count = 0;
-          if (snapshot.hasData) {
-            count = snapshot.data;
-            viewModel.setActiveCount(type, count);
-          }
-
-          return Html(data: text.replaceAll("#", count.toString()));
-        });
+  Widget buildTicketCountLine(Raffle raffle, String text, CountType type) {
+    // return StreamBuilder<int>(
+    //     stream: raffle.getCount$(type),
+    //     builder: (context, snapshot) {
+    //       int count = 0;
+    //       if (snapshot.hasData) {
+    //         count = snapshot.data;
+    //         raffle.setActiveCount(type, count);
+    //       }
+    //
+    //       return Html(data: text.replaceAll("#", count.toString()));
+    //     });
   }
 
-  Widget _buildDescriptionWidget(RaffleViewModel viewModel) => Container(
+  Widget _buildDescriptionWidget(Raffle raffle) => Container(
         color: Colors.grey.withAlpha(30),
         padding: EdgeInsets.only(top: 16, left: 8, right: 8),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            Html(data: viewModel.raffleDescription),
+            Html(data: raffle.description),
           ],
         ),
       );
@@ -140,7 +139,7 @@ class _RaffleDetailState extends State<RaffleDetail> {
               ))
           .toList());
 
-  Widget _buildInfoWidget(RaffleViewModel viewModel) => Container(
+  Widget _buildInfoWidget(Raffle raffle) => Container(
       color: Colors.white70,
       child: ListTile(
 //        leading: Center(
@@ -153,24 +152,24 @@ class _RaffleDetailState extends State<RaffleDetail> {
 //          ),
 //        ),
         title: Text(
-          " ${viewModel.productName}",
+          " ${raffle.productInfo.name}",
           style: TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold),
         ),
         trailing: Text(
-          Strings.currentValue + ":" + viewModel.productUnitPrice + " " + Strings.tlChar,
+          Strings.currentValue + ":" + raffle.productInfo.unitPrice.toString() + " " + Strings.tlChar,
           style: TextStyle(color: Colors.blueGrey),
         ),
       ));
 
-  Widget _buildProductionWidget(RaffleViewModel viewModel) => Container(
+  Widget _buildProductionWidget(Raffle raffle) => Container(
       color: Colors.grey,
       height: 300,
       child: GridTile(
-        child: _buildImageCarousel(viewModel.productImages),
-        footer: _buildInfoWidget(viewModel),
+        child: _buildImageCarousel(raffle.productInfo.images),
+        footer: _buildInfoWidget(raffle),
       ));
 
-  Widget _buildRaffleDateInfo(RaffleViewModel viewModel) {
+  Widget _buildRaffleDateInfo(Raffle raffle) {
     return Column(
       children: <Widget>[
         Row(
@@ -178,7 +177,7 @@ class _RaffleDetailState extends State<RaffleDetail> {
             Expanded(
               child: Text("Katılım Başlangıç: "),
             ),
-            Expanded(child: Html(data: "<b>${viewModel.startDateString}</b>")),
+            Expanded(child: Html(data: "<b>${raffle.startDate}</b>")),
           ],
         ),
         Padding(padding: EdgeInsets.symmetric(vertical: 4)),
@@ -187,37 +186,37 @@ class _RaffleDetailState extends State<RaffleDetail> {
             Expanded(
               child: Text("Çekiliş Tarihi: "),
             ),
-            Expanded(child: Html(data: "<b>${viewModel.endDateString}</b>")),
+            Expanded(child: Html(data: "<b>${raffle.endDate}</b>")),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildRaffleDetailButton(RaffleViewModel viewModel) {
-    return StreamBuilder<int>(
-      initialData: 0,
-      stream: viewModel.ticketCount$,
-      builder: (context, snapshot) {
-        var ticketCount = snapshot.data;
-        if (ticketCount > 0) {
-          return RaisedButton(
-            child: Text("Enroll Button"),
-            onPressed: () {
-              viewModel.enroll(widget.userId);
-            },
-          );
-        } else {
-          return RaisedButton(
-            child: Text("Earn Button"),
-            onPressed: (canShowRewardedVideo)
-                ? () {
-                    RewardedVideoAd.instance.show();
-                  }
-                : null,
-          );
-        }
-      },
-    );
+  Widget _buildRaffleDetailButton(Raffle raffle) {
+    // return StreamBuilder<int>(
+    //   initialData: 0,
+    //   stream: raffle.ticketCount$,
+    //   builder: (context, snapshot) {
+    //     var ticketCount = snapshot.data;
+    //     if (ticketCount > 0) {
+    //       return RaisedButton(
+    //         child: Text("Enroll Button"),
+    //         onPressed: () {
+    //           raffle.enroll(widget.userId);
+    //         },
+    //       );
+    //     } else {
+    //       return RaisedButton(
+    //         child: Text("Earn Button"),
+    //         onPressed: (canShowRewardedVideo)
+    //             ? () {
+    //                 RewardedVideoAd.instance.show();
+    //               }
+    //             : null,
+    //       );
+    //     }
+    //   },
+    // );
   }
 }

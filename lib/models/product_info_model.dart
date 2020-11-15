@@ -18,15 +18,30 @@ class ProductInfo extends BaseModel {
     this.unitPrice,
   });
 
-  factory ProductInfo.fromMap(Map<String, dynamic> data) => ProductInfo(
-        name: data['name'] ?? '',
-        images: (data['images'] as List ?? []).map((media) => Media.fromMap(media)).toList(),
-        count: data['count'] ?? '',
-        unit: data['unit'] ?? '',
-        unitPrice: data['unitPrice'] ?? '',
-      );
+  @override
+  List<Object> get props => [
+        name,
+        images,
+        count,
+        unit,
+        unitPrice,
+      ];
 
-  Map<String, dynamic> toJson() => {
+  factory ProductInfo.fromMap(Map<String, dynamic> data) {
+    if (data == null) {
+      return null;
+    }
+
+    return ProductInfo(
+      name: data['name'] ?? '',
+      images: (data['images'] as List ?? []).map((media) => Media.fromMap(media)).toList(),
+      count: data['count'] ?? '',
+      unit: data['unit'] ?? '',
+      unitPrice: data['unitPrice'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toMap() => {
         'name': name,
         'images': images,
         'count': count,

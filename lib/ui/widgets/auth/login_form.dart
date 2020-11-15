@@ -1,9 +1,8 @@
 import 'package:BedavaNeVar/constants/constants.dart';
-import 'package:BedavaNeVar/viewmodels/auth_viewmodel.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 
 class LoginForm extends StatelessWidget {
-  final AuthViewModel viewModel;
+  final Object viewModel;
 
   const LoginForm({Key key, @required this.viewModel}) : super(key: key);
 
@@ -39,7 +38,7 @@ class LoginForm extends StatelessWidget {
             SizedBox(height: 36.0),
             GoogleSignInButton(
               text: Strings.signInWithGoogle,
-              onPressed: () async => await viewModel.signInWithGoogle(),
+              // onPressed: () async => await viewModel.signInWithGoogle(),
               darkMode: true,
               borderRadius: 10,
             ),

@@ -9,32 +9,44 @@ class Ticket extends BaseModel {
   final String userId;
   final int earn;
   final int remain;
-  final Timestamp createDate;
-  final Timestamp expireDate;
-  final Timestamp lastUpdate;
+  final DateTime createDate;
+  final DateTime expireDate;
+  final DateTime lastUpdate;
 
-  const Ticket(
-      {Key key,
-      this.id,
-      this.source,
-      this.userId,
-      this.earn,
-      this.remain,
-      this.createDate,
-      this.expireDate,
-      this.lastUpdate})
-      : super(key: key);
+  const Ticket({
+    Key key,
+    this.id,
+    this.source,
+    this.userId,
+    this.earn,
+    this.remain,
+    this.createDate,
+    this.expireDate,
+    this.lastUpdate,
+  }) : super(key: key);
 
   @override
-  Map<String, dynamic> toJson() => {
+  List<Object> get props => [
+        id,
+        source,
+        userId,
+        earn,
+        remain,
+        createDate,
+        expireDate,
+        lastUpdate,
+      ];
+
+  @override
+  Map<String, dynamic> toMap() => {
         'id': id,
         'source': source,
         'userId': userId,
         'earn': earn ?? 1,
         'remain': remain ?? earn,
-        'createDate': createDate ?? Timestamp.now(),
-        'expireDate': expireDate,
-        'lastUpdate': lastUpdate ?? Timestamp.now(),
+        'createDate': createDate.millisecondsSinceEpoch,
+        'expireDate': expireDate.millisecondsSinceEpoch,
+        'lastUpdate': lastUpdate.millisecondsSinceEpoch,
       };
 
   static Ticket fromFirestore(DocumentSnapshot doc) => fromMap(doc.data(), doc.id);
@@ -45,9 +57,9 @@ class Ticket extends BaseModel {
         userId: data['userId'] ?? '',
         earn: data['earn'] ?? 0,
         remain: data['remain'] ?? data['earn'] ?? 0,
-        createDate: data['createDate'] ?? Timestamp.now(),
-        expireDate: data['expireDate'] ?? Timestamp.now(),
-        lastUpdate: data['lastUpdate'],
+        createDate: DateTime.fromMillisecondsSinceEpoch(data['createDate'] ?? Timestamp.now() as int),
+        expireDate: DateTime.fromMillisecondsSinceEpoch(data['expireDate'] as int),
+        lastUpdate: DateTime.fromMillisecondsSinceEpoch(data['lastUpdate'] ?? Timestamp.now() as int),
       );
 
   static List<Ticket> listFromFirestore(QuerySnapshot query) => query.docs.map(fromFirestore).toList();

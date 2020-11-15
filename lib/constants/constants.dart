@@ -17,7 +17,7 @@ class Constants {
 
 // Data Models
   static final Map models = {
-    Raffle: (data) => Raffle.fromMap(data),
+    Raffle: (data) => Raffle.fromMap(data, data.id),
     ProductInfo: (data) => ProductInfo.fromMap(data),
     RaffleRules: (data) => RaffleRules.fromMap(data),
     User: (data) => User.fromMap(data),

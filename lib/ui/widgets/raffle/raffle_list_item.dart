@@ -1,12 +1,13 @@
 import 'package:BedavaNeVar/constants/constants.dart';
-import 'package:BedavaNeVar/viewmodels/raffle_viewmodel.dart';
+import 'package:BedavaNeVar/models/models.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class RaffleListItem extends StatelessWidget {
-  final RaffleViewModel viewModel;
-  final Function(RaffleViewModel) onTap;
+  final Raffle item;
+  final Function(Raffle) onTap;
 
-  const RaffleListItem({this.viewModel, this.onTap});
+  const RaffleListItem({this.item, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +17,15 @@ class RaffleListItem extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: ListTile(
             leading: SizedBox(
-              child: Image.network(
-                viewModel.productImages.first.path,
-                fit: BoxFit.cover,
-              ),
+              child: SvgPicture.asset("assets/icons/facebook.svg"),
+              // child: Image.network(
+              //   viewModel.productImages.first.path,
+              //   fit: BoxFit.cover,
+              // ),
             ),
-            title: Html(data: viewModel.raffleTitle),
-            subtitle: Html(data: viewModel.raffleDescription),
-            onTap: () => onTap(viewModel),
+            title: Html(data: "title"),
+            subtitle: Html(data: "description"),
+            onTap: () => {}, //onTap(viewModel),
           ),
         ),
         Divider(

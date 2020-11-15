@@ -35,7 +35,23 @@ class User extends BaseModel {
   }) : super(key: key);
 
   @override
-  Map<String, dynamic> toJson() => {
+  List<Object> get props => [
+        uid,
+        email,
+        fullname,
+        gender,
+        gsm,
+        profilePicUrl,
+        username,
+        age,
+        country,
+        city,
+        address,
+        deviceToken,
+      ];
+
+  @override
+  Map<String, dynamic> toMap() => {
         'uid': uid,
         'email': email,
         'fullname': fullname,

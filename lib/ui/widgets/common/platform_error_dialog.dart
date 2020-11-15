@@ -14,24 +14,24 @@ class PlatformErrorDialog extends PlatformAlertDialog {
     'ERROR_OPERATION_NOT_ALLOWED': 'This sign in method is not allowed. Please contact support.',
   };
 
-  // PlatformErrorDialog({String title, PlatformException exception})
-  //     : super(
-  //         title: title,
-  //         content: message(exception),
-  //         defaultActionText: 'OK',
-  //       );
+  PlatformErrorDialog.exception({String title, PlatformException exception})
+      : super(
+          title: title,
+          content: fromException(exception),
+          defaultActionText: 'OK',
+        );
 
   PlatformErrorDialog({String title, String message, String code})
       : super(
           title: title ?? "Error",
-          content: (code ?? '') + message,
+          content: (code + ' ' ?? '') + message,
           defaultActionText: 'OK',
         );
 
   // NOTE: The full list of FirebaseAuth errors is stored here:
   // https://github.com/firebase/firebase-ios-sdk/blob/2e77efd786e4895d50c3788371ec15980c729053/Firebase/Auth/Source/FIRAuthErrorUtils.m
   // These are just the most relevant for email & password sign in:
-  static String message(PlatformException exception) {
+  static String fromException(PlatformException exception) {
     if (exception.message == 'FIRFirestoreErrorDomain') {
       if (exception.code == 'Code 7') {
         // This happens when we get a "Missing or insufficient permissions" error

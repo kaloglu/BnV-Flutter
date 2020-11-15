@@ -9,15 +9,18 @@ class Raffle extends BaseModel {
   final String id;
   final String title;
   final String description;
-  final Timestamp startDate;
-  final Timestamp endDate;
+  final DateTime startDate;
+  final DateTime endDate;
+
+  // final Timestamp startDate;
+  // final Timestamp endDate;
   final RaffleRules rules;
   final ProductInfo productInfo;
   final bool isFeatured;
 
   const Raffle({
     Key key,
-    this.id,
+    @required this.id,
     @required this.title,
     @required this.description,
     this.startDate,
@@ -27,29 +30,57 @@ class Raffle extends BaseModel {
     this.isFeatured,
   }) : super(key: key);
 
-  factory Raffle.fromMap(Map data) => Raffle(
-        id: data['id'],
-        title: data['title'] ?? '',
-        description: data['description'] ?? '',
-        startDate: data['startDate'],
-        endDate: data['endDate'],
-        rules: RaffleRules.fromMap(data['rules']),
-        productInfo: ProductInfo.fromMap(data['productInfo']),
-        isFeatured: data['isFeatured'] ?? false,
-      );
+  @override
+  List<Object> get props => [
+        id,
+        title,
+        description,
+        startDate,
+        endDate,
+        rules,
+        productInfo,
+        isFeatured,
+      ];
+
+  double get durationInSec => endDate.difference(startDate).inSeconds.toDouble();
+
+  factory Raffle.fromMap(Map<String, dynamic> data, String documentId) {
+    if (data == null) {
+      return null;
+    }
+    final title = data['title'] as String;
+    if (title == null) {
+      return null;
+    }
+    return Raffle(
+      id: documentId,
+      title: title,
+      description: data['description'] ?? '',
+      startDate: DateTime.fromMillisecondsSinceEpoch(data['startDate'] as int),
+      endDate: DateTime.fromMillisecondsSinceEpoch(data['endDate'] as int),
+      // startDate: data['startDate'],
+      // endDate: data['endDate'],
+      rules: RaffleRules.fromMap(data['rules']),
+      productInfo: ProductInfo.fromMap(data['productInfo']),
+      isFeatured: data['isFeatured'] ?? false,
+    );
+  }
 
   @override
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         'title': title,
         'description': description,
-        'startDate': startDate,
-        'endDate': endDate,
+        // 'startDate': startDate,
+        // 'endDate': endDate,
+        'startDate': startDate.millisecondsSinceEpoch,
+        'endDate': endDate.millisecondsSinceEpoch,
         'rules': rules,
         'productInfo': productInfo,
         'isFeatured': isFeatured,
       };
 
-  factory Raffle.fromDocumentSnapshot(DocumentSnapshot docSnapshot) => Raffle.fromMap(docSnapshot.data());
+  factory Raffle.fromDocumentSnapshot(DocumentSnapshot docSnapshot) =>
+      Raffle.fromMap(docSnapshot.data(), docSnapshot.id);
 
   static List<Raffle> listFromFirestore(QuerySnapshot querySnapshot) =>
       querySnapshot.docs.map<Raffle>((snapshot) => Raffle.fromDocumentSnapshot(snapshot));
