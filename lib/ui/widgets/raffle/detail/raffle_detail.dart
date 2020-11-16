@@ -165,8 +165,8 @@ class _RaffleDetailState extends State<RaffleDetail> {
       color: Colors.grey,
       height: 300,
       child: GridTile(
-        child: _buildImageCarousel(raffle.productInfo.images),
         footer: _buildInfoWidget(raffle),
+        child: _buildImageCarousel(raffle.productInfo.images),
       ));
 
   Widget _buildRaffleDateInfo(Raffle raffle) {

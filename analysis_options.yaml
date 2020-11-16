@@ -1,0 +1,102 @@
+
+##
+# Specify analysis options.
+#
+# Until there are meta linter rules, each desired lint must be explicitly enabled.
+# See: https://github.com/dart-lang/linter/issues/288
+#
+# For a list of lints, see: http://dart-lang.github.io/linter/lints/
+# See the configuration guide for more
+# https://github.com/dart-lang/sdk/tree/master/pkg/analyzer#configuring-the-analyzer
+#
+# There are other similar analysis options files in the flutter repos,
+# which should be kept in sync with this file:
+#
+#   - analysis_options.yaml (this file)
+#   - packages/flutter/lib/analysis_options_user.yaml
+#   - https://github.com/flutter/plugins/blob/master/analysis_options.yaml
+#   - https://github.com/flutter/engine/blob/master/analysis_options.yaml
+#
+# This file contains the analysis options used by Flutter tools, such as IntelliJ,
+# Android Studio, and the `flutter analyze` command.
+
+include: all_lint_rules.yaml
+
+analyzer:
+#  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
+  errors:
+    # Otherwise cause the import of all_lint_rules to warn because of some rules conflicts.
+    # The conflicts are fixed in this file instead, so we can safely ignore the warning.
+    included_file_warning: ignore
+    # treat missing required parameters as a warning (not a hint)
+    missing_required_param: warning
+    # treat missing returns as a warning (not a hint)
+    missing_return: warning
+    # allow having TODOs in the code
+    todo: ignore
+    # Ignore analyzer hints for updating pubspecs when using Future or
+    # Stream and not importing dart:async
+    # Please see https://github.com/flutter/flutter/pull/24528 for details.
+    sdk_version_async_exported_from_core: ignore
+    # Custom errors to be ignored
+    argument_type_not_assignable: ignore
+    implicit_dynamic_type: ignore
+    #invalid_assignment: ignore
+    implicit_dynamic_map_literal: ignore
+    always_put_control_body_on_new_line: ignore
+  exclude:
+    - "bin/cache/**"
+    # the following two are relative to the stocks example and the flutter package respectively
+    # see https://github.com/dart-lang/sdk/issues/28463
+    - "lib/i18n/messages_*.dart"
+    - "lib/src/http/**"
+
+linter:
+  rules:
+
+    # non-required Key often precedes required named parameters
+    always_put_required_named_parameters_first: true
+    # Avoid relative imports for files in lib/.
+    avoid_relative_lib_imports: true
+    # Ok to be explicit
+    avoid_redundant_argument_values: true
+    #Don't check for null in custom == operators.
+    avoid_null_checks_in_equality_operators: true
+    # Avoid defining unused parameters in constructors.
+    avoid_unused_constructor_parameters: true
+    # Name libraries using lowercase_with_underscores.
+    library_names: true
+    # Don't use more than one case with same value.
+    no_duplicate_case_values: true
+    # Use a function declaration to bind a function to a name.
+    prefer_function_declarations_over_variables: true
+    # Need to fix this sometime (easier to copy paste files across projects)
+    prefer_relative_imports: true
+    #Provide a deprecation message, via @Deprecated("message").
+    provide_deprecation_message: true
+    #  Sort child properties last in widget instance creations.
+    sort_child_properties_last: true
+    # Sort unnamed constructor declarations first.
+    sort_unnamed_constructors_first: true
+    # Sort constructor declarations before other members.
+    sort_constructors_first: true
+    #Unnecessary await keyword in return.
+    unnecessary_await_in_return: true
+    # Don't create a lambda when a tear-off will do.
+    unnecessary_lambdas: true
+    # Often used in local variables
+    unnecessary_final: true
+    # Don't override a method to do a super method invocation with the same parameters.
+    unnecessary_overrides: true
+    #Unnecessary parenthesis can be removed.
+    unnecessary_parenthesis: true
+    #Remove unnecessary backslashes in strings.
+    unnecessary_string_escapes: true
+    # Unnecessary string interpolation.
+    unnecessary_string_interpolations: true
+    #Don't access members with this unless avoiding shadowing.
+    unnecessary_this: true
+    #Sort pub dependencies.
+    sort_pub_dependencies: true

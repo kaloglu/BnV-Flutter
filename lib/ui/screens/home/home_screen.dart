@@ -10,7 +10,7 @@ class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 
-  static navigate(BuildContext context) {
+  static void navigate(BuildContext context) {
     print("page: $route");
     Navigator.pushReplacementNamed(context, route);
   }

@@ -44,7 +44,7 @@ class Raffle extends BaseModel {
 
   double get durationInSec => endDate.difference(startDate).inSeconds.toDouble();
 
-  factory Raffle.fromMap(Map<String, dynamic> data, String documentId) {
+  factory Raffle.fromMap(Map<String, dynamic> data, [String documentId]) {
     if (data == null) {
       return null;
     }
@@ -53,7 +53,7 @@ class Raffle extends BaseModel {
       return null;
     }
     return Raffle(
-      id: documentId,
+      id: documentId ?? data['id'],
       title: title,
       description: data['description'] ?? '',
       startDate: DateTime.fromMillisecondsSinceEpoch(data['startDate'] as int),
@@ -83,5 +83,5 @@ class Raffle extends BaseModel {
       Raffle.fromMap(docSnapshot.data(), docSnapshot.id);
 
   static List<Raffle> listFromFirestore(QuerySnapshot querySnapshot) =>
-      querySnapshot.docs.map<Raffle>((snapshot) => Raffle.fromDocumentSnapshot(snapshot));
+      querySnapshot.docs.map<Raffle>((snapshot) => Raffle.fromDocumentSnapshot(snapshot)).toList();
 }

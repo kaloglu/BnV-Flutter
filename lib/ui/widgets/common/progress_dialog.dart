@@ -78,7 +78,7 @@ class _MyDialog extends StatefulWidget {
     return _dialog;
   }
 
-  update() {
+  void update() {
     _dialog.changeState();
   }
 }
@@ -122,7 +122,7 @@ class _MyDialogState extends State<_MyDialog> {
         ]));
   }
 
-  changeState() {
+  void changeState() {
     setState(() {});
   }
 
