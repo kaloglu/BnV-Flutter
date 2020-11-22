@@ -31,12 +31,12 @@ class AuthService {
   }
 
   Future<void> signInWithFacebook() async {
-    final LoginResult loginResult = await _facebookSignIn.login();
-    if (loginResult.accessToken == null)
+    final AccessToken loginResult = await _facebookSignIn.login();
+    if (loginResult.token == null)
       throw PlatformException(code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
 
     await _auth.signInWithCredential(
-      FacebookAuthProvider.credential(loginResult.accessToken.token),
+      FacebookAuthProvider.credential(loginResult.token),
     );
   }
 

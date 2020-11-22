@@ -2,17 +2,14 @@ import 'package:BedavaNeVar/BnvApp.dart';
 import 'package:BedavaNeVar/ui/screens/onboarding/onboarding_viewmodel.dart';
 import 'package:BedavaNeVar/ui/widgets/common/custom_buttons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/all.dart';
 
-class OnboardingPage extends StatelessWidget {
-  Future<void> onGetStarted(BuildContext context) async {
-    final onboardingViewModel = context.read(onboardingViewModelProvider);
-    await onboardingViewModel.completeOnboarding();
-  }
-
+class OnboardingPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
+    final onboardingViewModel = useProvider(onboardingViewModelProvider);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -35,7 +32,7 @@ class OnboardingPage extends StatelessWidget {
               ),
             ),
             CustomRaisedButton(
-              onPressed: () => onGetStarted(context),
+              onPressed: onboardingViewModel.completeOnboarding,
               color: Colors.indigo,
               borderRadius: 30,
               child: Text(

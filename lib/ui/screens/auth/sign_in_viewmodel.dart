@@ -30,11 +30,14 @@ class SignInViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> signInGoogle() async {
-    await _signIn(auth.signInWithGoogle);
-  }
+  Future<void> signInGoogle() async => await _signIn(auth.signInWithGoogle);
 
   Future<void> signInFacebook() async {
     await _signIn(auth.signInWithFacebook);
+  }
+
+  Future<void> signOut() async {
+    auth.signOutWithGoogle();
+    auth.signOutWithFacebook();
   }
 }

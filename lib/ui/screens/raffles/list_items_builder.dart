@@ -1,6 +1,6 @@
 import 'package:BedavaNeVar/ui/widgets/common/EmptyContent.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
 
@@ -19,8 +19,8 @@ class ListItemsBuilder<T> extends StatelessWidget {
       data: (items) => items.isNotEmpty ? _buildList(items) : const EmptyContent(),
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (_, __) => const EmptyContent(
-        title: 'Something went wrong',
-        message: 'Can\'t load items right now',
+        title: 'Kampanya bulunamadı 😲',
+        message: 'En kısa zamanda ekleyeceğiz.',
       ),
     );
   }

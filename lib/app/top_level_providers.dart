@@ -10,7 +10,9 @@ export 'package:flutter_riverpod/all.dart';
 
 final authServiceProvider = Provider<AuthService>((ref) => AuthService());
 
-final authStateProvider = StreamProvider<User>((ref) => ref.watch(authServiceProvider).authState);
+final authStateProvider = StreamProvider<User>((ref) {
+  return ref.watch(authServiceProvider).authState;
+});
 
 final databaseProvider = Provider<FirestoreDatabase>((ref) {
   final auth = ref.watch(authStateProvider);

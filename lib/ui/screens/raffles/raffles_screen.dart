@@ -7,19 +7,19 @@ import 'package:BedavaNeVar/ui/widgets/common/show_exception_alert_dialog.dart';
 import 'package:BedavaNeVar/ui/widgets/raffle/raffle_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pedantic/pedantic.dart';
 
-final rafflesStreamProvider = StreamProvider.autoDispose<List<Raffle>>((ref) {
-  final database = ref.watch(databaseProvider);
-  return database?.rafflesStream() ?? const Stream.empty();
-});
+final rafflesStreamProvider = StreamProvider.autoDispose<List<Raffle>>(
+  (ref) => useProvider(databaseProvider)?.rafflesStream() ?? const Stream.empty(),
+);
 
 // watch database
-class RafflesScreen extends ConsumerWidget {
+class RafflesScreen extends HookWidget {
   Future<void> _delete(BuildContext context, Raffle raffle) async {
     try {
-      final database = context.read(databaseProvider);
+      final database = useProvider(databaseProvider);
       await database.deleteRaffle(raffle);
     } catch (e) {
       unawaited(showExceptionAlertDialog(
@@ -31,7 +31,7 @@ class RafflesScreen extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(Strings.raffles),
@@ -42,12 +42,12 @@ class RafflesScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: _buildContents(context, watch),
+      body: _buildContents(context),
     );
   }
 
-  Widget _buildContents(BuildContext context, ScopedReader watch) {
-    final rafflesStream = watch(rafflesStreamProvider);
+  Widget _buildContents(BuildContext context) {
+    final rafflesStream = useProvider(rafflesStreamProvider);
     return ListItemsBuilder<Raffle>(
       data: rafflesStream,
       itemBuilder: (context, raffle) => Dismissible(
