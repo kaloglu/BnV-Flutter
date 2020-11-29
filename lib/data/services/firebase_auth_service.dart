@@ -11,6 +11,8 @@ class AuthService {
 
   bool _lastLoginState;
 
+  get auth => _auth;
+
   // Stream<User> get authState => _auth.authStateChanges();
   Stream<UserModel.User> get authState async* {
     await for (var user in _auth.authStateChanges()) {

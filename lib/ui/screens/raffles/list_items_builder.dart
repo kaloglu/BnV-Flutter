@@ -1,10 +1,11 @@
 import 'package:BedavaNeVar/ui/widgets/common/EmptyContent.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
 
-class ListItemsBuilder<T> extends StatelessWidget {
+class ListItemsBuilder<T> extends HookWidget {
   const ListItemsBuilder({
     Key key,
     @required this.data,
@@ -16,12 +17,19 @@ class ListItemsBuilder<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return data.when(
-      data: (items) => items.isNotEmpty ? _buildList(items) : const EmptyContent(),
+      data: (items) {
+        return items.isNotEmpty ? _buildList(items) : const EmptyContent();
+      },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (_, __) => const EmptyContent(
-        title: 'Kampanya bulunamadı 😲',
-        message: 'En kısa zamanda ekleyeceğiz.',
-      ),
+      error: (object, stacktrace) {
+        print(object);
+        return Center(
+          child: EmptyContent(
+            title: 'Kampanya listesi alınırken bir hata oluştu 😲',
+            message: object.toString(),
+          ),
+        );
+      },
     );
   }
 

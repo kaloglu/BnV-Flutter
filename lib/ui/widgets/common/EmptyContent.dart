@@ -19,9 +19,15 @@ class EmptyContent extends StatelessWidget {
             title,
             style: const TextStyle(fontSize: 16.0, color: Colors.black54),
           ),
-          Text(
-            message,
-            style: const TextStyle(fontSize: 12.0, color: Colors.black54),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SizedBox(
+              width: 350,
+              child: Text(
+                message,
+                style: const TextStyle(fontSize: 12.0, color: Colors.redAccent),
+              ),
+            ),
           ),
         ],
       ),

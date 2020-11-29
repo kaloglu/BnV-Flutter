@@ -12,7 +12,7 @@ class FirestoreDatabase {
   final _service = FirestoreService.instance;
 
   Future<void> setRaffle(Raffle raffle) => _service.setData(
-        path: FirestorePath.raffle(uid, raffle.id),
+        path: FirestorePath.raffle(raffle.id),
         data: raffle.toMap(),
       );
 
@@ -25,18 +25,22 @@ class FirestoreDatabase {
       }
     }
     // delete raffle
-    await _service.deleteData(path: FirestorePath.raffle(uid, raffle.id));
+    await _service.deleteData(path: FirestorePath.raffle(raffle.id));
   }
 
   Stream<Raffle> raffleStream({@required String raffleId}) => _service.documentStream(
-        path: FirestorePath.raffle(uid, raffleId),
+        path: FirestorePath.raffle(raffleId),
         builder: (data, documentId) => Raffle.fromMap(data, documentId),
       );
 
-  Stream<List<Raffle>> rafflesStream() => _service.collectionStream(
-        path: FirestorePath.raffles(uid),
-        builder: (data, documentId) => Raffle.fromMap(data, documentId),
-      );
+  Stream<List<Raffle>> rafflesStream() {
+    return _service.collectionStream(
+      path: FirestorePath.raffles(),
+      builder: (data, documentId) {
+        return Raffle.fromMap(data, documentId);
+      },
+    );
+  }
 
   Future<void> setEnroll(Enroll enroll) => _service.setData(
         path: FirestorePath.enroll(uid, enroll.id),

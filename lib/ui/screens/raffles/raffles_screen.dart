@@ -11,9 +11,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pedantic/pedantic.dart';
 
-final rafflesStreamProvider = StreamProvider.autoDispose<List<Raffle>>(
-  (ref) => useProvider(databaseProvider)?.rafflesStream() ?? const Stream.empty(),
-);
+final raffleStreamProvider = StreamProvider.autoDispose<List<Raffle>>((ref) {
+  final database = ref.watch(databaseProvider);
+  return database?.rafflesStream() ?? const Stream.empty();
+});
 
 // watch database
 class RafflesScreen extends HookWidget {
@@ -47,7 +48,8 @@ class RafflesScreen extends HookWidget {
   }
 
   Widget _buildContents(BuildContext context) {
-    final rafflesStream = useProvider(rafflesStreamProvider);
+    final rafflesStream = useProvider(raffleStreamProvider);
+
     return ListItemsBuilder<Raffle>(
       data: rafflesStream,
       itemBuilder: (context, raffle) => Dismissible(

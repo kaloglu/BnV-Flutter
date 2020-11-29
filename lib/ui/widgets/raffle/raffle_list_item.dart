@@ -1,7 +1,6 @@
 import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/models/models.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class RaffleListItem extends StatelessWidget {
   final Raffle item;
@@ -16,15 +15,9 @@ class RaffleListItem extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: ListTile(
-            leading: SizedBox(
-              child: SvgPicture.asset("assets/icons/facebook.svg"),
-              // child: Image.network(
-              //   viewModel.productImages.first.path,
-              //   fit: BoxFit.cover,
-              // ),
-            ),
-            title: Html(data: "title"),
-            subtitle: Html(data: "description"),
+            leading: Image.network(item.productInfo.images.first.path, fit: BoxFit.cover),
+            title: Html(data: item.title),
+            subtitle: Html(data: item.description),
             onTap: () => {}, //onTap(viewModel),
           ),
         ),
