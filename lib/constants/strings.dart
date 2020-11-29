@@ -36,4 +36,5 @@ class Strings {
 
   static const String tlChar = "₺";
   static const String raffles = "Çekiliş Listesi";
+  static const String raffleDetails = "Çekiliş Detayları";
 }

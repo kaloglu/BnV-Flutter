@@ -1,8 +1,8 @@
 import 'package:BedavaNeVar/app/top_level_providers.dart';
 import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/models/models.dart';
+import 'package:BedavaNeVar/ui/screens/raffle/detail/raffle_detail_screen.dart';
 import 'package:BedavaNeVar/ui/screens/raffles/list_items_builder.dart';
-import 'package:BedavaNeVar/ui/widgets/common/show_alert_dialog.dart';
 import 'package:BedavaNeVar/ui/widgets/common/show_exception_alert_dialog.dart';
 import 'package:BedavaNeVar/ui/widgets/raffle/raffle_list_item.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +11,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pedantic/pedantic.dart';
 
-final raffleStreamProvider = StreamProvider.autoDispose<List<Raffle>>((ref) {
+final rafflesStreamProvider = StreamProvider.autoDispose<List<Raffle>>((ref) {
   final database = ref.watch(databaseProvider);
   return database?.rafflesStream() ?? const Stream.empty();
 });
@@ -48,8 +48,7 @@ class RafflesScreen extends HookWidget {
   }
 
   Widget _buildContents(BuildContext context) {
-    final rafflesStream = useProvider(raffleStreamProvider);
-
+    final rafflesStream = useProvider(rafflesStreamProvider);
     return ListItemsBuilder<Raffle>(
       data: rafflesStream,
       itemBuilder: (context, raffle) => Dismissible(
@@ -57,17 +56,7 @@ class RafflesScreen extends HookWidget {
         background: Container(color: Colors.red),
         direction: DismissDirection.endToStart,
         onDismissed: (direction) => _delete(context, raffle),
-        child: RaffleListItem(
-          item: raffle,
-          onTap: (raffle) => {
-            showAlertDialog(
-              context: context,
-              title: raffle.title,
-              content: raffle.description,
-              defaultActionText: "Tamam",
-            )
-          }, //RaffleEntriesPage.show(context, raffle),
-        ),
+        child: RaffleListItem(item: raffle, onTap: (raffle) => RaffleDetailScreen.show(context, raffle.id)),
       ),
     );
   }

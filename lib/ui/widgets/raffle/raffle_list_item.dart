@@ -1,5 +1,6 @@
 import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/models/models.dart';
+import 'package:BedavaNeVar/ui/widgets/raffle/ReusableCarousel.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class RaffleListItem extends StatelessWidget {
@@ -15,10 +16,10 @@ class RaffleListItem extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: ListTile(
-            leading: Image.network(item.productInfo.images.first.path, fit: BoxFit.cover),
+            leading: PredefinedCarousel(images: item.productInfo.images),
             title: Html(data: item.title),
             subtitle: Html(data: item.description),
-            onTap: () => {}, //onTap(viewModel),
+            onTap: () => onTap(item),
           ),
         ),
         Divider(
