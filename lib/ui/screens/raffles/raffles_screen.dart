@@ -4,6 +4,7 @@ import 'package:BedavaNeVar/models/models.dart';
 import 'package:BedavaNeVar/ui/screens/raffle/detail/raffle_detail_screen.dart';
 import 'package:BedavaNeVar/ui/screens/raffles/list_items_builder.dart';
 import 'package:BedavaNeVar/ui/widgets/common/show_exception_alert_dialog.dart';
+import 'package:BedavaNeVar/ui/widgets/common/theme_switch.dart';
 import 'package:BedavaNeVar/ui/widgets/raffle/raffle_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,10 +38,7 @@ class RafflesScreen extends HookWidget {
       appBar: AppBar(
         title: const Text(Strings.raffles),
         actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.add, color: Colors.white),
-            onPressed: () => {}, //EditRafflePage.show(context),
-          ),
+          useThemeModeSwitch(context),
         ],
       ),
       body: _buildContents(context),
@@ -56,7 +54,10 @@ class RafflesScreen extends HookWidget {
         background: Container(color: Colors.red),
         direction: DismissDirection.endToStart,
         onDismissed: (direction) => _delete(context, raffle),
-        child: RaffleListItem(item: raffle, onTap: (raffle) => RaffleDetailScreen.show(context, raffle.id)),
+        child: RaffleListItem(
+          item: raffle,
+          onTap: (raffle) => RaffleDetailScreen.show(context, raffle.id),
+        ),
       ),
     );
   }

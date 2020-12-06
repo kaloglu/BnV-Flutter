@@ -26,17 +26,16 @@ class HomeScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    var themeData = Theme.of(context);
     return Scaffold(
       body: _pages[_currentIndex.value],
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 16.0),
         child: CustomNavigationBar(
           borderRadius: Radius.circular(30.0),
-          selectedColor: Colors.white,
-          unSelectedColor: Colors.white38,
-          backgroundColor: lightPrimaryColor,
           currentIndex: _currentIndex.value,
-          scaleFactor: 0.4,
+          backgroundColor: themeData.bottomAppBarColor,
+          scaleFactor: 0.5,
           isFloating: true,
           items: _getBottomNavigationItems(context),
           onTap: (value) => _currentIndex.value = value,

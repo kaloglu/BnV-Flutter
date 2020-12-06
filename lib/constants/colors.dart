@@ -1,8 +1,8 @@
 import 'constants.dart';
 
 // Light Colors
-const lightAccentColor = Colors.pinkAccent;
-const lightPrimaryColor = Colors.pink;
+const lightAccentColor = Colors.white70;
+const lightPrimaryColor = Colors.white;
 const lightTitleTextColor = Color(0xFF303030);
 const lightBodyTextColor = Color(0xFF4B4B4B);
 const lightTextLightColor = Color(0xFF959595);
@@ -14,8 +14,8 @@ final lightShadowColor = Color(0xFFB7B7B7).withOpacity(.16);
 final lightActiveShadowColor = Color(0xFF4056C6).withOpacity(.15);
 
 // Dark Colors
-const darkAccentColor = Colors.redAccent;
-const darkPrimaryColor = Colors.amber;
+const darkAccentColor = Colors.white60;
+const darkPrimaryColor = Colors.white24;
 const darkTitleTextColor = Color(0xFF303030);
 const darkBodyTextColor = Color(0xFF4B4B4B);
 const darkTextLightColor = Color(0xFF959595);
@@ -28,11 +28,7 @@ final darkActiveShadowColor = Color(0xFF4056C6).withOpacity(.15);
 
 ThemeData lightTheme = ThemeData(
   brightness: Brightness.light,
-  accentColor: lightAccentColor,
-  primaryColor: lightPrimaryColor,
 );
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
-  accentColor: darkAccentColor,
-  primaryColor: darkPrimaryColor,
 );

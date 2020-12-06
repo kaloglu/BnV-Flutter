@@ -22,10 +22,12 @@ class EmptyContent extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: SizedBox(
-              width: 350,
-              child: Text(
-                message,
-                style: const TextStyle(fontSize: 12.0, color: Colors.redAccent),
+              width: MediaQuery.of(context).size.width,
+              child: Center(
+                child: Text(
+                  message,
+                  style: const TextStyle(fontSize: 12.0, color: Colors.black45),
+                ),
               ),
             ),
           ),

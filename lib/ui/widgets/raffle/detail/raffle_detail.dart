@@ -2,10 +2,8 @@ import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/models/models.dart';
 import 'package:BedavaNeVar/ui/screens/raffle/detail/raffle_detail_screen.dart';
 import 'package:BedavaNeVar/ui/widgets/common/EmptyContent.dart';
-import 'package:BedavaNeVar/ui/widgets/raffle/ReusableCarousel.dart';
+import 'package:BedavaNeVar/ui/widgets/raffle/PredefinedCarousel.dart';
 import 'package:BedavaNeVar/utils/AppAds.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -213,20 +211,5 @@ class RaffleDetail extends HookWidget {
     // );
   }
 
-  Carousel _buildCarousel(List<Media> images) => Carousel(
-      overlayShadow: true,
-      dotBgColor: Colors.black26,
-      dotSize: 4,
-      indicatorBgPadding: 5.0,
-      dotSpacing: 15,
-      showIndicator: (images.length > 1),
-      dotPosition: DotPosition.topRight,
-      autoplayDuration: Duration(seconds: 5),
-      animationCurve: Curves.fastOutSlowIn,
-      images: images
-          .map((imageModel) => Container(
-                padding: EdgeInsets.only(top: 16, bottom: 24),
-                child: Hero(tag: imageModel.path, child: CachedNetworkImage(imageUrl: imageModel.path)),
-              ))
-          .toList());
+  PredefinedCarousel _buildCarousel(List<Media> images) => PredefinedCarousel(images: images);
 }

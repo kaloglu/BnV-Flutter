@@ -17,32 +17,26 @@ class ListItemsBuilder<T> extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return data.when(
-      data: (items) {
-        return items.isNotEmpty ? _buildList(items) : const EmptyContent();
-      },
+      data: (items) => _buildList(items),
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (object, stacktrace) {
-        print(object);
-        return Center(
-          child: EmptyContent(
-            title: 'Kampanya listesi alınırken bir hata oluştu 😲',
-            message: object.toString(),
-          ),
-        );
-      },
+      error: (object, stacktrace) => Center(
+        child: EmptyContent(
+          title: 'Kampanya listesi alınırken bir hata oluştu 😲',
+          message: object.toString(),
+        ),
+      ),
     );
   }
 
   Widget _buildList(List<T> items) {
-    return ListView.separated(
-      itemCount: items.length + 2,
-      separatorBuilder: (context, index) => const Divider(height: 0.5),
-      itemBuilder: (context, index) {
-        if (index == 0 || index == items.length + 1) {
-          return Container(); // zero height: not visible
-        }
-        return itemBuilder(context, items[index - 1]);
-      },
+    if (items.isEmpty)
+      return EmptyContent(
+        title: "Bulamadık! 😥",
+        message: "Şu an yayınlanmış bir kampanya bulunmuyor...",
+      );
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) => itemBuilder(context, items[index]),
     );
   }
 }
