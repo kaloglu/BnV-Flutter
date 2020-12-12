@@ -7,16 +7,24 @@ class Enroll extends BaseModel {
   final String id;
   final String ticketId;
   final String raffleId;
-  final Timestamp enrollDate;
+  final DateTime date;
 
-  const Enroll({Key key, this.id, @required this.ticketId, @required this.raffleId, this.enrollDate}) : super(key: key);
+  const Enroll({Key key, this.id, @required this.ticketId, @required this.raffleId, this.date}) : super(key: key);
 
   @override
-  Map<String, dynamic> toJson() => {
+  List<Object> get props => [
+        id,
+        ticketId,
+        raffleId,
+        date,
+      ];
+
+  @override
+  Map<String, dynamic> toMap() => {
         'id': id,
         'ticketId': ticketId,
         'raffleId': raffleId,
-        'enrollDate': enrollDate,
+        'enrollDate': date.millisecondsSinceEpoch,
       };
 
   static Enroll fromFirestore(DocumentSnapshot doc) => fromMap(doc.data(), doc.id);
@@ -25,7 +33,7 @@ class Enroll extends BaseModel {
         id: documentId,
         ticketId: data['ticketId'] ?? '',
         raffleId: data['raffleId'] ?? '',
-        enrollDate: data['enrollDate'] ?? Timestamp.now(),
+        date: DateTime.fromMillisecondsSinceEpoch(data['enrollDate'] as int),
       );
 
   static List<Enroll> listFromFirestore(QuerySnapshot query) => query.docs.map(fromFirestore).toList();

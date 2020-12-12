@@ -13,7 +13,13 @@ class Media extends BaseModel {
   }) : super(key: key);
 
   @override
-  Map<String, dynamic> toJson() => {
+  List<Object> get props => [
+        path,
+        type,
+      ];
+
+  @override
+  Map<String, dynamic> toMap() => {
         'path': path,
         'type': type,
       };

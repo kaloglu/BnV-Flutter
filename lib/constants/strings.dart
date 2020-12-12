@@ -35,6 +35,6 @@ class Strings {
   static const String currentValue = "Değeri";
 
   static const String tlChar = "₺";
-  static const String raffleListTitle = "Çekiliş Listesi";
-
+  static const String raffles = "Çekiliş Listesi";
+  static const String raffleDetails = "Çekiliş Detayları";
 }

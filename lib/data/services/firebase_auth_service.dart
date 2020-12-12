@@ -1,52 +1,49 @@
-import 'package:BedavaNeVar/models/user_model.dart';
-import 'package:BedavaNeVar/ui/widgets/common/platform_error_dialog.dart';
-import 'package:BedavaNeVar/utils/firebase/firebase_helper.dart';
-import 'package:firebase_auth/firebase_auth.dart' as fAuth;
+import 'package:BedavaNeVar/models/user_model.dart' as UserModel;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-export 'package:firebase_auth/firebase_auth.dart' hide User;
-export 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-export 'package:google_sign_in/google_sign_in.dart';
-
-mixin AuthService {
-  fAuth.FirebaseAuth firebaseAuth;
-  GoogleSignIn googleSignIn;
-  FacebookAuth facebookSignIn;
+class AuthService {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FacebookAuth _facebookSignIn = FacebookAuth.instance;
 
   bool _lastLoginState;
 
-  Stream<User> get authState async* {
-    await for (var user in firebaseAuth.authStateChanges()) {
+  get auth => _auth;
+
+  // Stream<User> get authState => _auth.authStateChanges();
+  Stream<UserModel.User> get authState async* {
+    await for (var user in _auth.authStateChanges()) {
       var currentLoginState = user != null;
 
       if (_lastLoginState != currentLoginState) {
         _lastLoginState = currentLoginState;
-        yield User.userFromFirebaseAuth(user);
+        yield UserModel.User.userFromFirebaseAuth(user);
       }
     }
   }
 
-  Future<User> getUser() async {
-    var firebaseUser = firebaseAuth.currentUser;
+  UserModel.User getUser() {
+    var firebaseUser = _auth.currentUser;
     //TODO: Users tablosuna kayıt atma fonksiyonu çalıştırılmalı!!! Sonrasında commentli kısım açılır.
     // return Document<User>(path: Constants.USERS, id: firebaseUser.uid).getData();
-    return User.userFromFirebaseAuth(firebaseUser);
+    return UserModel.User.userFromFirebaseAuth(firebaseUser);
   }
 
   Future<void> signInWithFacebook() async {
-    final LoginResult loginResult = await facebookSignIn.login();
-    if (loginResult.accessToken == null)
+    final AccessToken loginResult = await _facebookSignIn.login();
+    if (loginResult.token == null)
       throw PlatformException(code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
 
-    await firebaseAuth.signInWithCredential(
-      fAuth.FacebookAuthProvider.credential(loginResult.accessToken.token),
+    await _auth.signInWithCredential(
+      FacebookAuthProvider.credential(loginResult.token),
     );
   }
 
   Future<void> signInWithGoogle() async {
-    final GoogleSignInAccount googleUser = await googleSignIn.signIn();
+    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     if (googleUser == null) throw PlatformException(code: 'ERROR_ABORTED_BY_USER', message: 'Sign in aborted by user');
 
     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
@@ -55,8 +52,8 @@ mixin AuthService {
       throw PlatformException(code: 'ERROR_MISSING_GOOGLE_AUTH_TOKEN', message: 'Missing Google Auth Token');
     }
 
-    await firebaseAuth.signInWithCredential(
-      fAuth.GoogleAuthProvider.credential(idToken: googleAuth.idToken, accessToken: googleAuth.accessToken),
+    await _auth.signInWithCredential(
+      GoogleAuthProvider.credential(idToken: googleAuth.idToken, accessToken: googleAuth.accessToken),
     );
   }
 
@@ -64,40 +61,39 @@ mixin AuthService {
     throw UnimplementedError();
   }
 
-  Future<void> signInWithPhone() async {
-    await firebaseAuth.verifyPhoneNumber(
-      phoneNumber: '+90 544 428 79 14',
-      verificationCompleted: (fAuth.PhoneAuthCredential credential) async =>
-          await firebaseAuth.signInWithCredential(credential),
-      verificationFailed: (fAuth.FirebaseAuthException e) =>
-          PlatformErrorDialog(title: "Auth Error", code: e.code, message: e.message),
-      codeSent: (String verificationId, int resendToken) async {
-        // Update the UI - wait for the user to enter the SMS code
-        String smsCode = '123456';
-
-        // Create a PhoneAuthCredential with the code
-        fAuth.PhoneAuthCredential phoneAuthCredential =
-            fAuth.PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
-
-        // Sign the user in (or link) with the credential
-        await firebaseAuth.signInWithCredential(phoneAuthCredential);
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
-  }
+  // Future<void> signInWithPhone() async {
+  //   await _auth.verifyPhoneNumber(
+  //     phoneNumber: '+90 544 428 79 14',
+  //     verificationCompleted: (PhoneAuthCredential credential) async => await _auth.signInWithCredential(credential),
+  //     verificationFailed: (FirebaseAuthException e) =>
+  //         PlatformErrorDialog(title: "Auth Error", code: e.code, message: e.message),
+  //     codeSent: (String verificationId, int resendToken) async {
+  //       // Update the UI - wait for the user to enter the SMS code
+  //       String smsCode = '123456';
+  //
+  //       // Create a PhoneAuthCredential with the code
+  //       PhoneAuthCredential phoneAuthCredential =
+  //           PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+  //
+  //       // Sign the user in (or link) with the credential
+  //       await _auth.signInWithCredential(phoneAuthCredential);
+  //     },
+  //     codeAutoRetrievalTimeout: (String verificationId) {},
+  //   );
+  // }
 
   Future<void> signOutWithGoogle() async {
-    if (await googleSignIn.isSignedIn()) {
-      await googleSignIn.signOut();
-      await firebaseAuth.signOut();
+    if (await _googleSignIn.isSignedIn()) {
+      await _googleSignIn.signOut();
+      await _auth.signOut();
     }
   }
 
   Future<void> signOutWithFacebook() async {
-    var fbToken = await facebookSignIn.isLogged;
+    var fbToken = await _facebookSignIn.isLogged;
     if (fbToken != null) {
-      await facebookSignIn.logOut();
-      await firebaseAuth.signOut();
+      await _facebookSignIn.logOut();
+      await _auth.signOut();
     }
   }
 }

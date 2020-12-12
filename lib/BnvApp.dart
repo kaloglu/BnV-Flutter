@@ -1,38 +1,40 @@
+import 'package:BedavaNeVar/app/app_router.dart';
 import 'package:BedavaNeVar/constants/constants.dart';
-import 'package:BedavaNeVar/ui/screens/auth/login_screen.dart';
-import 'package:BedavaNeVar/ui/screens/home_screen.dart';
-import 'package:BedavaNeVar/ui/screens/profile/profile_screen.dart';
-import 'package:BedavaNeVar/ui/screens/raffle/detail/raffle_detail_screen.dart';
-import 'package:BedavaNeVar/ui/screens/screens.dart';
+import 'package:BedavaNeVar/ui/screens/auth/sign_in_page.dart';
+import 'package:BedavaNeVar/ui/screens/home/home_screen.dart';
+import 'package:BedavaNeVar/ui/screens/onboarding/onboarding_page.dart';
+import 'package:BedavaNeVar/ui/theme_viewmodel.dart';
+import 'package:BedavaNeVar/ui/widgets/auth/auth_widget.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
+import 'app/top_level_providers.dart';
 
 export 'package:BedavaNeVar/constants/constants.dart';
 
-class BnVApp extends StatefulWidget {
-  @override
-  _BnVAppState createState() => _BnVAppState();
-}
-
-class _BnVAppState extends State<BnVApp> {
-  bool _useLightTheme = false;
-
+class BnVApp extends HookWidget {
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting('tr');
+    final firebaseAuth = useProvider(authServiceProvider);
     return MaterialApp(
-      theme: _useLightTheme ? lightTheme : darkTheme,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: useThemeListener().value,
       debugShowCheckedModeBanner: false,
       navigatorObservers: [
         FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
       ],
-      routes: {
-        LoginScreen.route: (context) => LoginScreen(),
-        ProfileScreen.route: (context) => ProfileScreen(),
-        HomeScreen.route: (context) => HomeScreen(),
-        RaffleDetailScreen.route: (context) => RaffleDetailScreen(),
-        SplashScreenScreen.route: (context) => SplashScreenScreen(),
-      },
+      home: AuthWidget(
+        onBoarding: (_) => OnboardingPage(),
+        nonSignedIn: (_) => SignInPage(),
+        signedIn: (_) => HomeScreen(),
+      ),
+      onGenerateRoute: (settings) => AppRouter.onGenerateRoute(settings, firebaseAuth),
     );
   }
 }
