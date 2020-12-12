@@ -1,0 +1,18 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "remoteconfig": {
+    "template": "remoteconfig.template.json"
+  },
+  "emulators": {
+    "firestore": {
+      "port": 8888
+    },
+    "ui": {
+      "enabled": true,
+      "port": 8889
+    }
+  }
+}

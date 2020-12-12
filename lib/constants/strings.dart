@@ -4,17 +4,19 @@ class Strings {
 
   static const String BnV = 'BedavaNeVar';
   static const String ok = 'OK';
+  static const String sortingTooltip = 'Sırala';
 
   // Logout
   static const String cancel = 'Cancel';
   static const String logout = 'Logout';
   static const String logoutAreYouSure = 'Are you sure that you want to logout?';
 
-  // Sign In Page
+  // Sign In Screen
   static const String signIn = 'Uygulamanın özelliklerinden yararlanabilmek için giriş yapman gerek...';
   static const String signInWithEmail = 'Sign in with email';
   static const String signInWithFacebook = 'Sign in with Facebook';
   static const String signInWithGoogle = 'Sign in with Google';
+  static const String signInWithPhone = 'Sign in with Phone';
   static const String goAnonymous = 'Go anonymous';
   static const String or = 'or';
 
@@ -23,10 +25,16 @@ class Strings {
   static const String backToSignIn = 'Back to sign in';
 
   // Home page
-  static const String homePage = 'Home Page';
+  static const String homeScreen = 'Home Screen';
 
   // Developer menu
   static const String developerMenu = 'Developer menu';
   static const String authenticationType = 'Authentication type';
   static const String firebase = 'Firebase';
+
+  static const String currentValue = "Değeri";
+
+  static const String tlChar = "₺";
+  static const String raffles = "Çekiliş Listesi";
+  static const String raffleDetails = "Çekiliş Detayları";
 }

@@ -8,26 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:414030755976:android:67e271792f706bcd",
+        "mobilesdk_app_id": "1:414030755976:android:8f954ae3beac50cddb473d",
         "android_client_info": {
-          "package_name": "com.kaloglu.bnv"
+          "package_name": "com.kaloglu.BedavaNeVar"
         }
       },
       "oauth_client": [
         {
-          "client_id": "414030755976-5vje6stho8a2u2ed766v5pul3476a2o1.apps.googleusercontent.com",
+          "client_id": "414030755976-ed56a9jbnbtlii14b0m8evdqc1eq7bjg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.kaloglu.bnv",
+            "package_name": "com.kaloglu.BedavaNeVar",
             "certificate_hash": "6825ed1e0e9bd9d40bf096bdab9832e7f30a0b24"
-          }
-        },
-        {
-          "client_id": "414030755976-i4vhgp48a5n7i18ue11s1ak6fg442g0o.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.kaloglu.bnv",
-            "certificate_hash": "3e1830cf3ddae1d3fa2338b57a08305034aa6e17"
           }
         },
         {
@@ -44,7 +36,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "414030755976-onqmorfkjqpv5rh3e1tcvjt7c2r291st.apps.googleusercontent.com",
+              "client_id": "414030755976-k0n485l1icsoon5s910e7ttpnm883nqs.apps.googleusercontent.com",
               "client_type": 3
             },
             {
@@ -56,8 +48,7 @@
             }
           ]
         }
-      },
-      "admob_app_id": "ca-app-pub-0165663276066705~8640565281"
+      }
     }
   ],
   "configuration_version": "1"
