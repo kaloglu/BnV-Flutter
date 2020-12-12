@@ -10,6 +10,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'app/top_level_providers.dart';
 
@@ -18,6 +19,7 @@ export 'package:BedavaNeVar/constants/constants.dart';
 class BnVApp extends HookWidget {
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting('tr');
     final firebaseAuth = useProvider(authServiceProvider);
     return MaterialApp(
       theme: lightTheme,

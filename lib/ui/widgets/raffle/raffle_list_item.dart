@@ -42,10 +42,13 @@ class RaffleListItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: useShadowColors(context),
                     ),
-                    child: CachedNetworkImage(
-                      imageUrl: item.productInfo.images.first.path,
-                      progressIndicatorBuilder: (context, url, progress) =>
-                          CircularProgressIndicator(value: progress.progress),
+                    child: Hero(
+                      tag: item.title,
+                      child: CachedNetworkImage(
+                        imageUrl: item.productInfo.images.first.path,
+                        progressIndicatorBuilder: (context, url, progress) =>
+                            CircularProgressIndicator(value: progress.progress),
+                      ),
                     ),
                   ),
                   Container(

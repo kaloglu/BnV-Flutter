@@ -1,10 +1,10 @@
+import 'package:BedavaNeVar/BnvApp.dart';
 import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/models/models.dart';
 import 'package:BedavaNeVar/ui/screens/raffle/detail/raffle_detail_screen.dart';
 import 'package:BedavaNeVar/ui/widgets/common/EmptyContent.dart';
+import 'package:BedavaNeVar/ui/widgets/common/theme_switch.dart';
 import 'package:BedavaNeVar/ui/widgets/raffle/PredefinedCarousel.dart';
-import 'package:BedavaNeVar/utils/AppAds.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,82 +12,21 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class RaffleDetail extends HookWidget {
   final String raffleId;
 
-  // final canShowRewardedVideoNotifier = useState(false);
-  // final rewardedVideoAd = RewardedVideoAd.instance;
-
   RaffleDetail(this.raffleId, {Key key}) : super(key: key);
-
-  static MobileAdTargetingInfo targetInfo;
-
-  // void _buildRewardedVideo() {
-  //   FirebaseAdMob.instance.initialize(appId: AppAds.appId);
-  //   targetInfo = MobileAdTargetingInfo(childDirected: true, keywords: ["Bedava", "Hediye", "İndirim", "Kampanya"]);
-  //   rewardedVideoAd.listener = (RewardedVideoAdEvent event, {String rewardType, int rewardAmount}) {
-  //     if (event == RewardedVideoAdEvent.closed) {
-  //       print("$rewardAmount $rewardType için reklam kapandı");
-  //       canShowRewardedVideoNotifier.value = false;
-  //       loadAd(rewardedVideoAd);
-  //     }
-  //
-  //     if (event == RewardedVideoAdEvent.started) print("$rewardAmount $rewardType için video başladı");
-  //     if (event == RewardedVideoAdEvent.rewarded) rewardTicket(rewardAmount, rewardType);
-  //
-  //     if (event == RewardedVideoAdEvent.loaded) {
-  //       print("$rewardAmount $rewardType için reklam yüklendi");
-  //       canShowRewardedVideoNotifier.value = true;
-  //     }
-  //     if (event == RewardedVideoAdEvent.failedToLoad) print("$rewardAmount $rewardType için reklam yüklenmedi: ");
-  //   };
-  //
-  //   loadAd(rewardedVideoAd);
-  //   print("ilk yükleme");
-  // }
-
-  void loadAd(RewardedVideoAd rewardedVideoAd) {
-    rewardedVideoAd.load(adUnitId: AppAds.rewardedUnitId, targetingInfo: targetInfo);
-  }
-
-  void rewardTicket(int rewardAmount, String rewardType) {
-    print("tebrikler $rewardAmount $rewardType hesabınıza eklendi.");
-    // widget.item.reward(widget.userId, rewardAmount, rewardType);
-  }
 
   @override
   Widget build(BuildContext context) {
     final raffleStream = useProvider(raffleStreamProvider(raffleId));
 
-    // useMemoized(
-    //   () {
-    //     {
-    //       rewardedVideoAd = RewardedVideoAd.instance;
-    //       _buildRewardedVideo();
-    //     }
-    //   },
-    //   [rewardedVideoAd],
-    // );
     return raffleStream.when(
       data: (raffle) {
         return ListView(
           children: <Widget>[
-            _buildProductionWidget(raffle),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _buildDescriptionWidget(raffle),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  _buildRaffleDateInfo(raffle),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                  ),
-                  // buildTicketCountLine(raffle, "<b>#</b> katılım hakkınız bulunuyor.", CountType.TICKET),
-                  // _buildRaffleDetailButton(raffle),
-                  // buildTicketCountLine(raffle, "Bu çekilişe " + "<b>#</b> kez katıldınız.", CountType.ENROLL),
-                ],
-              ),
-            ),
+            _buildProductionWidget(context, raffle),
+            _buildDescriptionWidget(context, raffle),
+            // buildTicketCountLine(raffle, "<b>#</b> katılım hakkınız bulunuyor.", CountType.TICKET),
+            // _buildRaffleDetailButton(raffle),
+            // buildTicketCountLine(raffle, "Bu çekilişe " + "<b>#</b> kez katıldınız.", CountType.ENROLL),
           ],
         );
       },
@@ -118,68 +57,25 @@ class RaffleDetail extends HookWidget {
     //     });
   }
 
-  Widget _buildDescriptionWidget(Raffle raffle) => Container(
-        color: Colors.grey.withAlpha(30),
-        padding: EdgeInsets.only(top: 16, left: 8, right: 8),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Html(data: raffle.description),
-          ],
-        ),
-      );
+  Widget _buildDescriptionWidget(BuildContext context, Raffle raffle) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+        color: Theme.of(context).cardColor,
+        boxShadow: useShadowColors(context, blurRadius: 20),
+      ),
+      margin: EdgeInsets.symmetric(horizontal: 8.0),
+      child: Html(data: raffle.description),
+    );
+  }
 
-  Widget _buildInfoWidget(Raffle raffle) => Container(
-      color: Colors.white70,
-      child: ListTile(
-//        leading: Center(
-//          widthFactor: 1,
-//          child: Expanded(
-//            child: Text(
-//              "${viewModel.productCount}  ${viewModel.productUnit}",
-//              style: TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold),
-//            ),
-//          ),
-//        ),
-        title: Text(
-          " ${raffle.productInfo.name}",
-          style: TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold),
-        ),
-        trailing: Text(
-          Strings.currentValue + ":" + raffle.productInfo.unitPrice.toString() + " " + Strings.tlChar,
-          style: TextStyle(color: Colors.blueGrey),
-        ),
-      ));
-
-  Widget _buildProductionWidget(Raffle raffle) => Container(
-        color: Colors.grey,
-        height: 300,
-        child: GridTile(
-          footer: _buildInfoWidget(raffle),
-          child: _buildCarousel(raffle.productInfo.images),
-        ),
-      );
-
-  Widget _buildRaffleDateInfo(Raffle raffle) {
-    return Column(
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: Text("Katılım Başlangıç: "),
-            ),
-            Expanded(child: Html(data: "<b>${raffle.startDate}</b>")),
-          ],
-        ),
-        Padding(padding: EdgeInsets.symmetric(vertical: 4)),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: Text("Çekiliş Tarihi: "),
-            ),
-            Expanded(child: Html(data: "<b>${raffle.endDate}</b>")),
-          ],
-        ),
+  Widget _buildProductionWidget(BuildContext context, Raffle raffle) {
+    return Stack(
+      children: [
+        Hero(tag: raffle.title, child: PredefinedCarousel(raffle: raffle)),
+        Column(children: [
+          Container(alignment: AlignmentDirectional.topEnd, child: _buildDateInfoWidget(context, raffle)),
+        ]),
       ],
     );
   }
@@ -211,5 +107,46 @@ class RaffleDetail extends HookWidget {
     // );
   }
 
-  PredefinedCarousel _buildCarousel(List<Media> images) => PredefinedCarousel(images: images);
+  Widget _buildStartDateInfoWidget(BuildContext context, Raffle raffle) {
+    return Wrap(
+      alignment: WrapAlignment.end,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), topLeft: Radius.circular(20)),
+            color: Theme.of(context).cardColor.withOpacity(0.5),
+            boxShadow: useShadowColors(context, blurRadius: 20),
+          ),
+          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+          margin: EdgeInsets.symmetric(vertical: 12.0),
+          child: Text.rich(
+            TextSpan(text: "Katılım: ${raffle.startDateReadable}", style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEndDateInfoWidget(BuildContext context, Raffle raffle) {
+    return Wrap(
+      alignment: WrapAlignment.end,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), topLeft: Radius.circular(20)),
+            color: Theme.of(context).cardColor.withOpacity(0.5),
+            boxShadow: useShadowColors(context, blurRadius: 20),
+          ),
+          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+          margin: EdgeInsets.symmetric(vertical: 12.0),
+          child: Text.rich(
+            TextSpan(text: "Çekiliş: ${raffle.endDateReadable}", style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+        ),
+      ],
+    );
+  }
+
+  _buildDateInfoWidget(BuildContext context, Raffle raffle) =>
+      (true) ? _buildStartDateInfoWidget(context, raffle) : _buildEndDateInfoWidget(context, raffle);
 }

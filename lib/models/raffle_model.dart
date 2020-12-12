@@ -1,3 +1,4 @@
+import 'package:BedavaNeVar/BnvApp.dart';
 import 'package:BedavaNeVar/models/base/base_model.dart';
 import 'package:BedavaNeVar/models/product_info_model.dart';
 import 'package:BedavaNeVar/models/raffle_rules_model.dart';
@@ -84,4 +85,7 @@ class Raffle extends BaseModel {
 
   static List<Raffle> listFromFirestore(QuerySnapshot querySnapshot) =>
       querySnapshot.docs.map<Raffle>((snapshot) => Raffle.fromDocumentSnapshot(snapshot)).toList();
+
+  get startDateReadable => Constants.readableDate(date: startDate);
+  get endDateReadable => Constants.readableDate(date: endDate);
 }

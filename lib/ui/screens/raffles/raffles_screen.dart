@@ -4,7 +4,6 @@ import 'package:BedavaNeVar/models/models.dart';
 import 'package:BedavaNeVar/ui/screens/raffle/detail/raffle_detail_screen.dart';
 import 'package:BedavaNeVar/ui/screens/raffles/list_items_builder.dart';
 import 'package:BedavaNeVar/ui/widgets/common/show_exception_alert_dialog.dart';
-import 'package:BedavaNeVar/ui/widgets/common/theme_switch.dart';
 import 'package:BedavaNeVar/ui/widgets/raffle/raffle_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +36,6 @@ class RafflesScreen extends HookWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(Strings.raffles),
-        actions: <Widget>[
-          useThemeModeSwitch(context),
-        ],
       ),
       body: _buildContents(context),
     );
