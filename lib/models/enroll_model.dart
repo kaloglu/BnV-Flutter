@@ -36,5 +36,5 @@ class Enroll extends BaseModel {
         date: DateTime.fromMillisecondsSinceEpoch(data['enrollDate'] as int),
       );
 
-  static List<Enroll> listFromFirestore(QuerySnapshot query) => query.docs.map(fromFirestore).toList();
+  //static List<Enroll> listFromFirestore(QuerySnapshot query) => query.docs.map(fromFirestore).toList();
 }

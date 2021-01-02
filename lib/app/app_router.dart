@@ -1,22 +1,28 @@
-import 'package:BedavaNeVar/data/services/firebase_auth_service.dart';
 import 'package:BedavaNeVar/ui/screens/raffle/detail/raffle_detail_screen.dart';
+import 'package:BedavaNeVar/ui/widgets/auth/auth_widget.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
-  static Route<dynamic> onGenerateRoute(RouteSettings settings, AuthService authService) {
-    final args = settings.arguments;
+  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
+    final arguments = settings.arguments;
     switch (settings.name) {
       case RaffleDetailScreen.route:
-        final mapArgs = args as Map<String, dynamic>;
-        final raffleId = mapArgs['raffleId'];
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => RaffleDetailScreen(raffleId: raffleId),
-          settings: settings,
-          fullscreenDialog: true,
-        );
+        final mapArgs = arguments as Map<String, dynamic>;
+        return _buildPageRoute(RaffleDetailScreen(raffleId: mapArgs['raffleId']), settings);
       default:
         // TODO: Throw
         return null;
     }
   }
+}
+
+MaterialPageRoute _buildPageRoute(screen, settings, [shouldLogin = false, fullScreen = true]) {
+  return MaterialPageRoute<dynamic>(
+    builder: (_) {
+      if (shouldLogin) screen = AuthWidget(signedIn: (_) => screen);
+      return screen;
+    },
+    settings: settings,
+    fullscreenDialog: fullScreen,
+  );
 }

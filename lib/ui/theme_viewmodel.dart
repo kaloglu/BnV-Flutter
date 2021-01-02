@@ -3,10 +3,9 @@ import 'package:BedavaNeVar/data/services/shared_preferences_service.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final themeViewModelProvider = StateNotifierProvider<_ThemeViewModel>((ref) {
-  final sharedPreferencesService = ref.watch(sharedPreferencesServiceProvider);
-  return _ThemeViewModel(sharedPreferencesService.themePreferences);
-});
+final themeViewModelProvider = StateNotifierProvider<_ThemeViewModel>(
+  (ref) => _ThemeViewModel(ref.watch(sharedPreferencesServiceProvider).theme),
+);
 
 ValueNotifier<ThemeMode> useThemeListener() {
   final viewModel = useProvider(themeViewModelProvider);
@@ -20,7 +19,7 @@ ValueNotifier<ThemeMode> useThemeListener() {
 }
 
 class _ThemeViewModel extends StateNotifier<ThemeMode> {
-  _ThemeViewModel(this.themePreferences) : super(themePreferences.mode());
+  _ThemeViewModel(this.themePreferences) : super(themePreferences.mode);
   final ThemePreferences themePreferences;
 
   Future<void> setMode(ThemeMode mode) async {

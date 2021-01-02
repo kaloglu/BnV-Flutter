@@ -1,49 +1,56 @@
 import 'package:BedavaNeVar/BnvApp.dart';
+import 'package:BedavaNeVar/constants/values.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final sharedPreferencesServiceProvider = Provider<SharedPreferencesService>((ref) => throw UnimplementedError());
+import '../../BnvApp.dart';
+
+final sharedPreferencesServiceProvider = Provider<SharedPreferencesService>(
+  (ref) => throw UnimplementedError(),
+);
 
 class SharedPreferencesService {
-  SharedPreferencesService(this.sharedPreferences)
-      : onboardingPreferences = OnboardingPreferences(sharedPreferences: sharedPreferences),
-        themePreferences = ThemePreferences(sharedPreferences: sharedPreferences);
-
   final SharedPreferences sharedPreferences;
-  final OnboardingPreferences onboardingPreferences;
-  final ThemePreferences themePreferences;
+  final OnboardingPreferences onboarding;
+  final ThemePreferences theme;
+
+  SharedPreferencesService(this.sharedPreferences)
+      : onboarding = OnboardingPreferences._init(sharedPrefs: sharedPreferences),
+        theme = ThemePreferences._init(sharedPrefs: sharedPreferences);
 }
 
 class OnboardingPreferences {
-  final SharedPreferences sharedPreferences;
+  final SharedPreferences sharedPrefs;
   static const completeKey = 'onboardingComplete';
 
-  OnboardingPreferences({@required this.sharedPreferences});
+  const OnboardingPreferences._init({@required this.sharedPrefs});
 
-  Future<void> setComplete() async {
-    await sharedPreferences.setBool(completeKey, true);
-  }
+  get isComplete => sharedPrefs.getBool(completeKey) ?? false;
 
-  bool isComplete() => sharedPreferences.getBool(completeKey) ?? false;
+  Future<void> complete() async => await sharedPrefs.setBool(completeKey, true);
 }
 
 class ThemePreferences {
-  final SharedPreferences sharedPreferences;
-  static const modeKey = 'themeMode';
+  final SharedPreferences sharedPrefs;
+  final modeKey = ThemeModeValues.key;
 
-  ThemePreferences({@required this.sharedPreferences});
+  const ThemePreferences._init({@required this.sharedPrefs});
 
-  Future<void> setMode(mode) async => await sharedPreferences.setString(modeKey, mode.toString());
+  get mode {
+    var mode = ThemeMode.system;
 
-  ThemeMode mode() {
-    var mode = (sharedPreferences.getString(modeKey));
-    switch (mode) {
-      case "ThemeMode.light":
-        return ThemeMode.light;
-      case "ThemeMode.dark":
-        return ThemeMode.dark;
-      default:
-        return ThemeMode.system;
+    switch (sharedPrefs.getString(modeKey)) {
+      case ThemeModeValues.light:
+        mode = ThemeMode.light;
+        break;
+      case ThemeModeValues.dark:
+        mode = ThemeMode.dark;
+        break;
     }
+    return mode;
+  }
+
+  Future<void> setMode(mode) async {
+    return await sharedPrefs.setString(modeKey, mode.toString());
   }
 }

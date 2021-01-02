@@ -13,9 +13,9 @@ Widget useThemeModeSwitch(BuildContext context) {
 
 List<BoxShadow> useShadowColors(
   BuildContext context, {
-  double blurRadius = 10,
+  double blurRadius = 15,
   double spreadRadius = -10,
-  Offset offset = const Offset(4, 4),
+  Offset offset = const Offset(8, 8),
 }) =>
     [
       BoxShadow(

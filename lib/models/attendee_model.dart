@@ -10,19 +10,6 @@ class Attendee extends BaseModel {
 
   const Attendee({Key key, this.id, @required this.userId, this.attendDate}) : super(key: key);
 
-  @override
-  List<Object> get props => [
-        id,
-        userId,
-        attendDate,
-      ];
-
-  @override
-  Map<String, dynamic> toMap() => {
-        'userId': userId,
-        'attendDate': attendDate.millisecondsSinceEpoch,
-      };
-
   static Attendee fromFirestore(DocumentSnapshot doc) => fromMap(doc.data(), doc.id);
 
   static Attendee fromMap(Map data, [String documentId]) => Attendee(
@@ -31,5 +18,5 @@ class Attendee extends BaseModel {
         attendDate: DateTime.fromMillisecondsSinceEpoch(data['attendDate'] as int),
       );
 
-  static List<Attendee> listFromFirestore(QuerySnapshot query) => query.docs.map(fromFirestore).toList();
+  //static List<Attendee> listFromFirestore(QuerySnapshot query) => query.docs.map(fromFirestore).toList();
 }

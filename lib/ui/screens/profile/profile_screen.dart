@@ -1,4 +1,5 @@
 import 'package:BedavaNeVar/constants/constants.dart';
+import 'package:BedavaNeVar/models/models.dart';
 import 'package:BedavaNeVar/ui/screens/auth/sign_in_viewmodel.dart';
 import 'package:BedavaNeVar/ui/widgets/common/Buttons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -21,7 +22,7 @@ class ProfileScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    var user = authViewModel.auth.getUser();
+    User user = authViewModel.auth.getUser();
     return Scaffold(
       appBar: AppBar(
         title: Text("Profile: ${user?.fullname}"),
