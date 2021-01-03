@@ -14,10 +14,9 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final ticketCountProvider = StreamProvider.autoDispose<int>(
-    (ref) => ref.watch(userRepositoryProvider)?.ticketCount());
-final enrollCountProvider = StreamProvider.autoDispose<int>(
-    (ref) => ref.watch(userRepositoryProvider)?.enrollCount());
+final ticketCountProvider = StreamProvider.autoDispose.family<int, String>((ref, raffleId) {
+  return ref.watch(userRepositoryProvider)?.ticketCount(raffleId);
+});
 
 class RaffleDetail extends HookWidget {
   final String raffleId;
@@ -26,31 +25,8 @@ class RaffleDetail extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    var activeTicketCount = useState(0);
+    var raffleState = useState<Raffle>();
     var activeEnrollCount = useState(0);
-    var ticketProvider = useProvider(ticketCountProvider);
-    var enrollProvider = useProvider(enrollCountProvider);
-
-    useEffect(
-      () {
-        ticketProvider?.when(
-          data: (ticketCount) => activeTicketCount.value = ticketCount,
-          loading: () => activeTicketCount.value = -2,
-          error: (error, stackTrace) => activeTicketCount.value = -1,
-        );
-
-        enrollProvider?.when(
-          data: (enrollCount) => activeEnrollCount.value = enrollCount,
-          loading: () => activeEnrollCount.value = -2,
-          error: (error, stackTrace) => activeEnrollCount.value = -1,
-        );
-
-        return;
-      },
-      [ticketProvider,enrollProvider],
-    );
-
-
 
     final raffleStream = useProvider(raffleStreamProvider(raffleId));
 
@@ -62,7 +38,7 @@ class RaffleDetail extends HookWidget {
             _buildDescriptionWidget(context, raffle),
             // _buildTicketCountLine(activeTicketCount.value.toString()),
             // _buildRaffleDetailButton(raffle),
-            _buildEnrollCountLine(context, activeEnrollCount.value.toString()),
+            _buildEnrollCountLine(context, raffle.id),
           ],
         );
       },
@@ -79,26 +55,42 @@ class RaffleDetail extends HookWidget {
     );
   }
 
-  Widget _buildTicketCountLine(String count) =>
-      _buildCountLine(Strings.ticketCountText, count);
+  Widget _buildTicketCountLine(String count) => _buildCountLine(Strings.ticketCountText, count);
 
-  Widget _buildEnrollCountLine(BuildContext context, String count) => AuthWidget(
-    nonSignedIn: (context) => Text("Test"),
-    signedIn:(context) =>  Notch(
+  Widget _buildEnrollCountLine(BuildContext context, String raffleId) {
+    var userRepository = useProvider(userRepositoryProvider);
+    var count = useState("-1");
+    var loading = useState(false);
+    var enrollCountStream = userRepository.enrollCount(raffleId);
+    useEffect(() {
+      var countSub = enrollCountStream.listen(
+        (value) {
+          count.value = (value??"null").toString();
+        },
+        onDone: () => print("done"),
+      );
+      return countSub.cancel;
+    }, [enrollCountStream]);
+    return AuthWidget(
+      nonSignedIn: (context) => Text("Test"),
+      signedIn: (context) {
+        return Notch(
           child: Row(
             children: [
               Icon(FontAwesomeIcons.ticketAlt),
               Padding(
                 padding: EdgeInsets.all(1.0),
               ),
-              Text(count),
+              Text(count.value),
             ],
           ),
           position: NotchPosition.centerRight(),
           margin: EdgeInsets.symmetric(vertical: 20.0),
           color: Theme.of(context).cardColor,
-        ),
-  );
+        );
+      },
+    );
+  }
 
   // Padding(
   //   padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -111,8 +103,8 @@ class RaffleDetail extends HookWidget {
   Widget _buildDescriptionWidget(BuildContext context, Raffle raffle) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+        borderRadius:
+            BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
         color: Theme.of(context).cardColor,
         boxShadow: useShadowColors(context, blurRadius: 20),
       ),
@@ -162,8 +154,8 @@ class RaffleDetail extends HookWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20), topLeft: Radius.circular(20)),
+            borderRadius:
+                BorderRadius.only(bottomLeft: Radius.circular(20), topLeft: Radius.circular(20)),
             color: Theme.of(context).cardColor.withOpacity(0.5),
             boxShadow: useShadowColors(context, blurRadius: 20),
           ),
@@ -182,9 +174,8 @@ class RaffleDetail extends HookWidget {
   Widget _buildDateInfoWidget(BuildContext context, Raffle raffle) {
     return Text.rich(
       TextSpan(
-        text: (true)
-            ? "Katılım: ${raffle.startDateReadable}"
-            : "Çekiliş: ${raffle.endDateReadable}",
+        text:
+            (true) ? "Katılım: ${raffle.startDateReadable}" : "Çekiliş: ${raffle.endDateReadable}",
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
     );
