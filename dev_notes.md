@@ -4,11 +4,11 @@ Her yapılacak madde için referans kodu ve kısa teknik notlar.
 
 - BNV-001: Firebase yapılandırması doğrulandı. `lib/firebase_options.dart` mevcut, `main.dart` içinde init akışı sorunsuz. Etki: Girişte hata beklenmiyor. Geriye dönük not: Proje/ortam değişirse FlutterFire CLI ile yeniden üret.
 
-- BNV-002: `app_router.dart` ve `top_level_providers.dart` için derleme/doğrulama turu yapılacak. Etki: Rotada kırık isimler/parametreler tespit edilirse, ekran açılışları etkilenir. Plan: Rota isimlerini ve argüman tiplerini tek tek derleme uyarıları üzerinden düzelt, test navigasyon akışları hazırla.
+- BNV-002: `app_router.dart` ve `top_level_providers.dart` doğrulandı. `logger` bağımlılığı eklendi. RaffleDetail `navigate` argüman geçişi Map<String,dynamic> olacak şekilde düzeltildi; gereksiz `AppAds` importu kaldırıldı. Etki: Rota tip uyuşmazlığı kaynaklı olası çökme engellendi. Plan: Navigasyon akışları UI üzerinden manuel test edilecek.
 
-- BNV-003: Android/iOS manifest ve min/target SDK ayarları kontrol edilecek. Etki: Derleme/red riski. Plan: AndroidManifest izinleri (INTERNET, POST_NOTIFICATIONS vb.), iOS Info.plist açıklamaları (ATT vs.) gözden geçirilecek.
+- BNV-003: Android/iOS manifest ve min/target SDK ayarları kontrol edilecek. Notlar: INTERNET izni mevcut; AdMob kimlikleri kaldırıldı (BNV-101 kapsamında). Facebook ve Fabric (eski Crashlytics) meta verileri halen mevcut—şimdilik dokunulmadı. Plan: Android 13+ için POST_NOTIFICATIONS izni (opsiyonel) ve iOS ATT akışı (opsiyonel) daha sonra eklenecek.
 
-- BNV-101: Eski AdMob entegrasyonu kaldırıldı. Etki: Uygulamada reklam gösterimi ve reklam izleyerek hak kazanımı şu an devre dışı. Geri ekleme planı BNV-102'de.
+- BNV-101: Eski AdMob entegrasyonu kaldırıldı. AndroidManifest’te `com.google.android.gms.ads.APPLICATION_ID` ve iOS Info.plist’te `GADApplicationIdentifier` temizlendi. Etki: Uygulamada reklam gösterimi ve reklam izleyerek hak kazanımı şu an devre dışı. Geri ekleme planı BNV-102'de.
 
 - BNV-102: Google Mobile Ads (AdMob) yeniden entegrasyonu. Plan: `google_mobile_ads` paketi eklenecek, `AppAds.dart` tek giriş noktası olarak tasarlanacak. `MobileAds.instance.initialize()` uygulama açılışında yapılacak. Ödüllü reklam (rewarded) ve interstitial gösterimleri görev sistemiyle tetiklenecek. Test ID’leri ile doğrulandıktan sonra gerçek ID’ler gizli yapılandırmadan beslenecek. iOS için ATT izin akışı ve kullanıcı aksiyonu gereklilikleri eklenecek. Hata durumları `debugPrint` ile loglanacak.
 

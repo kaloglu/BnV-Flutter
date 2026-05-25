@@ -17,6 +17,7 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
+  logger: ^2.0.0
   flutter:
     sdk: flutter
 

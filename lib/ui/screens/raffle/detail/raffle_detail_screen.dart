@@ -4,7 +4,6 @@ import 'package:BedavaNeVar/data/repositories/raffle_repository.dart';
 import 'package:BedavaNeVar/models/models.dart';
 import 'package:BedavaNeVar/ui/widgets/common/theme_switch.dart';
 import 'package:BedavaNeVar/ui/widgets/raffle/raffles.dart';
-import 'package:BedavaNeVar/utils/AppAds.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -23,8 +22,8 @@ class RaffleDetailScreen extends HookWidget {
   RaffleDetailScreen({Key key, this.raffleId}) : assert(raffleId != null);
 
   RaffleDetailScreen.navigate(BuildContext context, this.raffleId) {
-    print("page: $route");
-    Navigator.pushReplacementNamed(context, route, arguments: raffleId);
+    debugPrint('page: $route');
+    Navigator.pushReplacementNamed(context, route, arguments: {'raffleId': raffleId});
   }
 
   RaffleDetailScreen.show(BuildContext context, this.raffleId) {
@@ -34,7 +33,7 @@ class RaffleDetailScreen extends HookWidget {
   // void loadAd(RewardedVideoAd rewardedVideoAd) {}
 
   void rewardTicket(int rewardAmount, String rewardType) {
-    print("tebrikler $rewardAmount $rewardType hesabınıza eklendi.");
+    debugPrint('tebrikler $rewardAmount $rewardType hesabınıza eklendi.');
   }
 
   @override

@@ -4,7 +4,7 @@ Bu liste kolaydan zora göre kategorize edilmiştir. Tamamlanan maddeler işaret
 
 ## 1) Acil: Derlenebilirlik ve Çalıştırma
 - [x] Firebase yapılandırması ve `firebase_options.dart` doğrulaması (BNV-001)
-- [ ] `app_router.dart` rotaları ve `top_level_providers.dart` derleme/doğrulama turu (BNV-002)
+- [x] `app_router.dart` rotaları ve `top_level_providers.dart` derleme/doğrulama turu (BNV-002)
 - [ ] Android/iOS manifest izinleri ve minimum/target SDK ayarlarının gözden geçirilmesi (BNV-003)
 
 ## 2) Bağımlılıklar ve Paket Yönetimi
