@@ -6,6 +6,7 @@ import 'package:BedavaNeVar/ui/widgets/common/progress_dialog.dart';
 import 'package:BedavaNeVar/ui/widgets/common/show_exception_alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:BedavaNeVar/ui/screens/auth/phone_sign_in_sheet.dart';
 
 class SocialSignIn extends HookConsumerWidget {
   @override
@@ -51,6 +52,31 @@ class SocialSignIn extends HookConsumerWidget {
                 style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
                 label: const Text(Strings.signInWithGoogle),
                 onPressed: viewModel.signInGoogle,
+              ),
+              const SizedBox(height: 12.0),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.alternate_email),
+                style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                label: const Text(Strings.signInWithTwitter),
+                onPressed: viewModel.signInTwitter,
+              ),
+              const SizedBox(height: 12.0),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.phone),
+                style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                label: const Text(Strings.signInWithPhone),
+                onPressed: () async {
+                  await showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
+                    builder: (_) => const Padding(
+                      padding: EdgeInsets.only(bottom: 16.0),
+                      child: PhoneSignInSheet(),
+                    ),
+                  );
+                },
               ),
             ],
           ),

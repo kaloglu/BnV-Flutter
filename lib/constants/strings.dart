@@ -15,16 +15,18 @@ class Strings {
 
   // Sign In Screen
   static const String signIn = 'Uygulamanın özelliklerinden yararlanabilmek için giriş yapman gerek...';
-  static const String signInWithEmail = 'Sign in with email';
-  static const String signInWithFacebook = 'Sign in with Facebook';
-  static const String signInWithGoogle = 'Sign in with Google';
-  static const String signInWithPhone = 'Sign in with Phone';
+  static const String signInWithEmail = 'E-posta ile giriş';
+  static const String signInWithFacebook = 'Facebook ile giriş';
+  static const String signInWithGoogle = 'Google ile giriş';
+  static const String signInWithPhone = 'Telefon ile giriş';
+  static const String signInWithTwitter = 'Twitter ile giriş';
+  static const String signInWithInstagram = 'Instagram ile giriş';
   static const String goAnonymous = 'Go anonymous';
   static const String or = 'or';
 
   // Email & Password page
-  static const String signInFailed = 'Sign in failed';
-  static const String backToSignIn = 'Back to sign in';
+  static const String signInFailed = 'Giriş başarısız';
+  static const String backToSignIn = 'Girişe geri dön';
 
   // Home page
   static const String homeScreen = 'Home Screen';

@@ -4,6 +4,7 @@ import 'package:BedavaNeVar/ui/screens/home/home_screen.dart';
 import 'package:BedavaNeVar/ui/screens/onboarding/onboarding_page.dart';
 import 'package:BedavaNeVar/ui/widgets/onboarding/onboarding_widget.dart';
 import 'package:BedavaNeVar/ui/theme_viewmodel.dart';
+import 'package:BedavaNeVar/ui/widgets/auth/auth_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -22,7 +23,7 @@ class BnVApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       home: OnboardingWidget(
         onBoarding: (_) => OnboardingPage(),
-        afterOrSkip: (_) => HomeScreen(),
+        afterOrSkip: (_) => AuthWidget(signedIn: (_) => HomeScreen()),
       ),
       onGenerateRoute: (settings) => AppRouter.onGenerateRoute(settings),
     );

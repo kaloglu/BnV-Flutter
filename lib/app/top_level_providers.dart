@@ -13,7 +13,7 @@ export 'package:flutter_riverpod/flutter_riverpod.dart';
 final authServiceProvider = Provider<AuthService>((ref) => AuthService());
 final firebaseAuthProvider = Provider<fba.FirebaseAuth>((ref) => AuthService().auth);
 
-final authStateProvider = StreamProvider<User>((ref) {
+final authStateProvider = StreamProvider<User?>((ref) {
   return ref.watch(authServiceProvider).authState;
 });
 
