@@ -14,17 +14,17 @@ class PlatformErrorDialog extends PlatformAlertDialog {
     'ERROR_OPERATION_NOT_ALLOWED': 'This sign in method is not allowed. Please contact support.',
   };
 
-  PlatformErrorDialog.exception({String title, PlatformException exception})
+  PlatformErrorDialog.exception({String? title, required PlatformException exception})
       : super(
-          title: title,
+          title: title ?? 'Hata',
           content: fromException(exception),
           defaultActionText: 'OK',
         );
 
-  PlatformErrorDialog({String title, String message, String code})
+  PlatformErrorDialog({String? title, String? message, String? code})
       : super(
           title: title ?? "Error",
-          content: (code + ' ' ?? '') + message,
+          content: ((code ?? '') + ' ' + (message ?? '')),
           defaultActionText: 'OK',
         );
 
@@ -37,8 +37,8 @@ class PlatformErrorDialog extends PlatformAlertDialog {
         // This happens when we get a "Missing or insufficient permissions" error
         return 'This operation could not be completed due to a server error';
       }
-      return exception.details;
+      return exception.details?.toString() ?? '';
     }
-    return errors[exception.code] ?? exception.message;
+    return errors[exception.code] ?? (exception.message ?? '');
   }
 }

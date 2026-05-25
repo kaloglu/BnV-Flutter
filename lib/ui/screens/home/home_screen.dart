@@ -10,14 +10,7 @@ class HomeScreen extends HookWidget {
   // final dummyPic =
   //     "https://cdn1.iconfinder.com/data/icons/circle-outlines-colored/512/Robot_User_Home_Dummy_Avatar_Person_AI-512.png";
   final route = "/home";
-  final List<Widget> _pages = [
-    RafflesScreen(),
-    ProfileScreen(),
-  ];
-
-  final _currentIndex = useState(0);
-
-  HomeScreen({Key key}) : super(key: key);
+  HomeScreen({super.key});
 
   HomeScreen.navigate(BuildContext context) {
     print("page: $route");
@@ -26,15 +19,20 @@ class HomeScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _currentIndex = useState(0);
+    final pages = [
+      RafflesScreen(),
+      ProfileScreen(),
+    ];
     var themeData = Theme.of(context);
     return Scaffold(
-      body: _pages[_currentIndex.value],
+      body: pages[_currentIndex.value],
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 16.0),
         child: CustomNavigationBar(
           borderRadius: Radius.circular(30.0),
           currentIndex: _currentIndex.value,
-          backgroundColor: themeData.bottomAppBarColor,
+          backgroundColor: themeData.colorScheme.surface,
           scaleFactor: 0.5,
           isFloating: true,
           items: _getBottomNavigationItems(context),

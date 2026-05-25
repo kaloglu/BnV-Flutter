@@ -3,23 +3,23 @@ import 'package:flutter/material.dart';
 
 class Notch extends StatelessWidget {
   final Widget child;
-  final Color color;
+  final Color? color;
   final NotchPosition position;
   final EdgeInsets padding;
-  final EdgeInsets margin;
-  final List<BoxShadow> boxShadows;
+  final EdgeInsets? margin;
+  final List<BoxShadow>? boxShadows;
   final double borderRadius;
 
   Notch({
-    Key key,
-    @required this.child,
+    super.key,
+    required this.child,
     this.color,
     this.position = const NotchPosition.topCenter(),
     this.boxShadows,
     this.padding = const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
     this.margin,
     this.borderRadius = 10,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -8,11 +8,11 @@ double _progress = 0.0;
 ProgressDialogType _progressDialogType = ProgressDialogType.Normal;
 
 class ProgressDialog {
-  _MyDialog _dialog;
+  late _MyDialog _dialog;
 
-  BuildContext context;
+  BuildContext? context;
 
-  ProgressDialog({Key key, this.context, ProgressDialogType progressDialogtype, String message}) {
+  ProgressDialog({this.context, ProgressDialogType? progressDialogtype, String? message}) {
     _dialogMessage = message ?? _dialogMessage;
     _progressDialogType = progressDialogtype ?? ProgressDialogType.Normal;
   }
@@ -20,7 +20,7 @@ class ProgressDialog {
   void hide() {
     if (_isShowing) {
       _isShowing = false;
-      Navigator.of(context, rootNavigator: true).pop();
+      Navigator.of(context!, rootNavigator: true).pop();
       debugPrint('ProgressDialog dismissed');
     }
   }
@@ -40,7 +40,7 @@ class ProgressDialog {
       _isShowing = true;
       debugPrint('ProgressDialog shown');
       showDialog<dynamic>(
-        context: context,
+        context: context!,
         barrierDismissible: false,
         builder: (BuildContext context) {
           return Dialog(
@@ -54,14 +54,14 @@ class ProgressDialog {
     }
   }
 
-  void update({double progress, String message}) {
+  void update({double? progress, String? message}) {
     debugPrint("ProgressDialog message changed: ");
     if (_progressDialogType == ProgressDialogType.Download) {
-      debugPrint("Old Progress: $_progress, New Progress: $progress");
-      _progress = progress;
+      debugPrint("Old Progress: $_progress, New Progress: ${progress ?? _progress}");
+      _progress = progress ?? _progress;
     }
     debugPrint("Old message: $_dialogMessage, New Message: $message");
-    _dialogMessage = message;
+    _dialogMessage = message ?? _dialogMessage;
     _dialog.update();
   }
 }

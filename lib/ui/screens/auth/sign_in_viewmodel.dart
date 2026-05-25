@@ -9,7 +9,7 @@ final signInModelProvider = ChangeNotifierProvider<SignInViewModel>(
 );
 
 class SignInViewModel with ChangeNotifier {
-  SignInViewModel({@required this.auth});
+  SignInViewModel({required this.auth});
 
   final AuthService auth;
   bool isLoading = false;

@@ -18,13 +18,11 @@ final authStateProvider = StreamProvider<User>((ref) {
 });
 
 final userRepositoryProvider = Provider<UserRepository>((ref) {
-  return ref.watch(authStateProvider).map(
-        data: (AsyncData<User> user) {
-          return UserRepository(user.value.uid);
-        },
-        loading: (AsyncLoading<User> value) => UserRepository(null),
-        error: (AsyncError<User> value)=> UserRepository(null),
-      );
+  final auth = ref.watch(authStateProvider);
+  return auth.maybeWhen(
+    data: (user) => UserRepository(user?.uid ?? ''),
+    orElse: () => const UserRepository(''),
+  );
 });
 
 final loggerProvider = Provider<Logger>((ref) => Logger(

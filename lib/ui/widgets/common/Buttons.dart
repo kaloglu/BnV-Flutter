@@ -7,9 +7,9 @@ class LogoutButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const LogoutButton({
-    Key key,
-    @required this.onPressed,
-  }) : super(key: key);
+    super.key,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) => IconButton(
@@ -23,15 +23,15 @@ class SortButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const SortButton({
-    Key key,
-    @required this.onPressed,
-  }) : super(key: key);
+    super.key,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) => IconButton(
         icon: Icon(FontAwesomeIcons.sortAmountDownAlt),
         tooltip: Strings.sortingTooltip,
-        onPressed: () => onPressed,
+        onPressed: onPressed,
       );
 }
 
@@ -39,14 +39,14 @@ class SearchButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const SearchButton({
-    Key key,
-    @required this.onPressed,
-  }) : super(key: key);
+    super.key,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) => IconButton(
         icon: Icon(FontAwesomeIcons.search),
         tooltip: Strings.sortingTooltip,
-        onPressed: () => onPressed,
+        onPressed: onPressed,
       );
 }

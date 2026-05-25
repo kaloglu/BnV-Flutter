@@ -6,7 +6,7 @@ import 'package:flutter_html/flutter_html.dart';
 class RaffleListItemInfo extends StatelessWidget {
   final Raffle item;
 
-  const RaffleListItemInfo({this.item});
+  const RaffleListItemInfo({required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class RaffleListItemInfo extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Text(
             item.title,
-            style: themeData.textTheme.subtitle1.copyWith(fontWeight: FontWeight.bold),
+            style: themeData.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
         ),
         Container(

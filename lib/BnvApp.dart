@@ -2,6 +2,7 @@ import 'package:BedavaNeVar/app/app_router.dart';
 import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/ui/screens/home/home_screen.dart';
 import 'package:BedavaNeVar/ui/screens/onboarding/onboarding_page.dart';
+import 'package:BedavaNeVar/ui/widgets/onboarding/onboarding_widget.dart';
 import 'package:BedavaNeVar/ui/theme_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

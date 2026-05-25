@@ -15,20 +15,20 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final ticketCountProvider = StreamProvider.autoDispose.family<int, String>((ref, raffleId) {
-  return ref.watch(userRepositoryProvider)?.ticketCount(raffleId);
+  return ref.watch(userRepositoryProvider).ticketCount(raffleId);
 });
 
-class RaffleDetail extends HookWidget {
+class RaffleDetail extends HookConsumerWidget {
   final String raffleId;
 
-  RaffleDetail(this.raffleId, {Key key}) : super(key: key);
+  RaffleDetail(this.raffleId, {super.key});
 
   @override
-  Widget build(BuildContext context) {
-    var raffleState = useState<Raffle>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    var raffleState = useState<Raffle?>(null);
     var activeEnrollCount = useState(0);
 
-    final raffleStream = useProvider(raffleStreamProvider(raffleId));
+    final raffleStream = ref.watch(raffleStreamProvider(raffleId));
 
     return raffleStream.when(
       data: (raffle) {
@@ -38,7 +38,7 @@ class RaffleDetail extends HookWidget {
             _buildDescriptionWidget(context, raffle),
             // _buildTicketCountLine(activeTicketCount.value.toString()),
             // _buildRaffleDetailButton(raffle),
-            _buildEnrollCountLine(context, raffle.id),
+            _buildEnrollCountLine(context, raffle.id, ref),
           ],
         );
       },
@@ -57,15 +57,15 @@ class RaffleDetail extends HookWidget {
 
   Widget _buildTicketCountLine(String count) => _buildCountLine(Strings.ticketCountText, count);
 
-  Widget _buildEnrollCountLine(BuildContext context, String raffleId) {
-    var userRepository = useProvider(userRepositoryProvider);
+  Widget _buildEnrollCountLine(BuildContext context, String raffleId, WidgetRef ref) {
+    var userRepository = ref.watch(userRepositoryProvider);
     var count = useState("-1");
     var loading = useState(false);
     var enrollCountStream = userRepository.enrollCount(raffleId);
     useEffect(() {
       var countSub = enrollCountStream.listen(
         (value) {
-          count.value = (value??"null").toString();
+          count.value = (value ?? "null").toString();
         },
         onDone: () => print("done"),
       );
@@ -146,6 +146,7 @@ class RaffleDetail extends HookWidget {
     //     }
     //   },
     // );
+    return const SizedBox.shrink();
   }
 
   Widget _buildEndDateInfoWidget(BuildContext context, Raffle raffle) {
@@ -156,7 +157,7 @@ class RaffleDetail extends HookWidget {
           decoration: BoxDecoration(
             borderRadius:
                 BorderRadius.only(bottomLeft: Radius.circular(20), topLeft: Radius.circular(20)),
-            color: Theme.of(context).cardColor.withOpacity(0.5),
+            color: Theme.of(context).cardColor.withValues(alpha: 0.5),
             boxShadow: useShadowColors(context, blurRadius: 20),
           ),
           padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),

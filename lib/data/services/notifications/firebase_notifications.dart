@@ -1,53 +1,33 @@
 import 'dart:async';
-import 'dart:io';
+import 'package:flutter/foundation.dart';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
-
+// BNV-004D stub: Eski FirebaseMessaging API kaldırıldı. Bu sınıf, derlemeyi bozmayacak
+// şekilde geçici bir yer tutucudur. Gerçek FCM entegrasyonu BNV-205 kapsamında yenilenecek.
 class FirebaseNotifications {
-  static FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
-  final StreamController<String> _onTokenChangedController = StreamController<String>();
-  StreamSubscription<String> _onTokenRefresh;
+  final StreamController<String> _onTokenChangedController = StreamController<String>.broadcast();
+  StreamSubscription<String>? _onTokenRefresh;
 
   Stream<String> get onTokenChanged => _onTokenChangedController.stream;
 
   void dispose() {
     _onTokenRefresh?.cancel();
-    _onTokenChangedController?.close();
+    _onTokenChangedController.close();
   }
 
   void fcmListeners() {
-    if (Platform.isIOS) iosPermission();
-
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('on message $message');
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('on resume $message');
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('on launch $message');
-      },
-    );
+    debugPrint('FirebaseNotifications.fcmListeners() stub: No-op');
   }
 
   void iosPermission() {
-    _firebaseMessaging.onIosSettingsRegistered.listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
-
-    _firebaseMessaging.requestNotificationPermissions(IosNotificationSettings(sound: true, badge: true, alert: true));
+    debugPrint('FirebaseNotifications.iosPermission() stub: No-op');
   }
 
   void setup() {
-    fcmListeners();
-    // Observable<String>.merge was considered here, but we need more fine grained control to ensure
-    // that only events from the currently active service are processed
-    _onTokenRefresh = _firebaseMessaging.onTokenRefresh.listen((token) {
-      _onTokenChangedController.add(token);
-    });
+    debugPrint('FirebaseNotifications.setup() stub: No-op');
   }
 
-  static Future<String> getToken() => _firebaseMessaging.getToken();
+  static Future<String?> getToken() async {
+    debugPrint('FirebaseNotifications.getToken() stub: returning null');
+    return null;
+  }
 }

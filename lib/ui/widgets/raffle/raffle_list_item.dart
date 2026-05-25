@@ -7,15 +7,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 class RaffleListItem extends StatelessWidget {
   final Raffle item;
-  final Function(Raffle) onTap;
-  final double height;
+  final Function(Raffle)? onTap;
+  final double? height;
   final double _height;
 
-  const RaffleListItem({
-    this.item,
+  RaffleListItem({
+    required this.item,
     this.onTap,
     this.height,
-  }) : _height = (height != null) ? height : 120;
+  }) : _height = (height != null) ? height! : 120;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class RaffleListItem extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(top: 25, bottom: 5),
                     decoration: BoxDecoration(
-                      color: themeData.bottomAppBarColor,
+                      color: themeData.colorScheme.surface,
                       boxShadow: useShadowColors(context),
                     ),
                     constraints: BoxConstraints.expand(),
@@ -45,7 +45,9 @@ class RaffleListItem extends StatelessWidget {
                     child: Hero(
                       tag: item.title,
                       child: CachedNetworkImage(
-                        imageUrl: item.productInfo.images.first.path,
+                        imageUrl: ((item.productInfo?.images.isNotEmpty ?? false)
+                                ? item.productInfo!.images.first.path
+                                : ''),
                         progressIndicatorBuilder: (context, url, progress) =>
                             CircularProgressIndicator(value: progress.progress),
                       ),
@@ -61,7 +63,7 @@ class RaffleListItem extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () => onTap(item),
+      onTap: () => onTap?.call(item),
     );
   }
 }

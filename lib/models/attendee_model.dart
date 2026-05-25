@@ -6,17 +6,27 @@ import 'package:flutter/material.dart';
 class Attendee extends BaseModel {
   final String id;
   final String userId;
-  final DateTime attendDate;
+  final DateTime? attendDate;
 
-  const Attendee({Key key, this.id, @required this.userId, this.attendDate}) : super(key: key);
+  const Attendee({super.key, this.id = '', required this.userId, DateTime? this.attendDate});
 
-  static Attendee fromFirestore(DocumentSnapshot doc) => fromMap(doc.data(), doc.id);
+  static Attendee fromFirestore(DocumentSnapshot doc) =>
+      fromMap((doc.data() as Map<String, dynamic>?) ?? <String, dynamic>{}, doc.id);
 
-  static Attendee fromMap(Map data, [String documentId]) => Attendee(
-        id: documentId,
-        userId: data['userId'] ?? '',
-        attendDate: DateTime.fromMillisecondsSinceEpoch(data['attendDate'] as int),
-      );
+  static Attendee fromMap(Map data, [String? documentId]) {
+    final raw = data['attendDate'];
+    DateTime? attend;
+    if (raw is int) {
+      attend = DateTime.fromMillisecondsSinceEpoch(raw);
+    } else if (raw is Timestamp) {
+      attend = raw.toDate();
+    }
+    return Attendee(
+      id: documentId ?? (data['id'] as String? ?? ''),
+      userId: data['userId'] as String? ?? '',
+      attendDate: attend,
+    );
+  }
 
   //static List<Attendee> listFromFirestore(QuerySnapshot query) => query.docs.map(fromFirestore).toList();
 }

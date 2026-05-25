@@ -7,10 +7,10 @@ class Media extends BaseModel {
   final String type;
 
   const Media({
-    Key key,
-    this.path,
-    this.type,
-  }) : super(key: key);
+    super.key,
+    this.path = '',
+    this.type = 'IMAGE',
+  });
 
   @override
   List<Object> get props => [
@@ -24,9 +24,9 @@ class Media extends BaseModel {
         'type': type,
       };
 
-  factory Media.fromMap(Map<String, dynamic> data, [String documentId]) => Media(
-        path: data['path'] ?? '',
-        type: data['type'] ?? MediaType.IMAGE,
+  factory Media.fromMap(Map<String, dynamic> data, [String? documentId]) => Media(
+        path: data['path'] as String? ?? '',
+        type: data['type'] as String? ?? 'IMAGE',
       );
 
   static List<Media> listFromMap(

@@ -1,23 +1,22 @@
 import 'package:BedavaNeVar/ui/widgets/common/EmptyContent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
 
 class ListItemsBuilder<T> extends HookWidget {
   const ListItemsBuilder({
-    Key key,
-    @nullable @required this.data,
-    @required this.itemBuilder,
-  }) : super(key: key);
+    super.key,
+    required this.data,
+    required this.itemBuilder,
+  });
   final AsyncValue<List<T>> data;
   final ItemWidgetBuilder<T> itemBuilder;
 
   @override
   Widget build(BuildContext context) {
-    return data?.when(
+    return data.when(
       data: (items) => _buildList(items),
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (object, stacktrace) => Center(

@@ -14,16 +14,16 @@ class Ticket extends BaseModel {
   final DateTime lastUpdate;
 
   const Ticket({
-    Key key,
-    this.id,
-    this.source,
-    this.userId,
-    this.earn,
-    this.remain,
-    this.createDate,
-    this.expireDate,
-    this.lastUpdate,
-  }) : super(key: key);
+    super.key,
+    required this.id,
+    required this.source,
+    required this.userId,
+    required this.earn,
+    required this.remain,
+    required this.createDate,
+    required this.expireDate,
+    required this.lastUpdate,
+  });
 
   @override
   List<Object> get props => [
@@ -49,18 +49,31 @@ class Ticket extends BaseModel {
         'lastUpdate': lastUpdate.millisecondsSinceEpoch,
       };
 
-  static Ticket fromFirestore(DocumentSnapshot doc) => fromMap(doc.data(), doc.id);
+  static Ticket fromFirestore(DocumentSnapshot doc) =>
+      fromMap((doc.data() as Map<String, dynamic>?) ?? <String, dynamic>{}, doc.id);
 
-  static Ticket fromMap(Map data, [String documentId]) => Ticket(
-        id: documentId,
-        source: data['source'] ?? '',
-        userId: data['userId'] ?? '',
-        earn: data['earn'] ?? 0,
-        remain: data['remain'] ?? data['earn'] ?? 0,
-        createDate: DateTime.fromMillisecondsSinceEpoch(data['createDate'] ?? Timestamp.now() as int),
-        expireDate: DateTime.fromMillisecondsSinceEpoch(data['expireDate'] as int),
-        lastUpdate: DateTime.fromMillisecondsSinceEpoch(data['lastUpdate'] ?? Timestamp.now() as int),
-      );
+  static Ticket fromMap(Map data, [String? documentId]) {
+    DateTime _toDate(dynamic v) {
+      if (v is int) return DateTime.fromMillisecondsSinceEpoch(v);
+      if (v is Timestamp) return v.toDate();
+      return DateTime.now();
+    }
+    final create = _toDate(data['createDate']);
+    final expire = _toDate(data['expireDate']);
+    final update = _toDate(data['lastUpdate']);
+    final earn = (data['earn'] as num?)?.toInt() ?? 0;
+    final remain = (data['remain'] as num?)?.toInt() ?? earn;
+    return Ticket(
+      id: documentId ?? (data['id'] as String? ?? ''),
+      source: data['source'] as String? ?? '',
+      userId: data['userId'] as String? ?? '',
+      earn: earn,
+      remain: remain,
+      createDate: create,
+      expireDate: expire,
+      lastUpdate: update,
+    );
+  }
 
   //static List<Ticket> listFromFirestore(QuerySnapshot query) => query.docs.map(fromFirestore).toList();
 }

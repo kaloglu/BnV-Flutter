@@ -11,12 +11,12 @@ class StreamLoading<T> extends StreamBuilderBase<T, AsyncSnapshot<T>> {
   // final BuildContext context;
 
   StreamLoading({
-    Key key,
+    Key? key,
     // this.context,
     this.initialData,
-    Stream<T> stream,
-    ProgressDialog loadingDialog,
-    @required this.builder,
+    Stream<T>? stream,
+    ProgressDialog? loadingDialog,
+    required this.builder,
   })  : assert(builder != null),
         // assert(context != null),
         // _loadingDialog = loadingDialog ?? ProgressDialog(context: context),
@@ -24,10 +24,10 @@ class StreamLoading<T> extends StreamBuilderBase<T, AsyncSnapshot<T>> {
 
   final AsyncWidgetBuilder<T> builder;
 
-  final T initialData;
+  final T? initialData;
 
   @override
-  AsyncSnapshot<T> initial() => AsyncSnapshot<T>.withData(ConnectionState.none, initialData);
+  AsyncSnapshot<T> initial() => AsyncSnapshot<T>.withData(ConnectionState.none, initialData as T);
 
   @override
   AsyncSnapshot<T> afterConnected(AsyncSnapshot<T> current) => current.inState(ConnectionState.waiting);
@@ -37,7 +37,7 @@ class StreamLoading<T> extends StreamBuilderBase<T, AsyncSnapshot<T>> {
       AsyncSnapshot<T>.withData(ConnectionState.active, data);
 
   @override
-  AsyncSnapshot<T> afterError(AsyncSnapshot<T> current, Object error) =>
+  AsyncSnapshot<T> afterError(AsyncSnapshot<T> current, Object error, StackTrace stackTrace) =>
       AsyncSnapshot<T>.withError(ConnectionState.active, error);
 
   @override

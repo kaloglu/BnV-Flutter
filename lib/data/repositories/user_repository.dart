@@ -11,7 +11,6 @@ class UserRepository {
 
   const UserRepository(this.uid);
 
-  @late
   Future<void> setEnroll(Enroll enroll) {
     return _service.setData(
       path: FirestorePath.enroll(uid, enroll.id),
@@ -19,33 +18,27 @@ class UserRepository {
     );
   }
 
-  @late
   Future<void> deleteEnroll(Enroll enroll) =>
       _service.deleteData(path: FirestorePath.enroll(uid, enroll.id));
 
-  @late
-  Stream<List<Enroll>> enrollsStream([String raffleId]) {
+  Stream<List<Enroll>> enrollsStream([String? raffleId]) {
     return _service.collectionStream<Enroll>(
       path: FirestorePath.enrolls(uid),
-      queryBuilder: (query) =>
-          raffleId != null ? query.where('raffleId', isEqualTo: raffleId) : null,
-      builder: (data, documentID) => Enroll.fromMap(data, documentID),
+      queryBuilder: raffleId != null ? (query) => query.where('raffleId', isEqualTo: raffleId) : null,
+      builder: (data, documentID) => Enroll.fromMap((data as Map<String, dynamic>?) ?? {}, documentID),
       sort: (lhs, rhs) => rhs.date.compareTo(lhs.date),
     );
   }
 
-  @late
-  Stream<int> ticketCount([String raffleId]) {
+  Stream<int> ticketCount([String? raffleId]) {
     return _service.countStream(path: FirestorePath.tickets(uid));
   }
 
-  @late
-  Stream<int> enrollCount([String raffleId]) {
-    if (uid == null) return null;
+  Stream<int> enrollCount([String? raffleId]) {
+    if (uid == null) return const Stream.empty();
     return _service.countStream(
       path: FirestorePath.enrolls(uid),
-      queryBuilder: (query) =>
-      raffleId != null ? query.where('raffleId', isEqualTo: raffleId) : null,
+      queryBuilder: raffleId != null ? (query) => query.where('raffleId', isEqualTo: raffleId) : null,
     );
   }
 }

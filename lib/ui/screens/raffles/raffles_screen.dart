@@ -10,11 +10,11 @@ import '../raffle/detail/raffle_detail_screen.dart';
 import 'list_items_builder.dart';
 
 final rafflesStreamProvider = StreamProvider.autoDispose<List<Raffle>>(
-  (_) => RaffleRepository.rafflesStream() ?? const Stream.empty(),
+  (_) => RaffleRepository.rafflesStream(),
 );
 
 // watch database
-class RafflesScreen extends HookWidget {
+class RafflesScreen extends HookConsumerWidget {
   // Future<void> _delete(BuildContext context, Raffle raffle) async {
   //   try {
   //     final database = useProvider(databaseProvider);
@@ -29,17 +29,17 @@ class RafflesScreen extends HookWidget {
   // }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final rafflesStream = ref.watch(rafflesStreamProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text(Strings.raffles),
       ),
-      body: _buildContents(context),
+      body: _buildContents(context, rafflesStream),
     );
   }
 
-  Widget _buildContents(BuildContext context) {
-    final rafflesStream = useProvider(rafflesStreamProvider);
+  Widget _buildContents(BuildContext context, AsyncValue<List<Raffle>> rafflesStream) {
     return ListItemsBuilder<Raffle>(
       data: rafflesStream,
       itemBuilder: (context, raffle) => Dismissible(

@@ -7,9 +7,9 @@ import 'package:flutter/services.dart';
 import 'show_alert_dialog.dart';
 
 Future<void> showExceptionAlertDialog({
-  @required BuildContext context,
-  @required String title,
-  @required dynamic exception,
+  required BuildContext context,
+  required String title,
+  required dynamic exception,
 }) =>
     showAlertDialog(
       context: context,
@@ -20,10 +20,10 @@ Future<void> showExceptionAlertDialog({
 
 String _message(dynamic exception) {
   if (exception is FirebaseException) {
-    return exception.message;
+    return exception.message ?? 'Bilinmeyen Firebase hatası';
   }
   if (exception is PlatformException) {
-    return exception.message;
+    return exception.message ?? 'Bilinmeyen platform hatası';
   }
   return exception.toString();
 }

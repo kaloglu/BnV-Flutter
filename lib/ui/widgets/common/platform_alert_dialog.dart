@@ -8,16 +8,14 @@ class PlatformAlertDialog extends PlatformWidget {
   final String title;
 
   final String content;
-  final String cancelActionText;
+  final String? cancelActionText;
   final String defaultActionText;
   PlatformAlertDialog({
-    @required this.title,
-    @required this.content,
+    required this.title,
+    required this.content,
     this.cancelActionText,
-    @required this.defaultActionText,
-  })  : assert(title != null),
-        assert(content != null),
-        assert(defaultActionText != null);
+    required this.defaultActionText,
+  });
 
   @override
   Widget buildCupertinoWidget(BuildContext context) {
@@ -37,7 +35,7 @@ class PlatformAlertDialog extends PlatformWidget {
     );
   }
 
-  Future<bool> show(BuildContext context) async {
+  Future<bool?> show(BuildContext context) async {
     return Platform.isIOS
         ? await showCupertinoDialog<bool>(
             context: context,
@@ -55,7 +53,7 @@ class PlatformAlertDialog extends PlatformWidget {
     if (cancelActionText != null) {
       actions.add(
         PlatformAlertDialogAction(
-          child: Text(cancelActionText),
+          child: Text(cancelActionText!),
           onPressed: () => Navigator.of(context).pop(false),
         ),
       );
@@ -73,8 +71,8 @@ class PlatformAlertDialog extends PlatformWidget {
 class PlatformAlertDialogAction extends PlatformWidget {
   final Widget child;
 
-  final VoidCallback onPressed;
-  PlatformAlertDialogAction({this.child, this.onPressed});
+  final VoidCallback? onPressed;
+  PlatformAlertDialogAction({required this.child, this.onPressed});
 
   @override
   Widget buildCupertinoWidget(BuildContext context) {
@@ -86,9 +84,6 @@ class PlatformAlertDialogAction extends PlatformWidget {
 
   @override
   Widget buildMaterialWidget(BuildContext context) {
-    return FlatButton(
-      child: child,
-      onPressed: onPressed,
-    );
+    return TextButton(child: child, onPressed: onPressed);
   }
 }

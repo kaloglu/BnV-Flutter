@@ -29,7 +29,7 @@ class Constants {
     User: (data) => User.fromJson(data),
   };
 
-  static readableDate({DateFormatType type, DateTime date}) {
+  static String readableDate({DateFormatType? type, required DateTime date}) {
     var dateFormat;
 
     switch (type) {

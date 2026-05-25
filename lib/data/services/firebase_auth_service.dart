@@ -7,7 +7,7 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  bool loginState;
+  bool loginState = false;
 
   get auth => _auth;
 
@@ -29,12 +29,14 @@ class AuthService {
   }
 
   Future<void> signInWithGoogle() async {
-    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-    if (googleUser == null) throw PlatformException(code: 'ERROR_ABORTED_BY_USER', message: 'Kullanıcı işlemi iptal etti');
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    if (googleUser == null) {
+      throw PlatformException(code: 'ERROR_ABORTED_BY_USER', message: 'Kullanıcı işlemi iptal etti');
+    }
 
     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
-    if (googleAuth == null || googleAuth.accessToken == null || googleAuth.idToken == null) {
+    if (googleAuth.accessToken == null || googleAuth.idToken == null) {
       throw PlatformException(code: 'ERROR_MISSING_GOOGLE_AUTH_TOKEN', message: 'Google Auth Token eksik');
     }
 

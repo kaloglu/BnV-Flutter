@@ -1,7 +1,7 @@
 import 'package:BedavaNeVar/constants/constants.dart';
 
 class RaffleList extends StatefulWidget {
-  const RaffleList({Key key}) : super(key: key);
+  const RaffleList({super.key});
 
   @override
   _RaffleListState createState() => _RaffleListState();
@@ -15,7 +15,7 @@ class _RaffleListState extends State<RaffleList> {
 }
 
 class EmptyRaffleList extends StatelessWidget {
-  const EmptyRaffleList({Key key}) : super(key: key);
+  const EmptyRaffleList({super.key});
 
   @override
   Widget build(BuildContext context) {

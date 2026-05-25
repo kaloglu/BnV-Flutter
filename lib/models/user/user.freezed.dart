@@ -18,18 +18,18 @@ class _$UserTearOff {
 
 // ignore: unused_element
   _User call(
-      {String uid,
-      String email,
-      String fullname,
-      String gender,
-      String gsm,
-      String profilePicUrl,
-      String username,
-      int age,
-      String country,
-      String city,
-      String address,
-      String deviceToken}) {
+      {String? uid,
+      String? email,
+      String? fullname,
+      String? gender,
+      String? gsm,
+      String? profilePicUrl,
+      String? username,
+      int? age,
+      String? country,
+      String? city,
+      String? address,
+      String? deviceToken}) {
     return _User(
       uid: uid,
       email: email,
@@ -58,18 +58,18 @@ const $User = _$UserTearOff();
 
 /// @nodoc
 mixin _$User {
-  String get uid;
-  String get email;
-  String get fullname;
-  String get gender;
-  String get gsm;
-  String get profilePicUrl;
-  String get username;
-  int get age;
-  String get country;
-  String get city;
-  String get address;
-  String get deviceToken;
+  String? get uid;
+  String? get email;
+  String? get fullname;
+  String? get gender;
+  String? get gsm;
+  String? get profilePicUrl;
+  String? get username;
+  int? get age;
+  String? get country;
+  String? get city;
+  String? get address;
+  String? get deviceToken;
 
   Map<String, dynamic> toJson();
   $UserCopyWith<User> get copyWith;
@@ -80,18 +80,18 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res>;
   $Res call(
-      {String uid,
-      String email,
-      String fullname,
-      String gender,
-      String gsm,
-      String profilePicUrl,
-      String username,
-      int age,
-      String country,
-      String city,
-      String address,
-      String deviceToken});
+      {String? uid,
+      String? email,
+      String? fullname,
+      String? gender,
+      String? gsm,
+      String? profilePicUrl,
+      String? username,
+      int? age,
+      String? country,
+      String? city,
+      String? address,
+      String? deviceToken});
 }
 
 /// @nodoc
@@ -104,35 +104,35 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
 
   @override
   $Res call({
-    Object uid = freezed,
-    Object email = freezed,
-    Object fullname = freezed,
-    Object gender = freezed,
-    Object gsm = freezed,
-    Object profilePicUrl = freezed,
-    Object username = freezed,
-    Object age = freezed,
-    Object country = freezed,
-    Object city = freezed,
-    Object address = freezed,
-    Object deviceToken = freezed,
+    Object? uid = freezed,
+    Object? email = freezed,
+    Object? fullname = freezed,
+    Object? gender = freezed,
+    Object? gsm = freezed,
+    Object? profilePicUrl = freezed,
+    Object? username = freezed,
+    Object? age = freezed,
+    Object? country = freezed,
+    Object? city = freezed,
+    Object? address = freezed,
+    Object? deviceToken = freezed,
   }) {
     return _then(_value.copyWith(
-      uid: uid == freezed ? _value.uid : uid as String,
-      email: email == freezed ? _value.email : email as String,
-      fullname: fullname == freezed ? _value.fullname : fullname as String,
-      gender: gender == freezed ? _value.gender : gender as String,
-      gsm: gsm == freezed ? _value.gsm : gsm as String,
+      uid: uid == freezed ? _value.uid : uid as String?,
+      email: email == freezed ? _value.email : email as String?,
+      fullname: fullname == freezed ? _value.fullname : fullname as String?,
+      gender: gender == freezed ? _value.gender : gender as String?,
+      gsm: gsm == freezed ? _value.gsm : gsm as String?,
       profilePicUrl: profilePicUrl == freezed
           ? _value.profilePicUrl
-          : profilePicUrl as String,
-      username: username == freezed ? _value.username : username as String,
-      age: age == freezed ? _value.age : age as int,
-      country: country == freezed ? _value.country : country as String,
-      city: city == freezed ? _value.city : city as String,
-      address: address == freezed ? _value.address : address as String,
+          : profilePicUrl as String?,
+      username: username == freezed ? _value.username : username as String?,
+      age: age == freezed ? _value.age : age as int?,
+      country: country == freezed ? _value.country : country as String?,
+      city: city == freezed ? _value.city : city as String?,
+      address: address == freezed ? _value.address : address as String?,
       deviceToken:
-          deviceToken == freezed ? _value.deviceToken : deviceToken as String,
+          deviceToken == freezed ? _value.deviceToken : deviceToken as String?,
     ));
   }
 }
@@ -143,18 +143,18 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$UserCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String uid,
-      String email,
-      String fullname,
-      String gender,
-      String gsm,
-      String profilePicUrl,
-      String username,
-      int age,
-      String country,
-      String city,
-      String address,
-      String deviceToken});
+      {String? uid,
+      String? email,
+      String? fullname,
+      String? gender,
+      String? gsm,
+      String? profilePicUrl,
+      String? username,
+      int? age,
+      String? country,
+      String? city,
+      String? address,
+      String? deviceToken});
 }
 
 /// @nodoc
@@ -168,35 +168,35 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object uid = freezed,
-    Object email = freezed,
-    Object fullname = freezed,
-    Object gender = freezed,
-    Object gsm = freezed,
-    Object profilePicUrl = freezed,
-    Object username = freezed,
-    Object age = freezed,
-    Object country = freezed,
-    Object city = freezed,
-    Object address = freezed,
-    Object deviceToken = freezed,
+    Object? uid = freezed,
+    Object? email = freezed,
+    Object? fullname = freezed,
+    Object? gender = freezed,
+    Object? gsm = freezed,
+    Object? profilePicUrl = freezed,
+    Object? username = freezed,
+    Object? age = freezed,
+    Object? country = freezed,
+    Object? city = freezed,
+    Object? address = freezed,
+    Object? deviceToken = freezed,
   }) {
     return _then(_User(
-      uid: uid == freezed ? _value.uid : uid as String,
-      email: email == freezed ? _value.email : email as String,
-      fullname: fullname == freezed ? _value.fullname : fullname as String,
-      gender: gender == freezed ? _value.gender : gender as String,
-      gsm: gsm == freezed ? _value.gsm : gsm as String,
+      uid: uid == freezed ? _value.uid : uid as String?,
+      email: email == freezed ? _value.email : email as String?,
+      fullname: fullname == freezed ? _value.fullname : fullname as String?,
+      gender: gender == freezed ? _value.gender : gender as String?,
+      gsm: gsm == freezed ? _value.gsm : gsm as String?,
       profilePicUrl: profilePicUrl == freezed
           ? _value.profilePicUrl
-          : profilePicUrl as String,
-      username: username == freezed ? _value.username : username as String,
-      age: age == freezed ? _value.age : age as int,
-      country: country == freezed ? _value.country : country as String,
-      city: city == freezed ? _value.city : city as String,
-      address: address == freezed ? _value.address : address as String,
+          : profilePicUrl as String?,
+      username: username == freezed ? _value.username : username as String?,
+      age: age == freezed ? _value.age : age as int?,
+      country: country == freezed ? _value.country : country as String?,
+      city: city == freezed ? _value.city : city as String?,
+      address: address == freezed ? _value.address : address as String?,
       deviceToken:
-          deviceToken == freezed ? _value.deviceToken : deviceToken as String,
+          deviceToken == freezed ? _value.deviceToken : deviceToken as String?,
     ));
   }
 }
@@ -224,29 +224,29 @@ class _$_User extends _User {
       _$_$_UserFromJson(json);
 
   @override
-  final String uid;
+  final String? uid;
   @override
-  final String email;
+  final String? email;
   @override
-  final String fullname;
+  final String? fullname;
   @override
-  final String gender;
+  final String? gender;
   @override
-  final String gsm;
+  final String? gsm;
   @override
-  final String profilePicUrl;
+  final String? profilePicUrl;
   @override
-  final String username;
+  final String? username;
   @override
-  final int age;
+  final int? age;
   @override
-  final String country;
+  final String? country;
   @override
-  final String city;
+  final String? city;
   @override
-  final String address;
+  final String? address;
   @override
-  final String deviceToken;
+  final String? deviceToken;
 
   @override
   String toString() {
@@ -318,45 +318,45 @@ class _$_User extends _User {
 abstract class _User extends User {
   const _User._() : super._();
   const factory _User(
-      {String uid,
-      String email,
-      String fullname,
-      String gender,
-      String gsm,
-      String profilePicUrl,
-      String username,
-      int age,
-      String country,
-      String city,
-      String address,
-      String deviceToken}) = _$_User;
+      {String? uid,
+      String? email,
+      String? fullname,
+      String? gender,
+      String? gsm,
+      String? profilePicUrl,
+      String? username,
+      int? age,
+      String? country,
+      String? city,
+      String? address,
+      String? deviceToken}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
   @override
-  String get uid;
+  String? get uid;
   @override
-  String get email;
+  String? get email;
   @override
-  String get fullname;
+  String? get fullname;
   @override
-  String get gender;
+  String? get gender;
   @override
-  String get gsm;
+  String? get gsm;
   @override
-  String get profilePicUrl;
+  String? get profilePicUrl;
   @override
-  String get username;
+  String? get username;
   @override
-  int get age;
+  int? get age;
   @override
-  String get country;
+  String? get country;
   @override
-  String get city;
+  String? get city;
   @override
-  String get address;
+  String? get address;
   @override
-  String get deviceToken;
+  String? get deviceToken;
   @override
   _$UserCopyWith<_User> get copyWith;
 }

@@ -19,19 +19,17 @@ class RaffleRepository {
     return _service.deleteData(path: FirestorePath.raffle(raffle.id));
   }
 
-  static Stream<Raffle> raffleStream({@required String raffleId}) {
+  static Stream<Raffle> raffleStream({required String raffleId}) {
     return _service.documentStream(
       path: FirestorePath.raffle(raffleId),
-      builder: (data, documentId) => Raffle.fromMap(data, documentId),
+      builder: (data, documentId) => Raffle.fromMap(data as Map<String, dynamic>?, documentId),
     );
   }
 
   static Stream<List<Raffle>> rafflesStream() {
     return _service.collectionStream(
       path: FirestorePath.raffles(),
-      builder: (data, documentId) {
-        return Raffle.fromMap(data, documentId);
-      },
+      builder: (data, documentId) => Raffle.fromMap(data as Map<String, dynamic>?, documentId),
     );
   }
 }

@@ -14,10 +14,10 @@ class PredefinedCarousel extends HookWidget {
   final List<Media> images;
 
   PredefinedCarousel({
-    @required this.raffle,
+    required this.raffle,
     this.showIndicator = true,
     this.initialPage = 0,
-  })  : images = raffle.productInfo.images,
+  })  : images = raffle.productInfo?.images ?? const [],
         super();
 
   List<T> map<T>(List list, Function handler) {
@@ -28,7 +28,7 @@ class PredefinedCarousel extends HookWidget {
     return result;
   }
 
-  ValueNotifier<int> _selectedIndex;
+  late ValueNotifier<int> _selectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -38,16 +38,16 @@ class PredefinedCarousel extends HookWidget {
     return _buildCarousel(context, screenSize, themeData, _selectedIndex.value);
   }
 
-  Widget _buildCarouselBottomWidget(BuildContext context, {Raffle item}) => Container(
+  Widget _buildCarouselBottomWidget(BuildContext context, {required Raffle item}) => Container(
         padding: EdgeInsets.symmetric(vertical: 4.0),
         child: Row(
           children: [
             Text(
-              "${item.productInfo.count} ${item.productInfo.unit}",
+              "${item.productInfo?.count} ${item.productInfo?.unit}",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Padding(padding: EdgeInsetsDirectional.only(end: 8.0)),
-            Text(item.productInfo.name, style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(item.productInfo?.name ?? '', style: TextStyle(fontWeight: FontWeight.bold)),
           ],
         ),
       );
@@ -57,7 +57,7 @@ class PredefinedCarousel extends HookWidget {
       text: TextSpan(
         children: [
           TextSpan(text: Strings.currentValue + ": ", style: TextStyle(fontWeight: FontWeight.bold)),
-          TextSpan(text: item.productInfo.unitPrice.toString()),
+          TextSpan(text: item.productInfo?.unitPrice.toString()),
           TextSpan(text: " " + Strings.tlChar, style: TextStyle(fontWeight: FontWeight.bold)),
         ],
       ),
@@ -74,14 +74,14 @@ class PredefinedCarousel extends HookWidget {
           Center(child: _buildCarouselOrSingleImage(screenSize)),
           Notch(
             position: NotchPosition.topRight(),
-            color: Theme.of(context).cardColor.withOpacity(0.75),
+            color: Theme.of(context).cardColor.withValues(alpha: 0.75),
             boxShadows: useShadowColors(context),
             child: _buildDateInfoWidget(context, raffle),
           ),
           Notch(
             position: NotchPosition.bottomCenter(),
             margin: EdgeInsets.symmetric(horizontal: 8.0),
-            color: Theme.of(context).cardColor.withOpacity(0.55),
+            color: Theme.of(context).cardColor.withValues(alpha: 0.55),
             child: _buildCarouselBottomWidget(context, item: raffle),
           )
         ],
@@ -129,7 +129,7 @@ class PredefinedCarousel extends HookWidget {
                 width: isSelected ? 11.0 : 10.0,
                 height: isSelected ? 16.0 : 10.0,
                 decoration: BoxDecoration(
-                  color: themeData.indicatorColor.withOpacity(isSelected ? 1 : 0.3),
+                  color: themeData.indicatorColor.withValues(alpha: isSelected ? 1 : 0.3),
                   // color: themeData.indicatorColor.withOpacity(getOpacity(selectedIndex, index)),
                 ),
               );

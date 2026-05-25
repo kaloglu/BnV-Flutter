@@ -19,7 +19,7 @@ class OnboardingPage extends HookConsumerWidget {
           children: [
             Text(
               'Herşey BEDAVA! \n\nHergün yenileri eklenen mükemmel listeye göz atmaya ne dersin?',
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
             FractionallySizedBox(
@@ -37,7 +37,7 @@ class OnboardingPage extends HookConsumerWidget {
               borderRadius: 30,
               child: Text(
                 'Hemen Başla',
-                style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),
               ),
             ),
           ],

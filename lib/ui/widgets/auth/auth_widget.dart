@@ -7,12 +7,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AuthWidget extends HookConsumerWidget {
   const AuthWidget({
-    Key key,
-    @required this.signedIn,
+    super.key,
+    required this.signedIn,
     this.nonSignedIn,
-  }) : super(key: key);
+  });
   final WidgetBuilder signedIn;
-  final WidgetBuilder nonSignedIn;
+  final WidgetBuilder? nonSignedIn;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,7 +20,7 @@ class AuthWidget extends HookConsumerWidget {
     return authStateChanges.when(
       data: (user) {
         if (user != null) return signedIn(context);
-        return nonSignedIn ?? SignInPage();
+        return nonSignedIn != null ? nonSignedIn!(context) : const SignInPage();
       },
       loading: () => const Scaffold(
         body: Center(

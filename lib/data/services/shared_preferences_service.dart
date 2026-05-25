@@ -23,7 +23,7 @@ class OnboardingPreferences {
   final SharedPreferences sharedPrefs;
   static const completeKey = 'onboardingComplete';
 
-  const OnboardingPreferences._init({@required this.sharedPrefs});
+  const OnboardingPreferences._init({required this.sharedPrefs});
 
   get isComplete => sharedPrefs.getBool(completeKey) ?? false;
 
@@ -34,7 +34,7 @@ class ThemePreferences {
   final SharedPreferences sharedPrefs;
   final modeKey = ThemeModeValues.key;
 
-  const ThemePreferences._init({@required this.sharedPrefs});
+  const ThemePreferences._init({required this.sharedPrefs});
 
   get mode {
     var mode = ThemeMode.system;
@@ -51,6 +51,6 @@ class ThemePreferences {
   }
 
   Future<void> setMode(mode) async {
-    return await sharedPrefs.setString(modeKey, mode.toString());
+    await sharedPrefs.setString(modeKey, mode.toString());
   }
 }

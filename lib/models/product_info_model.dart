@@ -11,11 +11,11 @@ class ProductInfo extends BaseModel {
   final double unitPrice;
 
   const ProductInfo({
-    this.name,
-    this.images,
-    this.count,
-    this.unit,
-    this.unitPrice,
+    this.name = '',
+    this.images = const <Media>[],
+    this.count = '',
+    this.unit = '',
+    this.unitPrice = 0.0,
   });
 
   @override
@@ -27,17 +27,14 @@ class ProductInfo extends BaseModel {
         unitPrice,
       ];
 
-  factory ProductInfo.fromMap(Map<String, dynamic> data) {
-    if (data == null) {
-      return null;
-    }
-
+  factory ProductInfo.fromMap(Map<String, dynamic>? data) {
+    final imgs = (data?['images'] as List?) ?? const [];
     return ProductInfo(
-      name: data['name'] ?? '',
-      images: (data['images'] as List ?? []).map((media) => Media.fromMap(media)).toList(),
-      count: data['count'] ?? '',
-      unit: data['unit'] ?? '',
-      unitPrice: data['unitPrice'] ?? '',
+      name: data?['name'] as String? ?? '',
+      images: imgs.map((m) => Media.fromMap(m as Map<String, dynamic>)).toList(),
+      count: data?['count']?.toString() ?? '',
+      unit: data?['unit']?.toString() ?? '',
+      unitPrice: (data?['unitPrice'] as num?)?.toDouble() ?? 0.0,
     );
   }
 

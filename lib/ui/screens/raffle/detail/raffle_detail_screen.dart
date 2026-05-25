@@ -19,7 +19,7 @@ class RaffleDetailScreen extends HookWidget {
   // Reklam entegrasyonu geçici olarak kaldırıldı
   // static MobileAdTargetingInfo targetInfo;
 
-  RaffleDetailScreen({Key key, this.raffleId}) : assert(raffleId != null);
+  RaffleDetailScreen({super.key, required this.raffleId});
 
   RaffleDetailScreen.navigate(BuildContext context, this.raffleId) {
     debugPrint('page: $route');

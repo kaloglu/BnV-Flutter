@@ -15,24 +15,24 @@ class Raffle extends BaseModel {
 
   // final Timestamp startDate;
   // final Timestamp endDate;
-  final RaffleRules rules;
-  final ProductInfo productInfo;
+  final RaffleRules? rules;
+  final ProductInfo? productInfo;
   final bool isFeatured;
 
   const Raffle({
-    Key key,
-    @required this.id,
-    @required this.title,
-    @required this.description,
-    this.startDate,
-    this.endDate,
+    super.key,
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.startDate,
+    required this.endDate,
     this.rules,
     this.productInfo,
-    this.isFeatured,
-  }) : super(key: key);
+    this.isFeatured = false,
+  });
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         id,
         title,
         description,
@@ -45,25 +45,32 @@ class Raffle extends BaseModel {
 
   double get durationInSec => endDate.difference(startDate).inSeconds.toDouble();
 
-  factory Raffle.fromMap(Map<String, dynamic> data, [String documentId]) {
-    if (data == null) {
-      return null;
+  factory Raffle.fromMap(Map<String, dynamic>? data, [String? documentId]) {
+    final map = data ?? <String, dynamic>{};
+    final title = map['title'] as String? ?? '';
+    final desc = map['description'] as String? ?? '';
+
+    DateTime _toDate(dynamic v) {
+      if (v is int) return DateTime.fromMillisecondsSinceEpoch(v);
+      if (v is Timestamp) return v.toDate();
+      if (v is Map && v['millisecondsSinceEpoch'] is int) {
+        return DateTime.fromMillisecondsSinceEpoch(v['millisecondsSinceEpoch'] as int);
+      }
+      return DateTime.now();
     }
-    final title = data['title'] as String;
-    if (title == null) {
-      return null;
-    }
+
+    final sd = _toDate(map['startDate']);
+    final ed = _toDate(map['endDate']);
+
     return Raffle(
-      id: documentId ?? data['id'],
+      id: documentId ?? (map['id'] as String? ?? ''),
       title: title,
-      description: data['description'] ?? '',
-      startDate: DateTime.fromMillisecondsSinceEpoch(data['startDate'].millisecondsSinceEpoch),
-      endDate: DateTime.fromMillisecondsSinceEpoch(data['endDate'].millisecondsSinceEpoch),
-      // startDate: data['startDate'],
-      // endDate: data['endDate'],
-      rules: RaffleRules.fromMap(data['rules']),
-      productInfo: ProductInfo.fromMap(data['productInfo']),
-      isFeatured: data['isFeatured'] ?? false,
+      description: desc,
+      startDate: sd,
+      endDate: ed,
+      rules: RaffleRules.fromMap(map['rules'] as Map<String, dynamic>?),
+      productInfo: ProductInfo.fromMap(map['productInfo'] as Map<String, dynamic>?),
+      isFeatured: map['isFeatured'] as bool? ?? false,
     );
   }
 
@@ -75,13 +82,13 @@ class Raffle extends BaseModel {
         // 'endDate': endDate,
         'startDate': startDate.millisecondsSinceEpoch,
         'endDate': endDate.millisecondsSinceEpoch,
-        'rules': rules,
-        'productInfo': productInfo,
+        'rules': rules?.toMap(),
+        'productInfo': productInfo?.toMap(),
         'isFeatured': isFeatured,
       };
 
   factory Raffle.fromDocumentSnapshot(DocumentSnapshot docSnapshot) =>
-      Raffle.fromMap(docSnapshot.data(), docSnapshot.id);
+      Raffle.fromMap(docSnapshot.data() as Map<String, dynamic>?, docSnapshot.id);
 
   //static List<Raffle> listFromFirestore(QuerySnapshot querySnapshot) =>
   //  querySnapshot.docs.map<Raffle>((snapshot) => Raffle.fromDocumentSnapshot(snapshot)).toList();
