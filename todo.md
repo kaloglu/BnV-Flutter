@@ -8,7 +8,7 @@ Bu liste kolaydan zora göre kategorize edilmiştir. Tamamlanan maddeler işaret
 - [x] Android/iOS manifest izinleri ve minimum/target SDK ayarlarının gözden geçirilmesi (BNV-003)
 - [ ] Null-safety kritik uyum paketi: modeller, eski UI butonları, Riverpod v2 geçişi (BNV-004)
   - [x] Modeller ve generated kod null-safety uyumu (freezed/json) (BNV-004A)
-  - [ ] UI buton bileşenlerinin null-safety ve tema uyumu (BNV-004B)
+  - [x] UI buton bileşenlerinin null-safety ve tema uyumu (BNV-004B)
   - [ ] Riverpod v2 uyumluluk katmanı ve minimal geçiş (BNV-004C)
   - [ ] Firebase Messaging/Notifications geçici uyumluluk ve fallback (BNV-004D)
   - [ ] Duman testi: Auth→Raffles→Detail→Enroll akışı ve log gözden geçirme (BNV-004E)

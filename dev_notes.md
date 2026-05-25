@@ -21,7 +21,10 @@ Her yapılacak madde için referans kodu ve kısa teknik notlar.
 
 - BNV-004A: Modeller ve generated kod null-safety uyumu (freezed/json). Durum: TAMAMLANDI. Not: `lib/models/user/user.freezed.dart` ve ilişkili generated imzalar null-safe hale getirildi, `copyWith` ve `fromJson` imzalarıyla uyum sağlandı. Etki: Derleme blokerleri kalktı. Geri dönüş: Gerekirse `build_runner` ile yeniden üretim notu eklenecek.
 
-- BNV-004B: UI buton bileşenlerinin null-safety ve tema uyumu. Plan: `ui/widgets/common/custom_raised_buttons.dart` ve `Buttons.dart` içindeki eski `RaisedButton`/`FlatButton` kullanımlarını `ElevatedButton`/`TextButton` eşlemelerine taşı; renk ve tipografi `constants` üzerinden beslensin. Risk: Görsel regresyon. Geri dönüş: Eski buton implementasyonları yorum satırıyla korunacak; gerekiyorsa hızlı revert için işaretlenmiş blok başlıkları bırakılacak.
+- BNV-004B: UI buton bileşenlerinin null-safety ve tema uyumu. Durum: TAMAMLANDI.
+  - Yapılanlar: `FormSubmitButton` içindeki hard-coded renkler kaldırıldı; buton ve metin renkleri için tema (ElevatedButton defaults) kullanılacak şekilde düzenlendi. `SocialSignIn` Google butonundaki ikonun `Colors.white` rengi kaldırıldı; ikon/metin renkleri tema üzerinden belirleniyor. `ui/widgets/common/Buttons.dart` içindeki `LogoutButton`, `SortButton`, `SearchButton` ikonlarına `Theme.of(context).colorScheme.onSurface` rengi atandı.
+  - Etki: Görsel tutarlılık ve koyu/açık tema uyumu arttı; kontrast problemleri minimize edildi. Davranış değişikliği yok.
+  - Geri dönüş planı: Gerekirse önceki renk seçimlerine dönmek için ilgili commit farklılıkları üzerinden tek dosyalık revert yapılabilir.
 
 - BNV-004C: Riverpod v2 uyumluluk katmanı ve minimal geçiş. Plan: `useProvider` kullanan yerleri kademeli `ref.watch`/`ref.read` ile değiştir; `HookConsumerWidget` veya `Consumer` ile sınırlı dönüşüm yap. Tam refactor YAPILMAYACAK; yalnızca derlenebilirlik ve davranış eşliği hedeflenecek. Geri dönüş: Eski kullanım notları TODO etiketiyle bırakılacak.
 

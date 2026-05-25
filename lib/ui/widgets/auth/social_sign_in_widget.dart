@@ -47,7 +47,7 @@ class SocialSignIn extends HookConsumerWidget {
               ),
               const SizedBox(height: 32.0),
               ElevatedButton.icon(
-                icon: const Icon(Icons.login, color: Colors.white),
+                icon: const Icon(Icons.login),
                 style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
                 label: const Text(Strings.signInWithGoogle),
                 onPressed: viewModel.signInGoogle,

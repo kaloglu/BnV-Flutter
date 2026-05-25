@@ -13,7 +13,7 @@ class LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IconButton(
-        icon: Icon(FontAwesomeIcons.signOutAlt),
+        icon: Icon(FontAwesomeIcons.signOutAlt, color: Theme.of(context).colorScheme.onSurface),
         tooltip: Strings.logout,
         onPressed: onPressed,
       );
@@ -29,7 +29,7 @@ class SortButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IconButton(
-        icon: Icon(FontAwesomeIcons.sortAmountDownAlt),
+        icon: Icon(FontAwesomeIcons.sortAmountDownAlt, color: Theme.of(context).colorScheme.onSurface),
         tooltip: Strings.sortingTooltip,
         onPressed: onPressed,
       );
@@ -45,7 +45,7 @@ class SearchButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IconButton(
-        icon: Icon(FontAwesomeIcons.search),
+        icon: Icon(FontAwesomeIcons.search, color: Theme.of(context).colorScheme.onSurface),
         tooltip: Strings.sortingTooltip,
         onPressed: onPressed,
       );
