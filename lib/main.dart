@@ -1,6 +1,7 @@
 import 'package:BedavaNeVar/BnvApp.dart';
 import 'package:BedavaNeVar/app/top_level_providers.dart';
 import 'package:BedavaNeVar/data/services/shared_preferences_service.dart';
+import 'package:BedavaNeVar/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -16,7 +17,7 @@ const bool USE_FIRESTORE_EMULATOR = false;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await _firebaseEmulator();
   await _initCrashlytics();

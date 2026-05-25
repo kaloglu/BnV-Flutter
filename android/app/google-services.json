@@ -8,26 +8,21 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:414030755976:android:8f954ae3beac50cddb473d",
+        "mobilesdk_app_id": "1:414030755976:android:de6bf27a05e95647db473d",
         "android_client_info": {
           "package_name": "com.kaloglu.BedavaNeVar"
         }
       },
       "oauth_client": [
         {
-          "client_id": "414030755976-ed56a9jbnbtlii14b0m8evdqc1eq7bjg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.kaloglu.BedavaNeVar",
-            "certificate_hash": "6825ed1e0e9bd9d40bf096bdab9832e7f30a0b24"
-          }
-        },
-        {
           "client_id": "414030755976-onqmorfkjqpv5rh3e1tcvjt7c2r291st.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
+        {
+          "current_key": "AIzaSyDel_nqQHo3EGU1Z6ImVl-pWtPzvzFgAmI"
+        },
         {
           "current_key": "AIzaSyD0o4oEtRuaNYgaLD8xyNN1shmmDZ9-3rY"
         }
@@ -40,15 +35,63 @@
               "client_type": 3
             },
             {
-              "client_id": "414030755976-hfv8qvjc09j9764fct0l375fqh73gqpa.apps.googleusercontent.com",
+              "client_id": "414030755976-hnijosttmhj5a15geg2ms6vpiedbhnde.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.kaloglu.bnv"
+                "bundle_id": "com.kaloglu.bedavanevar"
               }
             }
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414030755976:android:3c7d3fdb10c13056db473d",
+        "android_client_info": {
+          "package_name": "com.kaloglu.bedavanevar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "414030755976-orngna1ba8t168vbacq3khr9ov6trasr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kaloglu.bedavanevar",
+            "certificate_hash": "d4e12a955cf4a41c2b34aeaa229e1b569a493e6b"
+          }
+        },
+        {
+          "client_id": "414030755976-onqmorfkjqpv5rh3e1tcvjt7c2r291st.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDel_nqQHo3EGU1Z6ImVl-pWtPzvzFgAmI"
+        },
+        {
+          "current_key": "AIzaSyD0o4oEtRuaNYgaLD8xyNN1shmmDZ9-3rY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "414030755976-k0n485l1icsoon5s910e7ttpnm883nqs.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "414030755976-hnijosttmhj5a15geg2ms6vpiedbhnde.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kaloglu.bedavanevar"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-0165663276066705~8640565281"
     }
   ],
   "configuration_version": "1"
