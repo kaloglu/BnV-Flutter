@@ -1,33 +1,35 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class FirestoreService {
-  FirestoreService._();
-  static final instance = FirestoreService._();
+  const FirestoreService._();
+
+  static const instance = FirestoreService._();
+  static var firestoreInstance = FirebaseFirestore.instance;
 
   Future<void> setData({
     @required String path,
     @required Map<String, dynamic> data,
     bool merge = false,
-  }) async {
-    final reference = FirebaseFirestore.instance.doc(path);
+  }) {
     print('$path: $data');
-    await reference.set(data, SetOptions(merge: merge));
+    return firestoreInstance.doc(path).set(data, SetOptions(merge: merge));
   }
 
-  Future<void> deleteData({@required String path}) async {
-    final reference = FirebaseFirestore.instance.doc(path);
+  Future<void> deleteData({@required String path}) {
     print('delete: $path');
-    await reference.delete();
+    return firestoreInstance.doc(path).delete();
   }
 
   Stream<List<T>> collectionStream<T>({
     @required String path,
-    @required T Function(Map<String, dynamic> data, String documentID) builder,
+    T Function(Map<String, dynamic> data, String documentID) builder,
     Query Function(Query query) queryBuilder,
     int Function(T lhs, T rhs) sort,
   }) {
-    Query query = FirebaseFirestore.instance.collection(path);
+    Query query = firestoreInstance.collection(path);
     if (queryBuilder != null) {
       query = queryBuilder(query);
     }
@@ -44,12 +46,18 @@ class FirestoreService {
     });
   }
 
+  Stream<int> countStream({@required String path, Query Function(Query query) queryBuilder}) {
+    return collectionStream(path: path, queryBuilder: queryBuilder).asyncMap((snapshots) {
+      var a =  snapshots.length;
+      return a;
+    });
+  }
+
   Stream<T> documentStream<T>({
     @required String path,
     @required T Function(Map<String, dynamic> data, String documentID) builder,
   }) {
-    final DocumentReference reference = FirebaseFirestore.instance.doc(path);
-    final Stream<DocumentSnapshot> snapshots = reference.snapshots();
+    final Stream<DocumentSnapshot> snapshots = firestoreInstance.doc(path).snapshots();
     return snapshots.map((snapshot) => builder(snapshot.data(), snapshot.id));
   }
 }

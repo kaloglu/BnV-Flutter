@@ -1,4 +1,4 @@
-import 'package:BedavaNeVar/models/user_model.dart' as UserModel;
+import 'package:BedavaNeVar/models/user/user.dart' as UserModel;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -9,7 +9,7 @@ class AuthService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FacebookAuth _facebookSignIn = FacebookAuth.instance;
 
-  bool _lastLoginState;
+  bool loginState;
 
   get auth => _auth;
 
@@ -18,9 +18,9 @@ class AuthService {
     await for (var user in _auth.authStateChanges()) {
       var currentLoginState = user != null;
 
-      if (_lastLoginState != currentLoginState) {
-        _lastLoginState = currentLoginState;
-        yield UserModel.User.userFromFirebaseAuth(user);
+      if (loginState != currentLoginState) {
+        loginState = currentLoginState;
+        yield UserModel.User.userFromSocialAuth(user);
       }
     }
   }
@@ -29,7 +29,7 @@ class AuthService {
     var firebaseUser = _auth.currentUser;
     //TODO: Users tablosuna kayıt atma fonksiyonu çalıştırılmalı!!! Sonrasında commentli kısım açılır.
     // return Document<User>(path: Constants.USERS, id: firebaseUser.uid).getData();
-    return UserModel.User.userFromFirebaseAuth(firebaseUser);
+    return UserModel.User.userFromSocialAuth(firebaseUser);
   }
 
   Future<void> signInWithFacebook() async {

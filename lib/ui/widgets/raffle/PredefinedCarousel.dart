@@ -1,6 +1,8 @@
 import 'package:BedavaNeVar/BnvApp.dart';
 import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/models/models.dart';
+import 'package:BedavaNeVar/ui/widgets/common/notch.dart';
+import 'package:BedavaNeVar/ui/widgets/common/theme_switch.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -26,85 +28,110 @@ class PredefinedCarousel extends HookWidget {
     return result;
   }
 
+  ValueNotifier<int> _selectedIndex;
+
   @override
   Widget build(BuildContext context) {
-    var _selectedIndex = useState(initialPage);
+    _selectedIndex = useState(initialPage);
     ThemeData themeData = Theme.of(context);
     Size screenSize = MediaQuery.of(context).size;
-    return Container(
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            _buildIndicator(screenSize, themeData, _selectedIndex.value),
-            _buildCarousel(context, screenSize, themeData, _selectedIndex),
-            _buildIndicator(screenSize, themeData, _selectedIndex.value),
+    return _buildCarousel(context, screenSize, themeData, _selectedIndex.value);
+  }
+
+  Widget _buildCarouselBottomWidget(BuildContext context, {Raffle item}) => Container(
+        padding: EdgeInsets.symmetric(vertical: 4.0),
+        child: Row(
+          children: [
+            Text(
+              "${item.productInfo.count} ${item.productInfo.unit}",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Padding(padding: EdgeInsetsDirectional.only(end: 8.0)),
+            Text(item.productInfo.name, style: TextStyle(fontWeight: FontWeight.bold)),
           ],
         ),
+      );
+
+  RichText _buildPrice(Raffle item) {
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(text: Strings.currentValue + ": ", style: TextStyle(fontWeight: FontWeight.bold)),
+          TextSpan(text: item.productInfo.unitPrice.toString()),
+          TextSpan(text: " " + Strings.tlChar, style: TextStyle(fontWeight: FontWeight.bold)),
+        ],
       ),
     );
   }
 
-  Widget _buildCarouselBottomWidget(BuildContext context, {double height, Color color, item}) => Container(
-      height: height,
-      color: (color ?? Theme.of(context).primaryColor).withOpacity(0.3),
-      child: ListTile(
-//        leading: Center(
-//          widthFactor: 1,
-//          child: Expanded(
-//            child: Text(
-//              "${viewModel.productCount}  ${viewModel.productUnit}",
-//              style: TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold),
-//            ),
-//          ),
-//        ),
-        title: Text(item.productInfo.name, style: TextStyle(fontWeight: FontWeight.bold)),
-        trailing: RichText(
-          text: TextSpan(
-            style: DefaultTextStyle.of(context).style,
-            children: [
-              TextSpan(text: Strings.currentValue + ": ", style: TextStyle(fontWeight: FontWeight.bold)),
-              TextSpan(text: item.productInfo.unitPrice.toString()),
-              TextSpan(text: " " + Strings.tlChar, style: TextStyle(fontWeight: FontWeight.bold)),
-            ],
+  Widget _buildCarousel(BuildContext context, Size screenSize, ThemeData themeData, int selectedIndex) {
+    return Container(
+      height: 200,
+      width: screenSize.width,
+      child: Stack(
+        children: [
+          _buildIndicator(screenSize, themeData),
+          Center(child: _buildCarouselOrSingleImage(screenSize)),
+          Notch(
+            position: NotchPosition.topRight(),
+            color: Theme.of(context).cardColor.withOpacity(0.75),
+            boxShadows: useShadowColors(context),
+            child: _buildDateInfoWidget(context, raffle),
           ),
-        ),
-      ));
-
-  Widget _buildCarousel(BuildContext context, Size screenSize, ThemeData themeData, ValueNotifier<int> _selectedIndex) {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        Center(
-          child: images.length != 1
-              ? CarouselSlider(
-                  options: CarouselOptions(
-                    enlargeCenterPage: true,
-                    autoPlay: (images.length != 1),
-                    reverse: true,
-                    onPageChanged: (index, fn) => _selectedIndex.value = index,
-                  ),
-                  items: images
-                      .map((imgUrl) =>
-                          Builder(builder: (BuildContext context) => CachedNetworkImage(imageUrl: imgUrl.path)))
-                      .toList(),
-                )
-              : CachedNetworkImage(height: screenSize.height / 2.5, imageUrl: images[0].path),
-        ),
-        _buildCarouselBottomWidget(context, item: raffle),
-      ],
+          Notch(
+            position: NotchPosition.bottomCenter(),
+            margin: EdgeInsets.symmetric(horizontal: 8.0),
+            color: Theme.of(context).cardColor.withOpacity(0.55),
+            child: _buildCarouselBottomWidget(context, item: raffle),
+          )
+        ],
+      ),
     );
   }
 
-  Widget _buildIndicator(Size screenSize, ThemeData themeData, selectedIndex) {
+  Widget _buildCarouselOrSingleImage(Size screenSize) {
+    return images.length != 1
+        ? CarouselSlider(
+            options: CarouselOptions(
+              viewportFraction: 1.0,
+              enlargeCenterPage: true,
+              autoPlay: (images.length != 1),
+              reverse: true,
+              onPageChanged: (index, fn) => _selectedIndex.value = index,
+            ),
+            items: images
+                .map((imgUrl) => Builder(
+                      builder: (BuildContext context) {
+                        return CachedNetworkImage(imageUrl: imgUrl.path);
+                      },
+                    ))
+                .toList(),
+          )
+        : Center(child: CachedNetworkImage(height: screenSize.height / 2.5, imageUrl: images[0].path));
+  }
+
+  Widget _buildDateInfoWidget(BuildContext context, Raffle raffle) {
+    return Text.rich(
+      TextSpan(
+        text: (true) ? "Katılım: ${raffle.startDateReadable}" : "Çekiliş: ${raffle.endDateReadable}",
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget _buildIndicator(Size screenSize, ThemeData themeData) {
     return (showIndicator && (images.length != 1))
         ? Row(
             children: map<Widget>(images, (index, url) {
+              var isSelected = _selectedIndex.value == index;
               return Container(
                 // child: Text(getOpacity(selectedIndex, index).toString()),
-                width: (screenSize.width / images.length),
-                height: 10.0,
-                decoration:
-                    BoxDecoration(color: themeData.indicatorColor.withOpacity(getOpacity(selectedIndex, index))),
+                width: isSelected ? 11.0 : 10.0,
+                height: isSelected ? 16.0 : 10.0,
+                decoration: BoxDecoration(
+                  color: themeData.indicatorColor.withOpacity(isSelected ? 1 : 0.3),
+                  // color: themeData.indicatorColor.withOpacity(getOpacity(selectedIndex, index)),
+                ),
               );
             }),
           )

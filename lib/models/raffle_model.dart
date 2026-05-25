@@ -83,8 +83,8 @@ class Raffle extends BaseModel {
   factory Raffle.fromDocumentSnapshot(DocumentSnapshot docSnapshot) =>
       Raffle.fromMap(docSnapshot.data(), docSnapshot.id);
 
-  static List<Raffle> listFromFirestore(QuerySnapshot querySnapshot) =>
-      querySnapshot.docs.map<Raffle>((snapshot) => Raffle.fromDocumentSnapshot(snapshot)).toList();
+  //static List<Raffle> listFromFirestore(QuerySnapshot querySnapshot) =>
+  //  querySnapshot.docs.map<Raffle>((snapshot) => Raffle.fromDocumentSnapshot(snapshot)).toList();
 
   get startDateReadable => Constants.readableDate(date: startDate);
   get endDateReadable => Constants.readableDate(date: endDate);

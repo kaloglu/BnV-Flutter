@@ -62,5 +62,5 @@ class Ticket extends BaseModel {
         lastUpdate: DateTime.fromMillisecondsSinceEpoch(data['lastUpdate'] ?? Timestamp.now() as int),
       );
 
-  static List<Ticket> listFromFirestore(QuerySnapshot query) => query.docs.map(fromFirestore).toList();
+  //static List<Ticket> listFromFirestore(QuerySnapshot query) => query.docs.map(fromFirestore).toList();
 }

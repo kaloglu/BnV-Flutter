@@ -1,3 +1,5 @@
+import 'package:BedavaNeVar/constants/variables.dart';
+
 class Strings {
   // Generic strings
   static const String DATE_FOR_RAFFLE_DETAIL = "yyyy, dd MMMM EEEE";
@@ -37,4 +39,7 @@ class Strings {
   static const String tlChar = "₺";
   static const String raffles = "Çekiliş Listesi";
   static const String raffleDetails = "Çekiliş Detayları";
+
+  static const String ticketCountText = "<b>${Variables.count}</b> katılım hakkınız bulunuyor.";
+  static const String enrollCountText = "Bu çekilişe <b>${Variables.count}</b> kez katıldınız.";
 }

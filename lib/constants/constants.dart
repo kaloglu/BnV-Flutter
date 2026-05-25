@@ -26,7 +26,7 @@ class Constants {
     Raffle: (data) => Raffle.fromMap(data, data.id),
     ProductInfo: (data) => ProductInfo.fromMap(data),
     RaffleRules: (data) => RaffleRules.fromMap(data),
-    User: (data) => User.fromMap(data),
+    User: (data) => User.fromJson(data),
   };
 
   static readableDate({DateFormatType type, DateTime date}) {
