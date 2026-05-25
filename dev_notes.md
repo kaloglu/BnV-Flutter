@@ -32,6 +32,11 @@ Her yapılacak madde için referans kodu ve kısa teknik notlar.
 
 - BNV-004E: Duman testi (Auth→Raffles→Detail→Enroll) ve log inceleme. Plan: Akışlar manuel gezilecek; Dreamflow Debug Console logları izlenip kritik uyarılar not alınacak. Hata yakalanırsa ilgili BNV maddesine yeni alt görev açılacak. Oturum aç/çık ve sayfa navigasyonları sırasında crash olup olmadığı doğrulanacak.
 
+- BNV-004F: Web derleme — carousel isim çakışması için geçici çözüm. Durum: TAMAMLANDI.
+  - Yapılanlar: `lib/ui/widgets/raffle/PredefinedCarousel.dart` içinde `CarouselSlider` kullanımı PageView tabanlı bir çözüme geçirildi; `carousel_slider` import satırı KALDIRILMADI, geçici olarak YORUM SATIRINA alındı. `PageView.builder` ile `onPageChanged` üzerinden `_selectedIndex` güncelleniyor. `images.isEmpty` durumu için yer tutucu ikon eklendi.
+  - Etki: Derleme hatası (Flutter Material Carousel ile 3. parti `CarouselController` isim çakışması) ortadan kalktı. Otomatik oynatma (auto-play) şimdilik yok; davranış minimal farklılık gösterir.
+  - Geri dönüş planı: a) Flutter Material Carousel bileşenine tam geçiş yapıp modern API kullanmak; veya b) `carousel_slider` paketini çakışmayı gidermiş bir sürüme yükseltmek. Kullanıcı onayı sonrası tek dosyalık düzenleme ile geri dönüş mümkün.
+
 - BNV-101: Eski AdMob entegrasyonu kaldırıldı. AndroidManifest’te `com.google.android.gms.ads.APPLICATION_ID` ve iOS Info.plist’te `GADApplicationIdentifier` temizlendi. Etki: Uygulamada reklam gösterimi ve reklam izleyerek hak kazanımı şu an devre dışı. Geri ekleme planı BNV-102'de.
 
 - BNV-102: Google Mobile Ads (AdMob) yeniden entegrasyonu. Plan: `google_mobile_ads` paketi eklenecek, `AppAds.dart` tek giriş noktası olarak tasarlanacak. `MobileAds.instance.initialize()` uygulama açılışında yapılacak. Ödüllü reklam (rewarded) ve interstitial gösterimleri görev sistemiyle tetiklenecek. Test ID’leri ile doğrulandıktan sonra gerçek ID’ler gizli yapılandırmadan beslenecek. iOS için ATT izin akışı ve kullanıcı aksiyonu gereklilikleri eklenecek. Hata durumları `debugPrint` ile loglanacak.

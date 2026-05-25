@@ -12,6 +12,7 @@ Bu liste kolaydan zora göre kategorize edilmiştir. Tamamlanan maddeler işaret
   - [ ] Riverpod v2 uyumluluk katmanı ve minimal geçiş (BNV-004C)
   - [ ] Firebase Messaging/Notifications geçici uyumluluk ve fallback (BNV-004D)
   - [ ] Duman testi: Auth→Raffles→Detail→Enroll akışı ve log gözden geçirme (BNV-004E)
+  - [x] Web derleme: carousel_slider isim çakışması için geçici PageView fallback (BNV-004F)
 
 ## 2) Bağımlılıklar ve Paket Yönetimi
 - [x] Eski AdMob entegrasyonu kaldırıldı (BNV-101)

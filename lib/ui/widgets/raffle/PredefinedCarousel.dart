@@ -4,8 +4,8 @@ import 'package:BedavaNeVar/models/models.dart';
 import 'package:BedavaNeVar/ui/widgets/common/notch.dart';
 import 'package:BedavaNeVar/ui/widgets/common/theme_switch.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter/material.dart';
 
 class PredefinedCarousel extends HookWidget {
   final Raffle raffle;
@@ -90,22 +90,23 @@ class PredefinedCarousel extends HookWidget {
   }
 
   Widget _buildCarouselOrSingleImage(Size screenSize) {
+    if (images.isEmpty) {
+      return SizedBox(
+        height: screenSize.height / 2.5,
+        child: Center(child: Icon(Icons.image_not_supported, size: 36)),
+      );
+    }
     return images.length != 1
-        ? CarouselSlider(
-            options: CarouselOptions(
-              viewportFraction: 1.0,
-              enlargeCenterPage: true,
-              autoPlay: (images.length != 1),
+        ? SizedBox(
+            height: screenSize.height / 2.5,
+            width: screenSize.width,
+            child: PageView.builder(
+              controller: usePageController(initialPage: initialPage),
               reverse: true,
-              onPageChanged: (index, fn) => _selectedIndex.value = index,
+              onPageChanged: (index) => _selectedIndex.value = index,
+              itemCount: images.length,
+              itemBuilder: (context, index) => CachedNetworkImage(imageUrl: images[index].path, fit: BoxFit.cover),
             ),
-            items: images
-                .map((imgUrl) => Builder(
-                      builder: (BuildContext context) {
-                        return CachedNetworkImage(imageUrl: imgUrl.path);
-                      },
-                    ))
-                .toList(),
           )
         : Center(child: CachedNetworkImage(height: screenSize.height / 2.5, imageUrl: images[0].path));
   }
