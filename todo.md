@@ -6,7 +6,12 @@ Bu liste kolaydan zora göre kategorize edilmiştir. Tamamlanan maddeler işaret
 - [x] Firebase yapılandırması ve `firebase_options.dart` doğrulaması (BNV-001)
 - [x] `app_router.dart` rotaları ve `top_level_providers.dart` derleme/doğrulama turu (BNV-002)
 - [x] Android/iOS manifest izinleri ve minimum/target SDK ayarlarının gözden geçirilmesi (BNV-003)
-- [ ] Null-safety kritik uyum paketi: modeller (@required→required), eski UI butonları, Riverpod v2 geçişi (BNV-004)
+- [ ] Null-safety kritik uyum paketi: modeller, eski UI butonları, Riverpod v2 geçişi (BNV-004)
+  - [x] Modeller ve generated kod null-safety uyumu (freezed/json) (BNV-004A)
+  - [ ] UI buton bileşenlerinin null-safety ve tema uyumu (BNV-004B)
+  - [ ] Riverpod v2 uyumluluk katmanı ve minimal geçiş (BNV-004C)
+  - [ ] Firebase Messaging/Notifications geçici uyumluluk ve fallback (BNV-004D)
+  - [ ] Duman testi: Auth→Raffles→Detail→Enroll akışı ve log gözden geçirme (BNV-004E)
 
 ## 2) Bağımlılıklar ve Paket Yönetimi
 - [x] Eski AdMob entegrasyonu kaldırıldı (BNV-101)

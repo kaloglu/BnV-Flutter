@@ -19,6 +19,16 @@ Her yapılacak madde için referans kodu ve kısa teknik notlar.
     4) Geçici olarak sorun çıkaran API'lerin yoruma alınması (örn. eski `FirebaseMessaging.configure`) ve not düşülmesi.
   - Strateji: Önce derlemeyi bloke eden en yaygın imza hataları (model/constructor) düzeltilecek; ikinci aşamada UI butonları; üçüncü aşamada Riverpod. Her alt değişiklik `debugPrint` ile hata logları güçlendirilecek. Geri dönüş için mevcut kod blokları kaldırılmayacak; gerektiğinde YORUM SATIRI ile korunacak ve referans verilecek.
 
+- BNV-004A: Modeller ve generated kod null-safety uyumu (freezed/json). Durum: TAMAMLANDI. Not: `lib/models/user/user.freezed.dart` ve ilişkili generated imzalar null-safe hale getirildi, `copyWith` ve `fromJson` imzalarıyla uyum sağlandı. Etki: Derleme blokerleri kalktı. Geri dönüş: Gerekirse `build_runner` ile yeniden üretim notu eklenecek.
+
+- BNV-004B: UI buton bileşenlerinin null-safety ve tema uyumu. Plan: `ui/widgets/common/custom_raised_buttons.dart` ve `Buttons.dart` içindeki eski `RaisedButton`/`FlatButton` kullanımlarını `ElevatedButton`/`TextButton` eşlemelerine taşı; renk ve tipografi `constants` üzerinden beslensin. Risk: Görsel regresyon. Geri dönüş: Eski buton implementasyonları yorum satırıyla korunacak; gerekiyorsa hızlı revert için işaretlenmiş blok başlıkları bırakılacak.
+
+- BNV-004C: Riverpod v2 uyumluluk katmanı ve minimal geçiş. Plan: `useProvider` kullanan yerleri kademeli `ref.watch`/`ref.read` ile değiştir; `HookConsumerWidget` veya `Consumer` ile sınırlı dönüşüm yap. Tam refactor YAPILMAYACAK; yalnızca derlenebilirlik ve davranış eşliği hedeflenecek. Geri dönüş: Eski kullanım notları TODO etiketiyle bırakılacak.
+
+- BNV-004D: Firebase Messaging/Notifications geçici uyumluluk ve fallback. Plan: `lib/data/services/notifications/firebase_notifications.dart` güncel FCM API ile kıyaslanacak. Kaldırılmış API varsa geçici olarak yoruma alınacak ve kullanıcıya görünür hata engellenecek. Android 13+ bildirim izni daha sonra ayrı görevle eklenecek. Log: `debugPrint` ile ayrıntılı hata/izin durumu yazılacak. Geri dönüş: Dosya içinde TODO ve referans bağlantıları bırakılacak.
+
+- BNV-004E: Duman testi (Auth→Raffles→Detail→Enroll) ve log inceleme. Plan: Akışlar manuel gezilecek; Dreamflow Debug Console logları izlenip kritik uyarılar not alınacak. Hata yakalanırsa ilgili BNV maddesine yeni alt görev açılacak. Oturum aç/çık ve sayfa navigasyonları sırasında crash olup olmadığı doğrulanacak.
+
 - BNV-101: Eski AdMob entegrasyonu kaldırıldı. AndroidManifest’te `com.google.android.gms.ads.APPLICATION_ID` ve iOS Info.plist’te `GADApplicationIdentifier` temizlendi. Etki: Uygulamada reklam gösterimi ve reklam izleyerek hak kazanımı şu an devre dışı. Geri ekleme planı BNV-102'de.
 
 - BNV-102: Google Mobile Ads (AdMob) yeniden entegrasyonu. Plan: `google_mobile_ads` paketi eklenecek, `AppAds.dart` tek giriş noktası olarak tasarlanacak. `MobileAds.instance.initialize()` uygulama açılışında yapılacak. Ödüllü reklam (rewarded) ve interstitial gösterimleri görev sistemiyle tetiklenecek. Test ID’leri ile doğrulandıktan sonra gerçek ID’ler gizli yapılandırmadan beslenecek. iOS için ATT izin akışı ve kullanıcı aksiyonu gereklilikleri eklenecek. Hata durumları `debugPrint` ile loglanacak.
