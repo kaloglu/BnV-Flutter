@@ -6,7 +6,18 @@ Her yapılacak madde için referans kodu ve kısa teknik notlar.
 
 - BNV-002: `app_router.dart` ve `top_level_providers.dart` doğrulandı. `logger` bağımlılığı eklendi. RaffleDetail `navigate` argüman geçişi Map<String,dynamic> olacak şekilde düzeltildi; gereksiz `AppAds` importu kaldırıldı. Etki: Rota tip uyuşmazlığı kaynaklı olası çökme engellendi. Plan: Navigasyon akışları UI üzerinden manuel test edilecek.
 
-- BNV-003: Android/iOS manifest ve min/target SDK ayarları kontrol edilecek. Notlar: INTERNET izni mevcut; AdMob kimlikleri kaldırıldı (BNV-101 kapsamında). Facebook ve Fabric (eski Crashlytics) meta verileri halen mevcut—şimdilik dokunulmadı. Plan: Android 13+ için POST_NOTIFICATIONS izni (opsiyonel) ve iOS ATT akışı (opsiyonel) daha sonra eklenecek.
+- BNV-003: Android/iOS manifest ve SDK seviyeleri tamamlandı.
+  - Android: `compileSdkVersion` 33, `targetSdkVersion` 33, `minSdkVersion` 21 olarak güncellendi (`android/app/build.gradle`). Mevcut izinlere dokunulmadı; yalnızca `INTERNET` mevcut. Bildirim izni (Android 13+) şimdilik EKLENMEDİ; ihtiyaç halinde ayrı görevle eklenecek. Facebook ve eski Fabric (Crashlytics) meta verileri DURUYOR; çalışmayı etkilemediği için KALDIRILMADI.
+  - iOS: Info.plist gözden geçirildi, AdMob kimliği daha önce kaldırılmıştı (BNV-101). Ek izin eklenmedi. Bildirim/ATT akışı ayrı görevde ele alınacak.
+  - Etki: Android yapılandırması modern eşiğe çekildi; derleme/market gereksinimlerine uyum kolaylaşır. Uygulama davranışı değişmedi.
+
+- BNV-004: Null-safety kritik uyum paketi.
+  - Kapsam: 
+    1) Modeller ve servis imzaları: `@required`→`required`, zorunlu alanların non-nullable tanımı, `fromMap/fromDocument` dönüş tipleri;
+    2) Eski UI bileşenleri: `RaisedButton/FlatButton`→`ElevatedButton/TextButton`, tema eşlemesi;
+    3) Riverpod v2: `useProvider` kaldırımı; `HookConsumerWidget` ve `ref.watch` geçişi ya da kademeli olarak Consumer kullanımı;
+    4) Geçici olarak sorun çıkaran API'lerin yoruma alınması (örn. eski `FirebaseMessaging.configure`) ve not düşülmesi.
+  - Strateji: Önce derlemeyi bloke eden en yaygın imza hataları (model/constructor) düzeltilecek; ikinci aşamada UI butonları; üçüncü aşamada Riverpod. Her alt değişiklik `debugPrint` ile hata logları güçlendirilecek. Geri dönüş için mevcut kod blokları kaldırılmayacak; gerektiğinde YORUM SATIRI ile korunacak ve referans verilecek.
 
 - BNV-101: Eski AdMob entegrasyonu kaldırıldı. AndroidManifest’te `com.google.android.gms.ads.APPLICATION_ID` ve iOS Info.plist’te `GADApplicationIdentifier` temizlendi. Etki: Uygulamada reklam gösterimi ve reklam izleyerek hak kazanımı şu an devre dışı. Geri ekleme planı BNV-102'de.
 

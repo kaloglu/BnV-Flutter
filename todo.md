@@ -5,7 +5,8 @@ Bu liste kolaydan zora göre kategorize edilmiştir. Tamamlanan maddeler işaret
 ## 1) Acil: Derlenebilirlik ve Çalıştırma
 - [x] Firebase yapılandırması ve `firebase_options.dart` doğrulaması (BNV-001)
 - [x] `app_router.dart` rotaları ve `top_level_providers.dart` derleme/doğrulama turu (BNV-002)
-- [ ] Android/iOS manifest izinleri ve minimum/target SDK ayarlarının gözden geçirilmesi (BNV-003)
+- [x] Android/iOS manifest izinleri ve minimum/target SDK ayarlarının gözden geçirilmesi (BNV-003)
+- [ ] Null-safety kritik uyum paketi: modeller (@required→required), eski UI butonları, Riverpod v2 geçişi (BNV-004)
 
 ## 2) Bağımlılıklar ve Paket Yönetimi
 - [x] Eski AdMob entegrasyonu kaldırıldı (BNV-101)
