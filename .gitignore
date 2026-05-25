@@ -102,3 +102,8 @@ ios/Flutter/flutter_export_environment.sh
 
 .flutter-plugins-dependencies
 .env
+
+.prompt_attachments
+*.hologram.dart
+node_modules/
+functions/lib/

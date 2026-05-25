@@ -20,20 +20,21 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  intl: ^0.16.1
-  meta: ^1.2.4
+  # ---------------------------------------------------------------------------
+  # ADIM 1 — Temel yardımcı paketler (null-safety uyumlu, muhafazakar sürümler)
+  # ---------------------------------------------------------------------------
+  intl: ^0.19.0
+  meta: ^1.15.0
 
-  cupertino_icons: ^1.0.0
-  equatable: ^1.2.5
+  cupertino_icons: ^1.0.8
+  equatable: ^2.0.5
   #  flutter_riverpod: ^0.10.1
-  flutter_hooks: ^0.15.0
-  hooks_riverpod: ^0.12.1
-  logger: ^0.9.4
-  rxdart: ^0.24.1
-  shared_preferences: ^0.5.12+4
-  state_notifier: ^0.6.0
+  flutter_hooks: ^0.15.0          # Adım 3'te güncellenecek (Riverpod ile birlikte)
+  hooks_riverpod: ^0.12.1         # Adım 3'te güncellenecek
+  logger: ^1.4.0
+  rxdart: ^0.27.7
+  shared_preferences: ^2.3.2
+  state_notifier: ^1.0.0
   # firebase products
   ## core
   firebase_core: ^0.5.3
@@ -71,18 +72,20 @@ dependencies:
   flutter_auth_buttons: ^0.10.0
   flutter_facebook_auth: ^1.0.2+1
 
-  #image & icons
-  flutter_svg: ^0.18.1
-  font_awesome_flutter: ^8.10.0
-  cached_network_image: ^2.4.1
-  flare_flutter: ^2.0.6
-  carousel_slider: ^2.3.1
+  # ---------------------------------------------------------------------------
+  # ADIM 2 — UI yardımcı paketleri (image, icon, html)
+  # ---------------------------------------------------------------------------
+  flutter_svg: ^2.0.10+1
+  font_awesome_flutter: ^10.7.0
+  cached_network_image: ^3.4.1
+  # flare_flutter: ^2.0.6           # Discontinued — Rive'a geçilmesi öneriliyor (ileride)
+  carousel_slider: ^4.2.1
 
   #html
-  flutter_html: any
+  flutter_html: ^3.0.0-beta.2
 
-  floating_search_bar: ^0.3.0
-  custom_navigation_bar: ^0.6.0
+  # floating_search_bar: ^0.3.0       # Null-safety desteklemiyor; kodda kullanılmıyor, geçici olarak devre dışı
+  custom_navigation_bar: ^0.8.2       # Null-safety uyumlu güncel sürüm (kodda kullanılmıyor ama bağımlılık korundu)
 
 dev_dependencies:
   flutter_driver:

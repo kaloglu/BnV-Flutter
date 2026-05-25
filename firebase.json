@@ -1,18 +1,1 @@
-{
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  },
-  "remoteconfig": {
-    "template": "remoteconfig.template.json"
-  },
-  "emulators": {
-    "firestore": {
-      "port": 8888
-    },
-    "ui": {
-      "enabled": true,
-      "port": 8889
-    }
-  }
-}
+{"firestore":{"rules":"firestore.rules","indexes":"firestore.indexes.json"},"remoteconfig":{"template":"remoteconfig.template.json"},"emulators":{"firestore":{"port":8888},"ui":{"enabled":true,"port":8889}},"flutter":{"platforms":{"android":{"default":{"projectId":"bedavanevar-2019","appId":"1:414030755976:android:de6bf27a05e95647db473d","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"bedavanevar-2019","configurations":{"android":"1:414030755976:android:de6bf27a05e95647db473d","ios":"1:414030755976:ios:20db31bffb5bf8f5db473d","web":"1:414030755976:web:29565eb8d73ab6b2db473d"}}}}}}
