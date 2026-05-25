@@ -1,0 +1,10 @@
+{
+  "name": "BnV — Ücretsiz Çekiliş Uygulaması",
+  "short_name": "BnV",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "description": "Kullanıcıların ücretsiz çekilişlere katıldığı mobil uygulama"
+}

@@ -17,12 +17,32 @@ const bool USE_FIRESTORE_EMULATOR = false;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  debugPrint('[main] initializeApp starting');
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  debugPrint('[main] Firebase.initializeApp OK');
 
   await _firebaseEmulator();
+  debugPrint('[main] _firebaseEmulator configured');
   await _initCrashlytics();
+  debugPrint('[main] _initCrashlytics done');
 
-  final sharedPreferences = await SharedPreferences.getInstance();
+  SharedPreferences sharedPreferences;
+  try {
+    sharedPreferences = await SharedPreferences.getInstance();
+    debugPrint('[main] SharedPreferences ready');
+  } catch (e) {
+    debugPrint('[main] SharedPreferences init failed: $e');
+    // Fallback: mock initial values to avoid MissingPluginException esp. on web
+    try {
+      SharedPreferences.setMockInitialValues(<String, Object>{});
+      sharedPreferences = await SharedPreferences.getInstance();
+      debugPrint('[main] SharedPreferences fallback (mock) ready');
+    } catch (e2) {
+      debugPrint('[main] SharedPreferences fallback failed: $e2');
+      rethrow;
+    }
+  }
+
   runApp(ProviderScope(
     overrides: [
       sharedPreferencesServiceProvider.overrideWithValue(
@@ -34,9 +54,17 @@ Future<void> main() async {
 }
 
 Future<void> _initCrashlytics() async {
-  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-  // turn this off after seeing reports in in the console.
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  try {
+    if (kIsWeb) {
+      // Crashlytics web'de desteklenmez; sessizce atla
+      debugPrint('[crashlytics] skipped on web');
+      return;
+    }
+    FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  } catch (e) {
+    debugPrint('[crashlytics] init failed: $e');
+  }
 }
 
 Future<void> _firebaseEmulator() async {
