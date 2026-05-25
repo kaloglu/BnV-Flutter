@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart';
+import 'package:firebase_auth_platform_interface/firebase_auth_platform_interface.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -101,8 +102,16 @@ class AuthService {
   Future<String> startPhoneVerification(String phoneNumber) async {
     if (kIsWeb) {
       try {
-        _webConfirmationResult = await _auth.signInWithPhoneNumber(phoneNumber);
-        debugPrint('Web phone sign-in başlatıldı.');
+        // reCAPTCHA doğrulayıcıyı başlat (varsayılan görünüm). Gerekirse görünmez moda alınabilir.
+        final verifier = RecaptchaVerifier(
+          auth: FirebaseAuthPlatform.instance,
+          container: 'recaptcha-container',
+          onError: (e) => debugPrint('reCAPTCHA hata: $e'),
+          onSuccess: () => debugPrint('reCAPTCHA başarıyla doğrulandı'),
+          onExpired: () => debugPrint('reCAPTCHA süresi doldu'),
+        );
+        _webConfirmationResult = await _auth.signInWithPhoneNumber(phoneNumber, verifier);
+        debugPrint('Web phone sign-in başlatıldı (reCAPTCHA tamam).');
         // Web akışında verificationId kavramı yok; UI tarafında sadece confirmSmsCodeWeb çağrılır
         return 'WEB_CONFIRMATION';
       } catch (e) {

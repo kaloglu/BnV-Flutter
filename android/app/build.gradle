@@ -1,14 +1,17 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'dev.flutter.flutter-gradle-plugin'
+}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
     }
-}
-
-def flutterRoot = localProperties.getProperty('flutter.sdk')
-if (flutterRoot == null) {
-    throw new Exception("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
@@ -21,15 +24,8 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
-// apply plugin: 'com.google.firebase.firebase-perf' // geçici olarak devre dışı
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     namespace 'com.kaloglu.BedavaNeVar'
 
     sourceSets {
@@ -53,7 +49,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.kaloglu.BedavaNeVar"
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -94,7 +90,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
 
 //    implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'androidx.multidex:multidex:2.0.1'
 
     testImplementation 'junit:junit:4.13'
