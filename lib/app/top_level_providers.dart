@@ -3,13 +3,12 @@ import 'package:BedavaNeVar/data/repositories/user_repository.dart';
 import 'package:BedavaNeVar/data/services/firebase_auth_service.dart';
 import 'package:BedavaNeVar/models/user/user.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fba;
-import 'package:flutter_riverpod/all.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 export 'package:BedavaNeVar/data/repositories/user_repository.dart';
 export 'package:BedavaNeVar/data/services/firebase_auth_service.dart';
-export 'package:flutter_riverpod/all.dart';
+export 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authServiceProvider = Provider<AuthService>((ref) => AuthService());
 final firebaseAuthProvider = Provider<fba.FirebaseAuth>((ref) => AuthService().auth);

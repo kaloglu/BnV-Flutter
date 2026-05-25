@@ -2,10 +2,10 @@ import 'package:BedavaNeVar/app/top_level_providers.dart';
 import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/ui/screens/auth/sign_in_page.dart';
 import 'package:BedavaNeVar/ui/widgets/common/EmptyContent.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AuthWidget extends HookWidget {
+class AuthWidget extends HookConsumerWidget {
   const AuthWidget({
     Key key,
     @required this.signedIn,
@@ -15,8 +15,8 @@ class AuthWidget extends HookWidget {
   final WidgetBuilder nonSignedIn;
 
   @override
-  Widget build(BuildContext context) {
-    final authStateChanges = useProvider(authStateProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authStateChanges = ref.watch(authStateProvider);
     return authStateChanges.when(
       data: (user) {
         if (user != null) return signedIn(context);
@@ -29,8 +29,8 @@ class AuthWidget extends HookWidget {
       ),
       error: (_, __) => const Scaffold(
         body: EmptyContent(
-          title: 'Something went wrong',
-          message: 'Can\'t load data right now.',
+          title: 'Bir sorun oluştu',
+          message: 'Veriler şu anda yüklenemiyor.',
         ),
       ),
     );

@@ -5,7 +5,7 @@ class Collection<T> {
   final String path;
   CollectionReference collection;
 
-  Collection({this.path}) {
+  Collection({required this.path}) {
     collection = firestore.collection(path);
   }
 

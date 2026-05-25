@@ -2,14 +2,13 @@ import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/ui/widgets/auth/social_sign_in_widget.dart';
 import 'package:BedavaNeVar/ui/widgets/common/theme_switch.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
-class SignInPage extends HookWidget {
+class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [useThemeModeSwitch(context)],
+        actions: const [ThemeModeSwitch()],
         elevation: 2.0,
         title: Text("title"),
       ),

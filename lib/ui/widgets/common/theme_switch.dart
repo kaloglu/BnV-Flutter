@@ -1,14 +1,21 @@
 import 'package:BedavaNeVar/constants/constants.dart';
 import 'package:BedavaNeVar/ui/theme_viewmodel.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-Widget useThemeModeSwitch(BuildContext context) {
-  var _themeViewModel = useProvider(themeViewModelProvider);
-  return Switch(
-    hoverColor: Colors.blue,
-    value: useThemeListener().value != ThemeMode.light,
-    onChanged: (value) => _themeViewModel.setMode(value ? ThemeMode.dark : ThemeMode.light),
-  );
+class ThemeModeSwitch extends ConsumerWidget {
+  const ThemeModeSwitch({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeViewModelProvider);
+    final vm = ref.read(themeViewModelProvider.notifier);
+    return Switch(
+      hoverColor: Colors.blue,
+      value: themeMode != ThemeMode.light,
+      onChanged: (value) => vm.setMode(value ? ThemeMode.dark : ThemeMode.light),
+    );
+  }
 }
 
 List<BoxShadow> useShadowColors(
